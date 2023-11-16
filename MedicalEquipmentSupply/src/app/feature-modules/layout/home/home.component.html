@@ -1,1 +1,44 @@
-<p>home works!</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        #fullscreen-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Additional styles for content on top of the photo */
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            font-size: 24px;
+            /* Add more styles as needed */
+        }
+    </style>
+</head>
+<body>
+    <!-- Replace 'your-photo.jpg' with the actual path to your photo -->
+    <img id="fullscreen-photo" src="https://media.pink.rs/images/38810c179-2f48-485e-bd5b-9cf737d87d75/213,202,1063,680/676" alt="Fullscreen Photo">
+
+    <!-- Content on top of the photo -->
+    <div class="content">
+        <p>Najjaca <b>FIRMETINA</b> bajo</p>
+        <button color='rgb(147, 197, 114)' type="submit">Login</button>
+        <p>Don't have an account yet?<a href="/register">Sign Up</a></p>
+    </div>
+</body>

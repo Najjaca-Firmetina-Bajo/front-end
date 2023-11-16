@@ -7,6 +7,7 @@ import { HomeComponent } from './feature-modules/layout/home/home.component';
 import { LoginComponent } from './infrastructure/auth/login/login.component';
 import { RegistrationComponent } from './infrastructure/auth/registration/registration.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
