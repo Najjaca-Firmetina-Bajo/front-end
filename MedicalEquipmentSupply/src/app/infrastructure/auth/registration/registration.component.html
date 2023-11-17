@@ -1,1 +1,21 @@
-<p>IDE REGISTERRR</p>
+<form [formGroup]="registrationForm" (ngSubmit)="register()" enctype="multipart/form-data">
+    <div>
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" type="text" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="Author">Author</mat-option>
+          <mat-option value="Tourist">Tourist</mat-option>
+        </mat-select>
+      </mat-form-field>      
+      <button class="button" color="primary" type="submit" mat-raised-button>Register</button>
+    </div>
+</form>
+  
