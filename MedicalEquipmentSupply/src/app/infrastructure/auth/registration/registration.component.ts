@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Registration } from '../model/registration.model';
-//import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'xp-registration',
@@ -12,49 +12,35 @@ import { Router } from '@angular/router';
 export class RegistrationComponent {
 
   constructor(
-    //private authService: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {}
   
   registrationForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
-    role: new FormControl('Author', [Validators.required]),
+    role: new FormControl('RegisteredUser', [Validators.required]),
   });
 
-
-  
-
   register(): void {
-  
-    if (true) {
+    if (this.registrationForm.valid) {
       const registration: Registration = {
+        id: 0,
         username: this.registrationForm.value.username || '',
         password: this.registrationForm.value.password || '',
-        role: this.registrationForm.value.role || 'Author'
+        role: 'RegisteredUser'
       };
-  
-      const formData = new FormData();
 
-  
-      if (this.registrationForm.valid) {
-        //this.authService.register(formData).subscribe({
-        //  next: () => {
-        //    this.router.navigate(['home']);
-        //  },
-        //});
-      }
-      else{
-        console.error(this.registrationForm.errors);
-      }
+      
+      
+      
+       this.authService.register(registration).subscribe({
+         next: () => {
+           this.router.navigate(['']);
+         },
+       });
     } else {
-      console.error('Profile picture is null or undefined.');
+      console.error('Form is invalid.');
     }
   }
-  
-  private isFile(value: any): value is File {
-    return value instanceof File;
-  }
-
-
 }

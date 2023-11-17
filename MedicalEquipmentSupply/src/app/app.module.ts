@@ -7,6 +7,7 @@ import { LoginComponent } from './infrastructure/auth/login/login.component';
 import { RegistrationComponent } from './infrastructure/auth/registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -39,7 +40,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatIconModule,
     MatSelectModule,
     MatPaginatorModule,
-    MatMenuModule
+    MatMenuModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
