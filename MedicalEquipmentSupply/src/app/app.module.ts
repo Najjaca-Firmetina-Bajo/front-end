@@ -8,6 +8,7 @@ import { RegistrationComponent } from './infrastructure/auth/registration/regist
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SystemAdminHomePageComponent } from './feature-modules/administration/system-admin/system-admin-home-page.component';
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -25,7 +26,8 @@ import { MatMenuModule } from '@angular/material/menu';
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    SystemAdminHomePageComponent
   ],
   imports: [
     BrowserModule,
