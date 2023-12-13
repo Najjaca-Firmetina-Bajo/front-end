@@ -6,7 +6,7 @@ import { HomeComponent } from './feature-modules/layout/home/home.component';
 import { LoginComponent } from './infrastructure/auth/login/login.component';
 import { RegistrationComponent } from './infrastructure/auth/registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SystemAdminHomePageComponent } from './feature-modules/administration/system-admin/system-admin-home-page.component';
 
@@ -20,6 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
+import { EquipmentReviewComponent } from './feature-modules/administration/equipment-review/equipment-review/equipment-review.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { MatMenuModule } from '@angular/material/menu';
     HomeComponent,
     LoginComponent,
     RegistrationComponent,
-    SystemAdminHomePageComponent
+    SystemAdminHomePageComponent,
+    EquipmentReviewComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ import { MatMenuModule } from '@angular/material/menu';
     MatPaginatorModule,
     MatMenuModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

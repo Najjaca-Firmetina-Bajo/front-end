@@ -1,0 +1,43 @@
+<div class="container">
+    <h1>Equipment review:</h1>
+    <div>
+        <label>Search by name: </label>
+        <input type="text" [(ngModel)]="search">
+        <button class="button" color="primary" (click)="searchEquipment()" mat-raised-button>Search</button>
+        <button class="button" color="primary" (click)="resetBindingList()" mat-raised-button>Reset</button>
+    </div>
+    <div *ngIf="filter">
+        <label>Filter by type, min and max price: </label>
+        <input type="text" [(ngModel)]="filterType">
+        <input type="number" min="-1" [(ngModel)]="filterMinPrice">
+        <input type="number" min="-1" [(ngModel)]="filterMaxPrice">
+        <button class="button" color="primary" (click)="filterEquipment()" mat-raised-button>Filter</button>
+        <button class="button" color="primary" (click)="searchEquipment()" mat-raised-button>Drop filter</button>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Companies</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of bindingList">
+                    <td>{{e.name}}</td>
+                    <td>{{e.type}}</td>
+                    <td>{{e.description}}</td>
+                    <td>{{e.price}}</td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let c of e.companies">{{c}}</li>
+                        </ul>    
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

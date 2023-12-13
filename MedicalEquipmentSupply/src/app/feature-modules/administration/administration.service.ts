@@ -4,6 +4,7 @@ import { environment } from 'src/env/enviroment';
 import { CompanyAdministrator } from './model/company-administrator.model';
 import { Observable } from 'rxjs';
 import { Company } from './model/comapny.model';
+import { Equipment } from './model/equipment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,4 +32,21 @@ export class AdministrationService {
   findCompany(name: string): Observable<Company> {
     return this.http.get<Company>(environment.apiHost + 'companies/find/' + name)
   }
+
+  getAllEquipment(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(environment.apiHost + 'equipment/getAll')
+  }
+
+  searchEquipment(name: string): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(environment.apiHost + 'equipment/search/' + name)
+  }
+  
+  filterEquipment(params: string): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(environment.apiHost + 'equipment/filter/' + params);
+  }
+
+  getAllCompanies(): Observable<Company[]> {
+    return this.http.get<Company[]>(environment.apiHost + 'companies/getAll')
+  }
+
 }
