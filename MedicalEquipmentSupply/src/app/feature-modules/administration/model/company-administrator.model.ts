@@ -1,7 +1,7 @@
 export interface CompanyAdministrator {
     activated: boolean;
     role: string;
-    company_id: number;
+    companyId: number;
     id: number;
     dtype: string;
     city: string;

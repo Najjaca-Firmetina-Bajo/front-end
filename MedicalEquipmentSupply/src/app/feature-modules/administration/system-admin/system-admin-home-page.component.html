@@ -36,6 +36,44 @@
           </div>
         </div>
       </form>
+      <div *ngIf="!isAnyAvailableAdmin">
+        <p>
+          No available admin. 
+          If you plan to add admins to the company now, please fill out the admin creation form first.
+        </p>
+      </div>
+      <div *ngIf="showAdminsTable && isAnyAvailableAdmin">
+        <h1>Available administrators:</h1>
+        <div>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Email</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of availableAdministrators">
+                            <td>{{a.name}}</td>
+                            <td>{{a.surname}}</td>
+                            <td>{{a.email}}</td>
+                            <td>
+                              <div>
+                                <button class="button" color="primary" (click)="findCompany(a.id)" mat-raised-button>Add</button>
+                              </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+      <div *ngIf="showAdminsTable">
+        <button class="button" color="primary" (click)="finishCompanyRegistration()" mat-raised-button>Finish registration</button>
+      </div>
 </div>
   
 <div *ngIf="showAdministratorForm" class="form-container">

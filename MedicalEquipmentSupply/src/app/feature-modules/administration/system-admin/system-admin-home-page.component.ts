@@ -9,12 +9,16 @@ import { Company } from '../model/comapny.model';
   templateUrl: './system-admin-home-page.component.html',
   styleUrls: ['./system-admin-home-page.component.css']
 })
-export class SystemAdminHomePageComponent{
+export class SystemAdminHomePageComponent implements OnInit{
   
   showCompanyForm: boolean = false
   showAdministratorForm: boolean = false
+  showAdminsTable: boolean = false
+  isAnyAvailableAdmin: boolean = true;
+  currentCompanyName: string = ''
   adminRegistrationForm: FormGroup;
   companyRegistrationForm: FormGroup;
+  availableAdministrators: CompanyAdministrator[] = []
 
   constructor(private administrationService: AdministrationService,
               private formBuilder: FormBuilder,
@@ -42,6 +46,9 @@ export class SystemAdminHomePageComponent{
     }, {
       validator: this.addressAndRatingValidator
     });
+  }
+  ngOnInit(): void {
+    this.getAvailableAdministrators()
   }
 
   addressAndRatingValidator(formGroup: FormGroup) {
@@ -106,7 +113,7 @@ export class SystemAdminHomePageComponent{
       const newAdmin: CompanyAdministrator = {
         activated: false,
         role: 'CompanyAdministrator',
-        company_id: 0,
+        companyId: 0,
         id: 0,
         dtype: '',
         city: this.adminRegistrationForm.value.city,
@@ -145,13 +152,57 @@ export class SystemAdminHomePageComponent{
       this.administrationService.registerCompany(newCompany).subscribe({
         next: () => {
           //this.router.navigate(['']); 
-          this.companyRegistrationForm.reset()
-          this.showCompanyForm = false;
+          //this.companyRegistrationForm.reset()
+          //this.showCompanyForm = false;
+          this.currentCompanyName = newCompany.name;
+          this.showAdminsTable = true;
         },
       });
     } 
     else {
       console.error('Form is invalid.');
     }
+  }
+
+  findCompany(adminId: number) {
+    this.administrationService.findCompany(this.currentCompanyName).subscribe({
+      next: (result: Company) => {
+        //this.router.navigate(['']); 
+        this.addAdministrator(adminId, result.id)
+      },
+    });
+  }
+
+  addAdministrator(adminId: number, companyId: number) : void {
+    this.administrationService.setCompanyAdministrator(adminId, companyId).subscribe({
+      next: (result: number) => {
+        //this.router.navigate(['']); 
+        this.availableAdministrators.length = 0;
+        this.getAvailableAdministrators()
+      },
+    });
+  }
+
+  finishCompanyRegistration(): void {
+    this.companyRegistrationForm.reset()
+    this.showCompanyForm = false;
+    this.showAdminsTable = false;
+  }
+
+  getAvailableAdministrators(): void {
+    this.administrationService.getAllCompanyAdministrators().subscribe({
+        next: (result: CompanyAdministrator[]) => {
+            result.forEach(administrator => {
+              if(administrator.companyId === -1) {
+                this.availableAdministrators.push(administrator);
+              }
+            })
+            
+            if(this.availableAdministrators.length === 0) this.isAnyAvailableAdmin = false;
+        },
+        error: () => {
+            
+        }
+    });
   }
 }
