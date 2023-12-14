@@ -4,6 +4,7 @@ export interface Equipment {
     description: string;
     name: string;
     type: string;
-    companies: number[]
+    companies: number[];
+    appointments: number[]
   }
   

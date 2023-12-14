@@ -5,6 +5,7 @@ import { LoginComponent } from './infrastructure/auth/login/login.component';
 import { RegistrationComponent } from './infrastructure/auth/registration/registration.component';
 import { SystemAdminHomePageComponent } from './feature-modules/administration/system-admin/system-admin-home-page.component';
 import { EquipmentReviewComponent } from './feature-modules/administration/equipment-review/equipment-review/equipment-review.component';
+import { CompanyAdminProfileComponent } from './feature-modules/administration/company-admin/company-admin-profile/company-admin-profile.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
   { path: 'system-admin-home-page', component: SystemAdminHomePageComponent },
-  { path: 'equipment-review', component: EquipmentReviewComponent }
+  { path: 'equipment-review', component: EquipmentReviewComponent },
+  { path: 'company-admin-profile', component: CompanyAdminProfileComponent }
 ];
 
 @NgModule({

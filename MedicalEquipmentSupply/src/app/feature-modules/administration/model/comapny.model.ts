@@ -3,5 +3,8 @@ export interface Company {
     id: number;
     address: string;
     name: string;
+    availableEquipmentIds: number[];
+    companyAdministraotrsIds: number[];
+    workingCalendarId: number
   }
   

@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { EquipmentReviewComponent } from './feature-modules/administration/equipment-review/equipment-review/equipment-review.component';
+import { CompanyAdminProfileComponent } from './feature-modules/administration/company-admin/company-admin-profile/company-admin-profile.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { EquipmentReviewComponent } from './feature-modules/administration/equip
     LoginComponent,
     RegistrationComponent,
     SystemAdminHomePageComponent,
-    EquipmentReviewComponent
+    EquipmentReviewComponent,
+    CompanyAdminProfileComponent
   ],
   imports: [
     BrowserModule,

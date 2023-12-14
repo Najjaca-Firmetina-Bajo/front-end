@@ -124,7 +124,8 @@ export class SystemAdminHomePageComponent implements OnInit{
         occupation: this.adminRegistrationForm.value.occupation,
         password: this.adminRegistrationForm.value.password,
         phoneNumber: this.adminRegistrationForm.value.phone_number,
-        surname: this.adminRegistrationForm.value.surname
+        surname: this.adminRegistrationForm.value.surname,
+        appointmentsIds: []
       };
 
       this.administrationService.registerCompanyAdmin(newAdmin).subscribe({
@@ -146,7 +147,10 @@ export class SystemAdminHomePageComponent implements OnInit{
         averageRating: this.companyRegistrationForm.value.rating,
         id: 0,
         address: this.companyRegistrationForm.value.address,
-        name: this.companyRegistrationForm.value.name
+        name: this.companyRegistrationForm.value.name,
+        availableEquipmentIds: [],
+        companyAdministraotrsIds: [],
+        workingCalendarId: -1
       };
 
       this.administrationService.registerCompany(newCompany).subscribe({
