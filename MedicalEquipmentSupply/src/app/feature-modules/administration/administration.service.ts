@@ -5,6 +5,9 @@ import { CompanyAdministrator } from './model/company-administrator.model';
 import { Observable } from 'rxjs';
 import { Company } from './model/comapny.model';
 import { Equipment } from './model/equipment.model';
+import { WorkingCalendar } from './model/working-calendar.model';
+import { WorkingDay } from './model/wrking-day.model';
+import { Appointment } from './model/appointment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -49,4 +52,15 @@ export class AdministrationService {
     return this.http.get<Company[]>(environment.apiHost + 'companies/getAll')
   }
 
+  getWorkingCalendar(companyId: number): Observable<WorkingCalendar> {
+    return this.http.get<WorkingCalendar>(environment.apiHost + 'workingCalendars/findBy/' + companyId)
+  }
+
+  getWorkingDays(calendarId: number): Observable<WorkingDay[]> {
+    return this.http.get<WorkingDay[]>(environment.apiHost + 'workingDays/findBy/' + calendarId)
+  }
+
+  getAppointments(dayId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/findBy/' + dayId)
+  }
 }
