@@ -22,16 +22,21 @@ export class CompanyAdminProfileComponent implements OnInit {
   allAppointments: Appointment[] = []
   allEquipment: Equipment[] = []
   daysDetailsList: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string }[] = []
+  copyList: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string }[] = []
   
   daysTable: boolean = false
   selectedRange: string = 'year'
   monthSelected: boolean = false
   weekSelected: boolean = false
+  yearSelected: boolean = false
   selectedMonth: string = ''
   selectedWeekDate: string = ''
   selectedWeekMonth: string = ''
+  selectedYear: string = ''
   invalidWeekDate: boolean = false
   currentYear: number = -1
+  selectedMonthYear: string = ''
+  selectedWeekYear: string = ''
 
   constructor(private administrationService: AdministrationService) {}
 
@@ -109,6 +114,7 @@ export class CompanyAdminProfileComponent implements OnInit {
         this.daysDetailsList.push(item)
       })
     })
+    this.copyList = this.daysDetailsList
   }
 
   showDaysTable(): void {
@@ -120,6 +126,7 @@ export class CompanyAdminProfileComponent implements OnInit {
       else if(this.selectedWeekMonth === '04' || this.selectedWeekMonth === '06' || this.selectedWeekMonth === '09' || this.selectedWeekMonth === '11') {
         if(this.selectedWeekDate === '31') {
           this.invalidWeekDate = true;
+          this.daysTable = false
         } 
         else {
           this.invalidWeekDate = false
@@ -127,12 +134,15 @@ export class CompanyAdminProfileComponent implements OnInit {
         }
       }
       else {
-        let rest = this.currentYear % 4
+        let rest = parseInt(this.selectedWeekYear, 10) % 4
+        console.log(parseInt(this.selectedWeekYear, 10))
         if(rest === 0 && (this.selectedWeekDate === '30' || this.selectedWeekDate === '31')) {
           this.invalidWeekDate = true
+          this.daysTable = false
         }
         else if(rest !== 0 && (this.selectedWeekDate === '29' || this.selectedWeekDate === '30' || this.selectedWeekDate === '31')) {
           this.invalidWeekDate = true
+          this.daysTable = false
         }
         else {
           this.invalidWeekDate = false
@@ -140,15 +150,17 @@ export class CompanyAdminProfileComponent implements OnInit {
         }
       }
     }
-    else {
+    else if(this.monthSelected) {
       this.monthFilter()
+    }
+    else {
+      this.yearFilter()
     }
   }
 
   weekFilter(): void {
-    //this.daysDetailsList.length = 0;
-    //this.getWorkingCalednar()
-    let firstDateString = this.currentYear + '-' + this.selectedWeekMonth + '-' + this.selectedWeekDate;
+    this.daysDetailsList = this.copyList
+    let firstDateString = this.selectedWeekYear + '-' + this.selectedWeekMonth + '-' + this.selectedWeekDate;
     let firstDate = new Date(firstDateString);
     let lastDate = new Date(firstDate.getTime() + 7 * 24 * 60 * 60 * 1000);
     firstDate.setHours(0, 0, 0, 0);
@@ -164,13 +176,25 @@ export class CompanyAdminProfileComponent implements OnInit {
   }
   
   monthFilter(): void {
-    //this.daysDetailsList.length = 0;
-    //this.getWorkingCalednar()
+    this.daysDetailsList = this.copyList
     this.daysDetailsList = this.daysDetailsList.filter(a => {
       const dateObject = new Date(a.day);
       const month = dateObject.getMonth() + 1;
+      const year = dateObject.getFullYear()
       const formattedMonth = month < 10 ? `0${month}` : `${month}`;
-      return formattedMonth === this.selectedMonth;
+      return formattedMonth === this.selectedMonth && year.toString() === this.selectedMonthYear;
+    });
+
+    this.daysTable = true
+  }
+
+  yearFilter(): void {
+    this.daysDetailsList = this.copyList
+    this.daysDetailsList = this.daysDetailsList.filter(a => {
+      const dateObject = new Date(a.day);
+      const year = dateObject.getFullYear();
+      console.log(year)
+      return year.toString() === this.selectedYear;
     });
 
     this.daysTable = true
@@ -180,19 +204,23 @@ export class CompanyAdminProfileComponent implements OnInit {
     if(this.selectedRange === 'week') {
       this.daysTable = false
       this.monthSelected = false
+      this.yearSelected = false
       this.weekSelected = true
     }
     else if(this.selectedRange === 'month') {
       this.daysTable = false
       this.weekSelected = false
+      this.yearSelected = false
       this.monthSelected = true
     }
     else {
+      this.daysTable = false
       this.weekSelected = false
       this.monthSelected = false
-      this.daysDetailsList.length = 0;
-      this.getWorkingCalednar()
-      this.daysTable = true
+      this.yearSelected = true
+      //this.daysDetailsList.length = 0;
+      //this.getWorkingCalednar()
+      //this.daysTable = true
     }
   }
 

@@ -9,9 +9,10 @@
     <button class="button" color="primary" (click)="nextOptions()" mat-raised-button>Select</button>
 </div>
 <div *ngIf="weekSelected">
-    <label for="selectWeek">Select the date of current year that represents the first of the seven days you want to display:</label>
+    <label for="selectWeek">Select the date that represents the first of the seven days you want to display:</label>
     <div>
-    <select id="selectWeek" name="selectWeek" [(ngModel)]="selectedWeekDate">
+    <label for="selectWeekDay">Select day:</label>
+    <select id="selectWeekDay" name="selectWeekDay" [(ngModel)]="selectedWeekDate">
         <option value="01">01</option>
         <option value="02">02</option>
         <option value="03">03</option>
@@ -46,7 +47,8 @@
     </select>
     </div>
     <div>
-    <select id="selectWeek" name="selectWeek" [(ngModel)]="selectedWeekMonth">
+    <label for="selectWeekMonth">Select month:</label>
+    <select id="selectWeekMonth" name="selectWeekMonth" [(ngModel)]="selectedWeekMonth">
         <option value="01">January</option>
         <option value="02">February</option>
         <option value="03">March</option>
@@ -61,6 +63,14 @@
         <option value="12">December</option>
     </select>
     <div>
+    <label for="selectWeekYear">Select year:</label>
+    <select id="selectWeekYear" name="selectWeekYear" [(ngModel)]="selectedWeekYear">
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+    </select>
+    </div>
+    <div>
         <button class="button" color="primary" (click)="showDaysTable()" mat-raised-button>Show results</button>
     </div>
     <div *ngIf="invalidWeekDate">
@@ -69,6 +79,7 @@
     </div>
 </div>
 <div *ngIf="monthSelected">
+    <div>
     <label for="selectMonth">Select month:</label>
     <select id="selectMonth" name="selectMonth" [(ngModel)]="selectedMonth">
         <option value="01">January</option>
@@ -83,6 +94,26 @@
         <option value="10">October</option>
         <option value="11">November</option>
         <option value="12">December</option>
+    </select>
+    </div>
+    <div>
+    <label for="selectMonthYear">Select year:</label>
+    <select id="selectMonthYear" name="selectMonthYear" [(ngModel)]="selectedMonthYear">
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+    </select>
+    </div>
+    <div>
+        <button class="button" color="primary" (click)="showDaysTable()" mat-raised-button>Show results</button>
+    </div>
+</div>
+<div *ngIf="yearSelected">
+    <label for="selectYear">Select year:</label>
+    <select id="selectYear" name="selectYear" [(ngModel)]="selectedYear">
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
     </select>
     <div>
         <button class="button" color="primary" (click)="showDaysTable()" mat-raised-button>Show results</button>
