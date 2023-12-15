@@ -4,6 +4,7 @@ import { WorkingDay } from '../../model/wrking-day.model';
 import { Appointment } from '../../model/appointment.model';
 import { AdministrationService } from '../../administration.service';
 import { Equipment } from '../../model/equipment.model';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -82,16 +83,16 @@ export class CompanyAdminProfileComponent implements OnInit {
 
   prepareBindingList(): void {
     this.workingDays.forEach(wd => {
-      let item: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string } = {
-        day: new Date(),
-        equipmentList: [],
-        pickUpDate: new Date(),
-        duration: -1,
-        user: ''
-      }
       wd.appointmentsIds.forEach(appid => {
+        let item: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string } = {
+          day: new Date(),
+          equipmentList: [],
+          pickUpDate: new Date(),
+          duration: -1,
+          user: ''
+        }
         this.allAppointments.forEach(a => {
-          if(appid === a.id) {
+          if(appid === a.id && a.workingDayId === wd.id) {
             a.reservedEquipmentIds.forEach(eid => {
               this.allEquipment.forEach(e => {
                 if(eid === e.id) {
@@ -105,8 +106,8 @@ export class CompanyAdminProfileComponent implements OnInit {
             })
           }
         })
+        this.daysDetailsList.push(item)
       })
-      this.daysDetailsList.push(item)
     })
   }
 
@@ -145,6 +146,8 @@ export class CompanyAdminProfileComponent implements OnInit {
   }
 
   weekFilter(): void {
+    //this.daysDetailsList.length = 0;
+    //this.getWorkingCalednar()
     let firstDateString = this.currentYear + '-' + this.selectedWeekMonth + '-' + this.selectedWeekDate;
     let firstDate = new Date(firstDateString);
     let lastDate = new Date(firstDate.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -159,17 +162,20 @@ export class CompanyAdminProfileComponent implements OnInit {
 
     this.daysTable = true
   }
-
+  
   monthFilter(): void {
+    //this.daysDetailsList.length = 0;
+    //this.getWorkingCalednar()
     this.daysDetailsList = this.daysDetailsList.filter(a => {
-      const month = a.day.getMonth() + 1;
+      const dateObject = new Date(a.day);
+      const month = dateObject.getMonth() + 1;
       const formattedMonth = month < 10 ? `0${month}` : `${month}`;
       return formattedMonth === this.selectedMonth;
     });
 
     this.daysTable = true
   }
-
+  
   nextOptions(): void {
     if(this.selectedRange === 'week') {
       this.daysTable = false
@@ -184,6 +190,7 @@ export class CompanyAdminProfileComponent implements OnInit {
     else {
       this.weekSelected = false
       this.monthSelected = false
+      this.daysDetailsList.length = 0;
       this.getWorkingCalednar()
       this.daysTable = true
     }
