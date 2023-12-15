@@ -1,3 +1,4 @@
+<div class="container">
 <p>Company admin profile</p>
 <label for="calendarRange">Select display range:</label>
 <select id="calendarRange" name="calendarRange" [(ngModel)]="selectedRange">
@@ -120,6 +121,7 @@
     </div>
 </div>
 <div *ngIf="daysTable">
+    <p *ngIf="daysTable && weekSelected">{{sevenDays}}</p>
     <table>
         <thead>
             <tr>
@@ -144,4 +146,5 @@
             </tr>
         </tbody>
     </table>
+</div>
 </div>

@@ -29,14 +29,15 @@ export class CompanyAdminProfileComponent implements OnInit {
   monthSelected: boolean = false
   weekSelected: boolean = false
   yearSelected: boolean = false
-  selectedMonth: string = ''
-  selectedWeekDate: string = ''
-  selectedWeekMonth: string = ''
-  selectedYear: string = ''
+  selectedMonth: string = '01'
+  selectedWeekDate: string = '01'
+  selectedWeekMonth: string = '01'
+  selectedYear: string = '2023'
   invalidWeekDate: boolean = false
   currentYear: number = -1
-  selectedMonthYear: string = ''
-  selectedWeekYear: string = ''
+  selectedMonthYear: string = '2023'
+  selectedWeekYear: string = '2023'
+  sevenDays: string = ''
 
   constructor(private administrationService: AdministrationService) {}
 
@@ -165,6 +166,7 @@ export class CompanyAdminProfileComponent implements OnInit {
     let lastDate = new Date(firstDate.getTime() + 7 * 24 * 60 * 60 * 1000);
     firstDate.setHours(0, 0, 0, 0);
     lastDate.setHours(0, 0, 0, 0);
+    this.sevenDays = "Appointments between " + firstDate.toDateString() + " and " + lastDate.toDateString() + " are shown."
 
     this.daysDetailsList = this.daysDetailsList.filter(a => {
       const dayDate = new Date(a.day);
@@ -218,9 +220,6 @@ export class CompanyAdminProfileComponent implements OnInit {
       this.weekSelected = false
       this.monthSelected = false
       this.yearSelected = true
-      //this.daysDetailsList.length = 0;
-      //this.getWorkingCalednar()
-      //this.daysTable = true
     }
   }
 
