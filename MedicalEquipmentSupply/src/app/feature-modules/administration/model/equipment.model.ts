@@ -1,6 +1,6 @@
 export interface Equipment {
     price: number;
-    id: string;
+    id: number;
     description: string;
     name: string;
     type: string;

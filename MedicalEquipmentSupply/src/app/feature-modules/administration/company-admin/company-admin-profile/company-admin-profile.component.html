@@ -5,6 +5,9 @@
   <option value="month">Month</option>
   <option value="year">Year</option>
 </select>
+<div>
+    <button class="button" color="primary" (click)="nextOptions()" mat-raised-button>Select</button>
+</div>
 <div *ngIf="weekSelected">
     <label for="selectWeek">Select the date of current year that represents the first of the seven days you want to display:</label>
     <div>
@@ -57,8 +60,11 @@
         <option value="11">November</option>
         <option value="12">December</option>
     </select>
-    <div *ngIf="button">
+    <div>
         <button class="button" color="primary" (click)="showDaysTable()" mat-raised-button>Show results</button>
+    </div>
+    <div *ngIf="invalidWeekDate">
+        <p>You selected invalid date. Please, try again.</p>
     </div>
     </div>
 </div>
@@ -78,7 +84,7 @@
         <option value="11">November</option>
         <option value="12">December</option>
     </select>
-    <div *ngIf="button">
+    <div>
         <button class="button" color="primary" (click)="showDaysTable()" mat-raised-button>Show results</button>
     </div>
 </div>
@@ -88,20 +94,20 @@
             <tr>
                 <th>Day</th>
                 <th>Reserved equipment</th>
-                <th>Pick up date</th>
-                <th>Duration</th>
+                <th>Start time</th>
+                <th>Duration in hours</th>
                 <th>User</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let wd in daysDetailsList">
-                <td>{{wd.day}}</td>
+            <tr *ngFor="let wd of daysDetailsList">
+                <td>{{wd.day | date:'dd.MM.yyyy'}}</td>
                 <td>
                     <ul>
-                        <li *ngFor="let e in wd.equipmentList">{{e}}</li>
+                        <li *ngFor="let e of wd.equipmentList">{{e}}</li>
                     </ul>    
                 </td>
-                <td>{{wd.pickUpDate}}</td>
+                <td>{{wd.pickUpDate | date:'HH:mm'}}</td>
                 <td>{{wd.duration}}</td>
                 <td>{{wd.user}}</td>
             </tr>

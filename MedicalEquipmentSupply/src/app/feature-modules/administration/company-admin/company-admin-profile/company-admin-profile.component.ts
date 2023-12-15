@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { WorkingCalendar } from '../../model/working-calendar.model';
 import { WorkingDay } from '../../model/wrking-day.model';
 import { Appointment } from '../../model/appointment.model';
+import { AdministrationService } from '../../administration.service';
+import { Equipment } from '../../model/equipment.model';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -16,37 +18,175 @@ export class CompanyAdminProfileComponent implements OnInit {
     workingDaysIds: []
   }
   workingDays: WorkingDay[] = []
-  appointments: Appointment[] = []
+  allAppointments: Appointment[] = []
+  allEquipment: Equipment[] = []
   daysDetailsList: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string }[] = []
   
   daysTable: boolean = false
-  selectedRange: string = ''
+  selectedRange: string = 'year'
   monthSelected: boolean = false
   weekSelected: boolean = false
   selectedMonth: string = ''
   selectedWeekDate: string = ''
   selectedWeekMonth: string = ''
-  button: boolean = false
+  invalidWeekDate: boolean = false
+  currentYear: number = -1
 
-  
+  constructor(private administrationService: AdministrationService) {}
+
   ngOnInit(): void {
+    const currentDate = new Date();
+    this.currentYear = currentDate.getFullYear();
     this.getWorkingCalednar()
   }
 
   getWorkingCalednar(): void {
-
+    this.administrationService.getWorkingCalendar(15).subscribe({
+      next: (result: WorkingCalendar) => {
+          this.workingCalendar = result;
+          this.getWorkingDays()
+      },
+      error: () => { }
+   });
   }
 
   getWorkingDays(): void {
-
+    this.administrationService.getWorkingDays(this.workingCalendar.id).subscribe({
+      next: (result: WorkingDay[]) => {
+          this.workingDays = result;
+          this.getAppointments()
+      },
+      error: () => { }
+   });
   }
 
   getAppointments(): void {
+    this.administrationService.getAllAppointments().subscribe({
+      next: (result: Appointment[]) => {
+          this.allAppointments = result;
+          this.getAllEquipment()
+      },
+      error: () => { }
+   });
+  }
 
+  getAllEquipment(): void {
+    this.administrationService.getAllEquipment().subscribe({
+      next: (result: Equipment[]) => {
+          this.allEquipment = result;
+          this.prepareBindingList()
+      },
+      error: () => { }
+   });
+  }
+
+  prepareBindingList(): void {
+    this.workingDays.forEach(wd => {
+      let item: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string } = {
+        day: new Date(),
+        equipmentList: [],
+        pickUpDate: new Date(),
+        duration: -1,
+        user: ''
+      }
+      wd.appointmentsIds.forEach(appid => {
+        this.allAppointments.forEach(a => {
+          if(appid === a.id) {
+            a.reservedEquipmentIds.forEach(eid => {
+              this.allEquipment.forEach(e => {
+                if(eid === e.id) {
+                  item.day = wd.date
+                  item.duration = a.duration
+                  item.pickUpDate = a.pickUpDate
+                  item.user = 'Registrovsni Korisnik' //nakon uvezivanja RegistredUser sa Appointment
+                  item.equipmentList.push(e.name)
+                }
+              })
+            })
+          }
+        })
+      })
+      this.daysDetailsList.push(item)
+    })
   }
 
   showDaysTable(): void {
-    //validacija izabranih datuma
+    if(this.weekSelected) {
+      if(this.selectedWeekMonth === '01' || this.selectedWeekMonth === '03' || this.selectedWeekMonth === '05' || this.selectedWeekMonth === '07' || this.selectedWeekMonth === '08' || this.selectedWeekMonth === '10' || this.selectedWeekMonth === '12') {
+        this.invalidWeekDate = false
+        this.weekFilter()
+      }
+      else if(this.selectedWeekMonth === '04' || this.selectedWeekMonth === '06' || this.selectedWeekMonth === '09' || this.selectedWeekMonth === '11') {
+        if(this.selectedWeekDate === '31') {
+          this.invalidWeekDate = true;
+        } 
+        else {
+          this.invalidWeekDate = false
+          this.weekFilter()
+        }
+      }
+      else {
+        let rest = this.currentYear % 4
+        if(rest === 0 && (this.selectedWeekDate === '30' || this.selectedWeekDate === '31')) {
+          this.invalidWeekDate = true
+        }
+        else if(rest !== 0 && (this.selectedWeekDate === '29' || this.selectedWeekDate === '30' || this.selectedWeekDate === '31')) {
+          this.invalidWeekDate = true
+        }
+        else {
+          this.invalidWeekDate = false
+          this.weekFilter()
+        }
+      }
+    }
+    else {
+      this.monthFilter()
+    }
+  }
+
+  weekFilter(): void {
+    let firstDateString = this.currentYear + '-' + this.selectedWeekMonth + '-' + this.selectedWeekDate;
+    let firstDate = new Date(firstDateString);
+    let lastDate = new Date(firstDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+    firstDate.setHours(0, 0, 0, 0);
+    lastDate.setHours(0, 0, 0, 0);
+
+    this.daysDetailsList = this.daysDetailsList.filter(a => {
+      const dayDate = new Date(a.day);
+      dayDate.setHours(0, 0, 0, 0);
+      return dayDate >= firstDate && dayDate <= lastDate;
+    });
+
+    this.daysTable = true
+  }
+
+  monthFilter(): void {
+    this.daysDetailsList = this.daysDetailsList.filter(a => {
+      const month = a.day.getMonth() + 1;
+      const formattedMonth = month < 10 ? `0${month}` : `${month}`;
+      return formattedMonth === this.selectedMonth;
+    });
+
+    this.daysTable = true
+  }
+
+  nextOptions(): void {
+    if(this.selectedRange === 'week') {
+      this.daysTable = false
+      this.monthSelected = false
+      this.weekSelected = true
+    }
+    else if(this.selectedRange === 'month') {
+      this.daysTable = false
+      this.weekSelected = false
+      this.monthSelected = true
+    }
+    else {
+      this.weekSelected = false
+      this.monthSelected = false
+      this.getWorkingCalednar()
+      this.daysTable = true
+    }
   }
 
 }

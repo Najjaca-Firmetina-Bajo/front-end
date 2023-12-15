@@ -63,4 +63,9 @@ export class AdministrationService {
   getAppointments(dayId: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/findBy/' + dayId)
   }
+
+  getAllAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-all')
+  }
+
 }
