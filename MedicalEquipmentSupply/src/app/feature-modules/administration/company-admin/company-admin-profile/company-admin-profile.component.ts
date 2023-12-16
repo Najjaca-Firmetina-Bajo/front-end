@@ -4,6 +4,7 @@ import { WorkingDay } from '../../model/wrking-day.model';
 import { Appointment } from '../../model/appointment.model';
 import { AdministrationService } from '../../administration.service';
 import { Equipment } from '../../model/equipment.model';
+import { RegistredUser } from '../../model/registred-user.model';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -22,6 +23,7 @@ export class CompanyAdminProfileComponent implements OnInit {
   allEquipment: Equipment[] = []
   daysDetailsList: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string }[] = []
   copyList: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string }[] = []
+  registeredUsers: RegistredUser[] = []
   
   daysTable: boolean = false
   selectedRange: string = 'year'
@@ -80,6 +82,16 @@ export class CompanyAdminProfileComponent implements OnInit {
     this.administrationService.getAllEquipment().subscribe({
       next: (result: Equipment[]) => {
           this.allEquipment = result;
+          this.getAllRegisteredUsers()
+      },
+      error: () => { }
+   });
+  }
+
+  getAllRegisteredUsers(): void {
+    this.administrationService.getAllRegisteredUsers().subscribe({
+      next: (result: RegistredUser[]) => {
+          this.registeredUsers = result;
           this.prepareBindingList()
       },
       error: () => { }
@@ -97,21 +109,25 @@ export class CompanyAdminProfileComponent implements OnInit {
           user: ''
         }
         this.allAppointments.forEach(a => {
-          if(a.reservedEquipmentIds.length !== 0) {
-            if(appid === a.id && a.workingDayId === wd.id) {
-              a.reservedEquipmentIds.forEach(eid => {
-                this.allEquipment.forEach(e => {
-                  if(eid === e.id) {
-                    item.day = wd.date
-                    item.duration = a.duration
-                    item.pickUpDate = a.pickUpDate
-                    item.user = 'Registrovsni Korisnik' //nakon uvezivanja RegistredUser sa Appointment
-                    item.equipmentList.push(e.name)
-                  }
-                })
-              })
+          this.registeredUsers.forEach(ru=> {
+            if(a.registredUserId === ru.id) {
+              if(a.reservedEquipmentIds.length !== 0) {
+                if(appid === a.id && a.workingDayId === wd.id) {
+                  a.reservedEquipmentIds.forEach(eid => {
+                    this.allEquipment.forEach(e => {
+                      if(eid === e.id) {
+                        item.day = wd.date
+                        item.duration = a.duration
+                        item.pickUpDate = a.pickUpDate
+                        item.user = ru.name + " " + ru.surname 
+                        item.equipmentList.push(e.name)
+                      }
+                    })
+                  })
+                }
+              }
             }
-          }
+          })
         })
         if(item.equipmentList.length !== 0) {
           this.daysDetailsList.push(item)

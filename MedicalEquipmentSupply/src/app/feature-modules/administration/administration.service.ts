@@ -8,6 +8,7 @@ import { Equipment } from './model/equipment.model';
 import { WorkingCalendar } from './model/working-calendar.model';
 import { WorkingDay } from './model/wrking-day.model';
 import { Appointment } from './model/appointment.model';
+import { RegistredUser } from './model/registred-user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,10 @@ export class AdministrationService {
 
   getAllAppointments(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-all')
+  }
+
+  getAllRegisteredUsers(): Observable<RegistredUser[]> {
+    return this.http.get<RegistredUser[]>(environment.apiHost + 'registeredUsers/get-all')
   }
 
 }

@@ -13,5 +13,6 @@ export interface Appointment {
     reservedEquipmentIds: number[];
     companyAdministratorId: number;
     workingDayId: number;
+    registredUserId: number;
   }
   
