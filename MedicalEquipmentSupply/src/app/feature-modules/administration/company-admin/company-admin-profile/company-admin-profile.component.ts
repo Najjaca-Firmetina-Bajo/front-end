@@ -4,7 +4,6 @@ import { WorkingDay } from '../../model/wrking-day.model';
 import { Appointment } from '../../model/appointment.model';
 import { AdministrationService } from '../../administration.service';
 import { Equipment } from '../../model/equipment.model';
-import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -48,7 +47,7 @@ export class CompanyAdminProfileComponent implements OnInit {
   }
 
   getWorkingCalednar(): void {
-    this.administrationService.getWorkingCalendar(15).subscribe({
+    this.administrationService.getWorkingCalendar(3).subscribe({
       next: (result: WorkingCalendar) => {
           this.workingCalendar = result;
           this.getWorkingDays()
@@ -98,21 +97,25 @@ export class CompanyAdminProfileComponent implements OnInit {
           user: ''
         }
         this.allAppointments.forEach(a => {
-          if(appid === a.id && a.workingDayId === wd.id) {
-            a.reservedEquipmentIds.forEach(eid => {
-              this.allEquipment.forEach(e => {
-                if(eid === e.id) {
-                  item.day = wd.date
-                  item.duration = a.duration
-                  item.pickUpDate = a.pickUpDate
-                  item.user = 'Registrovsni Korisnik' //nakon uvezivanja RegistredUser sa Appointment
-                  item.equipmentList.push(e.name)
-                }
+          if(a.reservedEquipmentIds.length !== 0) {
+            if(appid === a.id && a.workingDayId === wd.id) {
+              a.reservedEquipmentIds.forEach(eid => {
+                this.allEquipment.forEach(e => {
+                  if(eid === e.id) {
+                    item.day = wd.date
+                    item.duration = a.duration
+                    item.pickUpDate = a.pickUpDate
+                    item.user = 'Registrovsni Korisnik' //nakon uvezivanja RegistredUser sa Appointment
+                    item.equipmentList.push(e.name)
+                  }
+                })
               })
-            })
+            }
           }
         })
-        this.daysDetailsList.push(item)
+        if(item.equipmentList.length !== 0) {
+          this.daysDetailsList.push(item)
+        }
       })
     })
     this.copyList = this.daysDetailsList

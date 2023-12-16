@@ -48,25 +48,27 @@ export class EquipmentReviewComponent implements OnInit{
 
   fillBindingList(): void {
     this.equipment.forEach(e => {
-      let item: { name: string, type: string, price: number, description: string, companies: string[] } = {
-        name: '',
-        type: '',
-        price: -1,
-        description: '',
-        companies: []
-      }
-      e.companies.forEach(cid => {
-        this.allCompanies.forEach(c => {
-          if(cid === c.id) {
-            item.name = e.name
-            item.type = e.type
-            item.price = e.price
-            item.description = e.description
-            item.companies.push(c.name)
-          }
+      if(e.companies.length !== 0) {
+        let item: { name: string, type: string, price: number, description: string, companies: string[] } = {
+          name: '',
+          type: '',
+          price: -1,
+          description: '',
+          companies: []
+        }
+        e.companies.forEach(cid => {
+          this.allCompanies.forEach(c => {
+            if(cid === c.id) {
+              item.name = e.name
+              item.type = e.type
+              item.price = e.price
+              item.description = e.description
+              item.companies.push(c.name)
+            }
+          })
         })
-      })
-      this.bindingList.push(item)
+        this.bindingList.push(item)
+      }
     })
   }
   

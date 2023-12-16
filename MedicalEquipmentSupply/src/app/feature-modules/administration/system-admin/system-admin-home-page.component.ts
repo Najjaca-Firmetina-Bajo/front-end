@@ -133,6 +133,7 @@ export class SystemAdminHomePageComponent implements OnInit{
           //this.router.navigate(['']); 
           this.adminRegistrationForm.reset()
           this.showAdministratorForm = false;
+          window.location.reload()
         },
       });
     } 
