@@ -39,6 +39,7 @@ export class CompanyAdminProfileComponent implements OnInit {
   selectedMonthYear: string = '2023'
   selectedWeekYear: string = '2023'
   sevenDays: string = ''
+  emptyDaysTable: boolean = false
 
   constructor(private administrationService: AdministrationService) {}
 
@@ -193,7 +194,14 @@ export class CompanyAdminProfileComponent implements OnInit {
       return dayDate >= firstDate && dayDate <= lastDate;
     });
 
-    this.daysTable = true
+    if(this.daysDetailsList.length > 0) {
+      this.emptyDaysTable = false
+      this.daysTable = true
+    }
+    else {
+      this.daysTable = false
+      this.emptyDaysTable = true
+    }
   }
   
   monthFilter(): void {
@@ -206,7 +214,14 @@ export class CompanyAdminProfileComponent implements OnInit {
       return formattedMonth === this.selectedMonth && year.toString() === this.selectedMonthYear;
     });
 
-    this.daysTable = true
+    if(this.daysDetailsList.length > 0) {
+      this.emptyDaysTable = false
+      this.daysTable = true
+    }
+    else {
+      this.daysTable = false
+      this.emptyDaysTable = true
+    }
   }
 
   yearFilter(): void {
@@ -218,7 +233,14 @@ export class CompanyAdminProfileComponent implements OnInit {
       return year.toString() === this.selectedYear;
     });
 
-    this.daysTable = true
+    if(this.daysDetailsList.length > 0) {
+      this.emptyDaysTable = false
+      this.daysTable = true
+    }
+    else {
+      this.daysTable = false
+      this.emptyDaysTable = true
+    }
   }
   
   nextOptions(): void {
@@ -226,18 +248,21 @@ export class CompanyAdminProfileComponent implements OnInit {
       this.daysTable = false
       this.monthSelected = false
       this.yearSelected = false
+      this.emptyDaysTable = false
       this.weekSelected = true
     }
     else if(this.selectedRange === 'month') {
       this.daysTable = false
       this.weekSelected = false
       this.yearSelected = false
+      this.emptyDaysTable = false
       this.monthSelected = true
     }
     else {
       this.daysTable = false
       this.weekSelected = false
       this.monthSelected = false
+      this.emptyDaysTable = false
       this.yearSelected = true
     }
   }

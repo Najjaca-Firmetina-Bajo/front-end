@@ -120,6 +120,7 @@
         <button class="button" color="primary" (click)="showDaysTable()" mat-raised-button>Show results</button>
     </div>
 </div>
+<p *ngIf="emptyDaysTable">There are no results for selected range.</p>
 <div *ngIf="daysTable">
     <p *ngIf="daysTable && weekSelected">{{sevenDays}}</p>
     <table>
