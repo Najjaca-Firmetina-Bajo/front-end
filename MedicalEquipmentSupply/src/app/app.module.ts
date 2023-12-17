@@ -7,7 +7,6 @@ import { LoginComponent } from './infrastructure/auth/login/login.component';
 import { RegistrationComponent } from './infrastructure/auth/registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,6 +18,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
+
+// Auth0 Angular JWT Module
+import { JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthService } from './infrastructure/auth/auth.service';
+import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
+import { environment } from 'src/env/enviroment';
 
 @NgModule({
   declarations: [
@@ -42,8 +48,25 @@ import { MatMenuModule } from '@angular/material/menu';
     MatPaginatorModule,
     MatMenuModule,
     HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          // Implement a function to retrieve the token from localStorage
+          return localStorage.getItem('token');
+        },
+        allowedDomains: ['*'], // Allow tokens for all domains
+        disallowedRoutes: [] // Specify routes that should not include the token
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
