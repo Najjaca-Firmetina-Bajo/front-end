@@ -47,4 +47,16 @@ export class CompaniesService {
   getAllAppointmentsByCalendar(id:number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-all-calendar/'+id)
   }
+
+  reserveAppointment(appointment:Appointment): Observable<Appointment> {
+    return this.http.post<Appointment>(environment.apiHost + 'appointments/reserve',appointment)
+  }
+
+  getAuthenticatedUserId(): Observable<number> {
+    const url = environment.wwwRoot + 'auth/who-am-i';
+
+    return this.http.get<number>(url);
+  }
+
+  
 }

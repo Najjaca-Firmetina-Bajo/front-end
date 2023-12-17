@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Equipment } from '../../administration/model/equipment.model';
 import { WorkingDay } from '../../administration/model/wrking-day.model';
 import { WorkingCalendar } from '../../administration/model/working-calendar.model';
-import { Appointment } from '../../administration/model/appointment.model';
+import { Appointment, AppointmentType } from '../../administration/model/appointment.model';
 import { CompaniesService } from '../companies.service';
 
 @Component({
@@ -18,9 +18,13 @@ export class CompanyInfoComponent implements OnInit {
   filteredEquipment: any;
   selectedEquipmentMap: Map<number, boolean> = new Map<number, boolean>();
   appointments: any;
+  selectedAppointment: Appointment | null = null;
+  userId: number;
 
-  constructor(private route: ActivatedRoute,private companyService: CompaniesService) {
+  constructor(private route: ActivatedRoute,private companyService: CompaniesService,private router: Router) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
+    this.userId = Number(-1);
+    this.getAuthenticatedUserId();
   }
 
   ngOnInit(): void {
@@ -54,9 +58,34 @@ export class CompanyInfoComponent implements OnInit {
     }
   }
 
+  public reserveAppointment(): void{
+    if(this.selectedAppointment ){
+      this.getAuthenticatedUserId();
+      this.selectedAppointment.registredUserId = this.userId;
+      const selectedEquipmentIds = Array.from(this.selectedEquipmentMap.keys());
+      this.selectedAppointment.reservedEquipmentIds = selectedEquipmentIds;
+      console.log(this.selectedAppointment);
+      this.companyService.reserveAppointment(this.selectedAppointment).subscribe((data) => {
+        this.router.navigate(['/companies']);
+      });
+    }
+  }
+
+  getAuthenticatedUserId(): void {
+    this.companyService.getAuthenticatedUserId().subscribe(
+      (userId: number) => {
+        console.log('Authenticated User ID:', Number(userId));
+        this.userId = Number(userId)
+      },
+      (error) => {
+        console.error('Error getting authenticated user ID:', error);
+      }
+    );
+  }
+
   toggleEquipmentSelection(equipment: Equipment): void {
     const equipmentId = equipment.id;
-  
+    
     if (this.selectedEquipmentMap.has(equipmentId)) {
       this.selectedEquipmentMap.delete(equipmentId);
     } else {
@@ -70,7 +99,7 @@ export class CompanyInfoComponent implements OnInit {
 
   
 
-  selectedAppointment: Appointment | null = null;
+ 
 
   selectAppointment(appointment: Appointment): void {
     this.selectedAppointment = appointment;

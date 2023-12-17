@@ -66,5 +66,11 @@ export class AuthService {
     this.removeToken();
   }
 
+  getAuthenticatedUserId(): Observable<number> {
+    const url = environment.wwwRoot + 'auth/who-am-i';
+
+    return this.http.get<number>(url);
+  }
+
 
 }
