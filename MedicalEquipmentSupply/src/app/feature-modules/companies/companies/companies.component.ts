@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../companies.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-companies',

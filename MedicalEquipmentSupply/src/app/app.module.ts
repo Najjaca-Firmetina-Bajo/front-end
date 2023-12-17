@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
 
 // Auth0 Angular JWT Module
 import { JwtModule } from '@auth0/angular-jwt';
@@ -49,6 +50,7 @@ import { CompaniesComponent } from './feature-modules/companies/companies/compan
     MatSelectModule,
     MatPaginatorModule,
     MatMenuModule,
+    MatCardModule,
     HttpClientModule,
     JwtModule.forRoot({
       config: {

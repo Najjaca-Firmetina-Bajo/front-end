@@ -1,11 +1,16 @@
 <div>
     <h2>Company List</h2>
-    <ul>
-      <li *ngFor="let company of companies">
-        <h3>{{ company.name }}</h3>
-        <p>{{ company.address }}</p>
-        <p>Average Rating: {{ company.averageRating }}</p>
-        <!-- Add more details as needed -->
-      </li>
-    </ul>
+    <div *ngFor="let company of companies" class="company-card">
+      <mat-card>
+        <mat-card-header>
+          <div mat-card-avatar class="company-avatar"></div>
+          <mat-card-title>{{ company.name }}</mat-card-title>
+          <mat-card-subtitle>{{ company.address }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Average Rating: {{ company.averageRating }}</p>
+          <!-- Add more details as needed -->
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
