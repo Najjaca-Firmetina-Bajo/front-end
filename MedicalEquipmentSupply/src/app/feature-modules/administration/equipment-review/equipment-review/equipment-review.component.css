@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 50px; /* Dodaj po potrebi za odgovarajući razmak od vrha stranice */
+  }
+  
+  .form-container {
+    width: 300px; /* Prilagodi širinu formi po potrebi */
+    margin-top: 20px; /* Dodaj po potrebi za odgovarajući razmak između formi */
+  }
+  

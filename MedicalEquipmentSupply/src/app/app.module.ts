@@ -6,7 +6,8 @@ import { HomeComponent } from './feature-modules/layout/home/home.component';
 import { LoginComponent } from './infrastructure/auth/login/login.component';
 import { RegistrationComponent } from './infrastructure/auth/registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SystemAdminHomePageComponent } from './feature-modules/administration/system-admin/system-admin-home-page.component';
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -27,6 +28,8 @@ import { AuthService } from './infrastructure/auth/auth.service';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { environment } from 'src/env/enviroment';
 import { CompaniesComponent } from './feature-modules/companies/companies/companies.component';
+import { EquipmentReviewComponent } from './feature-modules/administration/equipment-review/equipment-review/equipment-review.component';
+import { CompanyAdminProfileComponent } from './feature-modules/administration/company-admin/company-admin-profile/company-admin-profile.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { CompaniesComponent } from './feature-modules/companies/companies/compan
     HomeComponent,
     LoginComponent,
     RegistrationComponent,
-    CompaniesComponent
+    CompaniesComponent,
+    SystemAdminHomePageComponent,
+    EquipmentReviewComponent,
+    CompanyAdminProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +58,7 @@ import { CompaniesComponent } from './feature-modules/companies/companies/compan
     MatMenuModule,
     MatCardModule,
     HttpClientModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
