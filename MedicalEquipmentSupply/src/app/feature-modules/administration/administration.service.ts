@@ -9,6 +9,7 @@ import { WorkingCalendar } from './model/working-calendar.model';
 import { WorkingDay } from './model/wrking-day.model';
 import { Appointment } from './model/appointment.model';
 import { RegistredUser } from './model/registred-user.model';
+import { SystemAdministrator } from './model/system-administrator.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class AdministrationService {
 
   registerCompanyAdmin(newAdmin: CompanyAdministrator): Observable<CompanyAdministrator> {
     return this.http.post<CompanyAdministrator>(environment.apiHost + 'companyAdministrators/register', newAdmin)
+  }
+
+  registerSystemAdmin(newAdmin: SystemAdministrator): Observable<SystemAdministrator> {
+    return this.http.post<SystemAdministrator>(environment.apiHost + 'systemAdministrators/register', newAdmin)
   }
 
   registerCompany(newCompany: Company): Observable<Company> {

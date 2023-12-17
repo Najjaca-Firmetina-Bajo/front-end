@@ -3,6 +3,7 @@ import { AdministrationService } from '../administration.service';
 import { CompanyAdministrator } from '../model/company-administrator.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from '../model/comapny.model';
+import { SystemAdministrator } from '../model/system-administrator.model';
 
 @Component({
   selector: 'app-system-admin-home-page',
@@ -12,18 +13,20 @@ import { Company } from '../model/comapny.model';
 export class SystemAdminHomePageComponent implements OnInit{
   
   showCompanyForm: boolean = false
-  showAdministratorForm: boolean = false
+  showCompanyAdministratorForm: boolean = false
+  showSystemAdministratorForm: boolean = false
   showAdminsTable: boolean = false
   isAnyAvailableAdmin: boolean = true;
   currentCompanyName: string = ''
-  adminRegistrationForm: FormGroup;
+  companyAdminRegistrationForm: FormGroup;
   companyRegistrationForm: FormGroup;
+  systemAdminRegistrationForm: FormGroup;
   availableAdministrators: CompanyAdministrator[] = []
 
   constructor(private administrationService: AdministrationService,
               private formBuilder: FormBuilder,
     ) {
-    this.adminRegistrationForm = this.formBuilder.group({
+    this.companyAdminRegistrationForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
@@ -46,7 +49,24 @@ export class SystemAdminHomePageComponent implements OnInit{
     }, {
       validator: this.addressAndRatingValidator
     });
+
+    this.systemAdminRegistrationForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]],
+      role: ['SystemAdministrator', [Validators.required]],
+      name: ['', [Validators.required]],
+      surname: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      phone_number: ['', [Validators.required]],
+      occupation: ['', [Validators.required]],
+      company_info: ['', [Validators.required]],
+    }, {
+      validator: this.passwordMatchValidator
+    });
   }
+
   ngOnInit(): void {
     this.getAvailableAdministrators()
   }
@@ -99,40 +119,48 @@ export class SystemAdminHomePageComponent implements OnInit{
   }
 
   addCompany(): void {
-    this.showAdministratorForm = false;
+    this.showCompanyAdministratorForm = false;
+    this.showSystemAdministratorForm = false;
     this.showCompanyForm = true;
   }
 
   addCompanyAdministrator(): void {
     this.showCompanyForm = false;
-    this.showAdministratorForm = true;
+    this.showSystemAdministratorForm = false;
+    this.showCompanyAdministratorForm = true;
+  }
+
+  addSystemAdministrator(): void {
+    this.showCompanyForm = false;
+    this.showCompanyAdministratorForm = false;
+    this.showSystemAdministratorForm = true;
   }
 
   registerCompanyAdministrator(): void {
-    if (this.adminRegistrationForm.valid) {
+    if (this.companyAdminRegistrationForm.valid) {
       const newAdmin: CompanyAdministrator = {
         activated: false,
         role: 'CompanyAdministrator',
         companyId: 0,
         id: 0,
         dtype: '',
-        city: this.adminRegistrationForm.value.city,
-        companyInfo: this.adminRegistrationForm.value.company_info,
-        country: this.adminRegistrationForm.value.country,
-        email: this.adminRegistrationForm.value.email,
-        name: this.adminRegistrationForm.value.name,
-        occupation: this.adminRegistrationForm.value.occupation,
-        password: this.adminRegistrationForm.value.password,
-        phoneNumber: this.adminRegistrationForm.value.phone_number,
-        surname: this.adminRegistrationForm.value.surname,
+        city: this.companyAdminRegistrationForm.value.city,
+        companyInfo: this.companyAdminRegistrationForm.value.company_info,
+        country: this.companyAdminRegistrationForm.value.country,
+        email: this.companyAdminRegistrationForm.value.email,
+        name: this.companyAdminRegistrationForm.value.name,
+        occupation: this.companyAdminRegistrationForm.value.occupation,
+        password: this.companyAdminRegistrationForm.value.password,
+        phoneNumber: this.companyAdminRegistrationForm.value.phone_number,
+        surname: this.companyAdminRegistrationForm.value.surname,
         appointmentsIds: []
       };
 
       this.administrationService.registerCompanyAdmin(newAdmin).subscribe({
         next: () => {
           //this.router.navigate(['']); 
-          this.adminRegistrationForm.reset()
-          this.showAdministratorForm = false;
+          this.companyAdminRegistrationForm.reset()
+          this.showCompanyAdministratorForm = false;
           window.location.reload()
         },
       });
@@ -161,6 +189,40 @@ export class SystemAdminHomePageComponent implements OnInit{
           //this.showCompanyForm = false;
           this.currentCompanyName = newCompany.name;
           this.showAdminsTable = true;
+        },
+      });
+    } 
+    else {
+      console.error('Form is invalid.');
+    }
+  }
+
+  registerSystemAdministrator(): void {
+    if (this.systemAdminRegistrationForm.valid) {
+      const newAdmin: SystemAdministrator = {
+        activated: false,
+        role: 'SystemAdministrator',
+        companyId: 0,
+        id: 0,
+        dtype: '',
+        city: this.systemAdminRegistrationForm.value.city,
+        companyInfo: this.systemAdminRegistrationForm.value.company_info,
+        country: this.systemAdminRegistrationForm.value.country,
+        email: this.systemAdminRegistrationForm.value.email,
+        name: this.systemAdminRegistrationForm.value.name,
+        occupation: this.systemAdminRegistrationForm.value.occupation,
+        password: this.systemAdminRegistrationForm.value.password,
+        phoneNumber: this.systemAdminRegistrationForm.value.phone_number,
+        surname: this.systemAdminRegistrationForm.value.surname,
+        power:0
+      };
+
+      this.administrationService.registerSystemAdmin(newAdmin).subscribe({
+        next: () => {
+          //this.router.navigate(['']); 
+          this.systemAdminRegistrationForm.reset()
+          this.showSystemAdministratorForm = false;
+          window.location.reload()
         },
       });
     } 

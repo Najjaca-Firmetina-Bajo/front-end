@@ -1,4 +1,4 @@
-export interface RegistredUser {
+export interface SystemAdministrator {
     activated: boolean;
     role: string;
     companyId: number;
@@ -13,7 +13,6 @@ export interface RegistredUser {
     password: string;
     phoneNumber: string;
     surname: string;
-    penalPoints: number;
-    appointmentsIds: number[]
+    power: number;
   }
   
