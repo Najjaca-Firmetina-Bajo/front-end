@@ -25,13 +25,15 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './infrastructure/auth/auth.service';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { environment } from 'src/env/enviroment';
+import { CompaniesComponent } from './feature-modules/companies/companies/companies.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    CompaniesComponent
   ],
   imports: [
     BrowserModule,

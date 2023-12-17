@@ -48,8 +48,9 @@ export class AuthService {
       .post<any>(environment.wwwRoot + 'auth/login', credentials)
       .pipe(
         tap((response) => {
-          if (response.token) {
-            this.setToken(response.token);
+          if (response.accessToken) {
+            this.setToken(response.accessToken);
+            console.log(response.accessToken);
           }
         }),
         catchError((error) => {
