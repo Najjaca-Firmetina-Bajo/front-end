@@ -30,6 +30,7 @@ import { environment } from 'src/env/enviroment';
 import { CompaniesComponent } from './feature-modules/companies/companies/companies.component';
 import { EquipmentReviewComponent } from './feature-modules/administration/equipment-review/equipment-review/equipment-review.component';
 import { CompanyAdminProfileComponent } from './feature-modules/administration/company-admin/company-admin-profile/company-admin-profile.component';
+import { CompanyInfoComponent } from './feature-modules/companies/company-info/company-info.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { CompanyAdminProfileComponent } from './feature-modules/administration/c
     SystemAdminHomePageComponent,
     EquipmentReviewComponent,
     CompanyAdminProfileComponent,
+    CompanyInfoComponent,
   ],
   imports: [
     BrowserModule,

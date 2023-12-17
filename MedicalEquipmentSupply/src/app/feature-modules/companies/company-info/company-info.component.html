@@ -1,0 +1,44 @@
+<div class="centered-container"*ngIf="company">
+    <h2>{{ company.name }}</h2>
+    <p>Address: {{ company.address }}</p>
+    <p>Average Rating: {{ company.averageRating }}</p>
+  </div>
+  <br><br>
+  <div >
+  <p><b>Equipment:</b></p>
+  <table style="text-align: center;">
+    <thead>
+      <tr>
+        <th>Select</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Companies</th>
+        <!-- Add more table headers for other properties as needed -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let equipment of filteredEquipment">
+        <td>
+          <input type="checkbox" [checked]="getIsSelected(equipment)" (change)="toggleEquipmentSelection(equipment)">
+        </td>
+        <td>{{ equipment.name }}</td>
+        <td>{{ equipment.type }}</td>
+        <td>
+          <span *ngFor="let companyId of equipment.companies">{{ companyId }}, </span>
+        </td>
+        <!-- Add more table cells for other properties as needed -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+  <br>
+  <div >
+    <h3>Selected Equipment</h3>
+    <ul *ngFor="let equipment of filteredEquipment">
+      <li  *ngIf="getIsSelected(equipment)">
+        {{ equipment.name }}
+      </li>
+      <!-- Display other selected properties as needed -->
+    </ul>
+  </div>
+  
