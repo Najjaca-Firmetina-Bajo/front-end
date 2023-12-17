@@ -2,3 +2,17 @@
     text-align: center;
     /* Add other styles for vertical centering if needed */
   }
+
+  .container {
+    display: flex;
+  }
+  
+  .left-side {
+    width: 50%;
+    padding: 20px;
+  }
+  
+  .right-side {
+    width: 50%;
+    padding: 20px;
+  }

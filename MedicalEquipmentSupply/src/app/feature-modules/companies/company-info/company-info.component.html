@@ -1,66 +1,103 @@
-<div class="centered-container"*ngIf="company">
-    <h2>{{ company.name }}</h2>
-    <p>Address: {{ company.address }}</p>
-    <p>Average Rating: {{ company.averageRating }}</p>
-  </div>
-  <br><br>
-  <div >
-  <p><b>Equipment:</b></p>
-  <table style="text-align: center;">
-    <thead>
-      <tr>
-        <th>Select</th>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Companies</th>
-        <!-- Add more table headers for other properties as needed -->
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let equipment of filteredEquipment">
-        <td>
-          <input type="checkbox" [checked]="getIsSelected(equipment)" (change)="toggleEquipmentSelection(equipment)">
-        </td>
-        <td>{{ equipment.name }}</td>
-        <td>{{ equipment.type }}</td>
-        <td>
-          <span *ngFor="let companyId of equipment.companies">{{ companyId }}, </span>
-        </td>
-        <!-- Add more table cells for other properties as needed -->
-      </tr>
-    </tbody>
-  </table>
+<div class="centered-container" *ngIf="company">
+  <mat-card>
+    <mat-card-content>
+      <div class="centered-container">
+        <h2>{{ company.name }}</h2>
+        <p>Address: {{ company.address }}</p>
+        <p>Average Rating: {{ company.averageRating }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
-  <br>
-  <div >
-    <h3>Selected Equipment</h3>
-    <ul *ngFor="let equipment of filteredEquipment">
-      <li  *ngIf="getIsSelected(equipment)">
-        {{ equipment.name }}
-      </li>
-      <!-- Display other selected properties as needed -->
-    </ul>
+
+<div class="container">
+  <!-- Left side: Company Info, Equipment, Selected Equipment -->
+  <div class="left-side">
+    <mat-card>
+      <mat-card-content>
+        <p><b>Equipment:</b></p>
+        <table mat-table [dataSource]="filteredEquipment">
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>Select</th>
+            <td mat-cell *matCellDef="let equipment">
+              <input type="checkbox" [checked]="getIsSelected(equipment)" (change)="toggleEquipmentSelection(equipment)">
+            </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let equipment">{{ equipment.name }}</td>
+          </ng-container>
+        
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let equipment">{{ equipment.type }}</td>
+          </ng-container>
+        
+          <ng-container matColumnDef="companies">
+            <th mat-header-cell *matHeaderCellDef>Companies</th>
+            <td mat-cell *matCellDef="let equipment">{{ equipment.companies.join(', ') }}</td>
+          </ng-container>
+        
+          <!-- Table Rows -->
+          <tr mat-header-row *matHeaderRowDef="['select', 'name', 'type', 'companies']"></tr>
+          <tr mat-row *matRowDef="let equipment; columns: ['select', 'name', 'type', 'companies']"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+
+    <br>
+
+    <mat-card>
+      <mat-card-content>
+        <h3>Selected Equipment</h3>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+          <li *ngFor="let equipment of filteredEquipment">
+            <ng-container *ngIf="getIsSelected(equipment)">
+              {{ equipment.name }}
+            </ng-container>
+          </li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
   </div>
-  <table >
-    <thead>
-      <tr>
-        <th>Select</th>
-        <th>Appointment ID</th>
-        <!-- Add more table headers for other properties as needed -->
-      </tr>
-      <tbody>
-        <tr *ngFor="let appointment of appointments" >
-          <td>
-            <input type="radio" [checked]="selectedAppointment === appointment" (click)="selectAppointment(appointment)">
-          </td>
-          <td>{{ appointment.pickUpDate }}</td>
-          <!-- Add more table cells for other properties as needed -->
-        </tr>
-      </tbody>
-    </table>
-    
-    <div>
-      <h3>Selected Appointment</h3>
-      <p *ngIf="selectedAppointment">Appointment ID: {{ selectedAppointment.pickUpDate }}</p>
+
+  <!-- Right side: Appointments and Selected Appointment -->
+  <div class="right-side">
+    <mat-card>
+      <mat-card-content>
+        <table mat-table [dataSource]="appointments">
+          <!-- Radio Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>Select</th>
+            <td mat-cell *matCellDef="let row">
+              <input type="radio"  [(ngModel)]="selectedAppointment" [value]="row">
+            </td>
+          </ng-container>
+
+          <!-- Other Columns -->
+          <ng-container matColumnDef="pickUpDate">
+            <th mat-header-cell *matHeaderCellDef>Appointment ID</th>
+            <td mat-cell *matCellDef="let row">{{ row.pickUpDate }}</td>
+          </ng-container>
+
+          <!-- Table Rows -->
+          <tr mat-header-row *matHeaderRowDef="['select', 'pickUpDate']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['select', 'pickUpDate']"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-content>
+        <h3>Selected Appointment</h3>
+        <p *ngIf="selectedAppointment">Appointment ID: {{ selectedAppointment.pickUpDate }}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <div style="margin-top: 20px;">
+      <button mat-button color="primary">Reserve</button>
     </div>
-  
+  </div>
+</div>

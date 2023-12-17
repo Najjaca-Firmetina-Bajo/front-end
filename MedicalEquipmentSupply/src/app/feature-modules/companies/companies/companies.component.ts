@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../companies.service';
-import { MatCardModule } from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-companies',
@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 export class CompaniesComponent implements OnInit {
   companies: any[] = [];
 
-  constructor(private companyService: CompaniesService) {}
+  constructor(private companyService: CompaniesService,private router: Router) {}
 
   ngOnInit(): void {
     this.loadCompanies();
@@ -20,5 +20,9 @@ export class CompaniesComponent implements OnInit {
     this.companyService.getCompanies().subscribe((data) => {
       this.companies = data;
     });
+  }
+
+  navigateToCompanyInfo(companyId: number): void {
+    this.router.navigate(['/company-info', companyId]);
   }
 }

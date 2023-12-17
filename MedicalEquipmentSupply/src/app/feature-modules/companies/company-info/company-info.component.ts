@@ -68,6 +68,8 @@ export class CompanyInfoComponent implements OnInit {
     return this.selectedEquipmentMap.has(equipment.id);
   }
 
+  
+
   selectedAppointment: Appointment | null = null;
 
   selectAppointment(appointment: Appointment): void {
