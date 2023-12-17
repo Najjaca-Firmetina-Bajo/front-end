@@ -13,6 +13,6 @@ export interface SystemAdministrator {
     password: string;
     phoneNumber: string;
     surname: string;
-    power: number;
+    passwordChanged: boolean;
   }
   
