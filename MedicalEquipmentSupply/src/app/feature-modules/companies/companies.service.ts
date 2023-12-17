@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/env/enviroment';
 import { Equipment } from '../administration/model/equipment.model';
+import { WorkingDay } from '../administration/model/wrking-day.model';
+import { WorkingCalendar } from '../administration/model/working-calendar.model';
+import { Appointment } from '../administration/model/appointment.model';
+import { Company } from '../administration/model/comapny.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +22,29 @@ export class CompaniesService {
 
   getAllEquipment(): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(environment.apiHost + 'equipment/getAll')
+  }
+
+  getAllCompanies(): Observable<Company[]> {
+    return this.http.get<Company[]>(environment.apiHost + 'companies/getAll')
+  }
+
+  getWorkingCalendar(companyId: number): Observable<WorkingCalendar> {
+    return this.http.get<WorkingCalendar>(environment.apiHost + 'workingCalendars/findBy/' + companyId)
+  }
+
+  getWorkingDays(calendarId: number): Observable<WorkingDay[]> {
+    return this.http.get<WorkingDay[]>(environment.apiHost + 'workingDays/findBy/' + calendarId)
+  }
+
+  getAppointments(dayId: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/findBy/' + dayId)
+  }
+
+  getAllAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-all')
+  }
+
+  getAllAppointmentsByCalendar(id:number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-all-calendar/'+id)
   }
 }

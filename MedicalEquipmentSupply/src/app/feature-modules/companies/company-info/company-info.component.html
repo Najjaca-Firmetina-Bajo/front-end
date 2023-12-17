@@ -41,4 +41,26 @@
       <!-- Display other selected properties as needed -->
     </ul>
   </div>
+  <table >
+    <thead>
+      <tr>
+        <th>Select</th>
+        <th>Appointment ID</th>
+        <!-- Add more table headers for other properties as needed -->
+      </tr>
+      <tbody>
+        <tr *ngFor="let appointment of appointments" >
+          <td>
+            <input type="radio" [checked]="selectedAppointment === appointment" (click)="selectAppointment(appointment)">
+          </td>
+          <td>{{ appointment.pickUpDate }}</td>
+          <!-- Add more table cells for other properties as needed -->
+        </tr>
+      </tbody>
+    </table>
+    
+    <div>
+      <h3>Selected Appointment</h3>
+      <p *ngIf="selectedAppointment">Appointment ID: {{ selectedAppointment.pickUpDate }}</p>
+    </div>
   
