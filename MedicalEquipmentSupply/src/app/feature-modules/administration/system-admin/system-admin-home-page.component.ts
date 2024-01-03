@@ -214,7 +214,7 @@ export class SystemAdminHomePageComponent implements OnInit{
         password: this.systemAdminRegistrationForm.value.password,
         phoneNumber: this.systemAdminRegistrationForm.value.phone_number,
         surname: this.systemAdminRegistrationForm.value.surname,
-        power:0
+        passwordChanged: false
       };
 
       this.administrationService.registerSystemAdmin(newAdmin).subscribe({

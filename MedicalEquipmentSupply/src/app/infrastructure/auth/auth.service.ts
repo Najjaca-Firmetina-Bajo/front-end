@@ -72,5 +72,15 @@ export class AuthService {
     return this.http.get<number>(url);
   }
 
+  isSystemAdministrator(username: string): Observable<boolean> {
+    return this.http.get<boolean>(environment.apiHost + 'users/is-system-administrator/' + username);
+  }
 
+  updatePassword(password: string, username: string): Observable<Registration> {
+    return this.http.put<Registration>(environment.apiHost + 'users/update-password/' + password + '/' + username, null);
+  }
+
+  updatePasswordChanged(adminId: number): void {
+    this.http.put(environment.apiHost + 'systemAdministrators/update-password/' + adminId, null);
+  }
 }
