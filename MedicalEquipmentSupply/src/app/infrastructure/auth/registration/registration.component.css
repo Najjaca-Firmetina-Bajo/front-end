@@ -10,12 +10,47 @@ div {
     flex-direction: column;
 }
 
-.button {
-    width: auto;
-    font-size: 100%; 
-    color:#fff;
-    background-color: #3B846B;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    border-radius: 100px;
-    cursor: pointer;
+.pageage {
+    margin: 400px;
 }
+
+.submit-button {
+    background-color: #E53935 !important; /* Red background color */
+    color: white;
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 20px;
+  }
+
+#fullscreen-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: url('https://img.freepik.com/premium-vector/banner-business-presentation-with-red-geometric-shapes_379823-2234.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1704240000&semt=ais') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.material-box {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    text-align: center;
+    font-size: 20px;
+    background-color: #fff;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Add space below the material box */
+}
+
+.form-header {
+    color: black;
+    font-size: 24px;
+  }

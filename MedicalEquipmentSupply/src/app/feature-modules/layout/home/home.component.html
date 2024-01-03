@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,6 +8,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            font-family: 'Roboto', sans-serif; /* Material Design font */
         }
 
         #fullscreen-photo {
@@ -16,26 +19,53 @@
             top: 0;
             left: 0;
             z-index: -1;
+            background: url('https://img.freepik.com/premium-vector/banner-business-presentation-with-red-geometric-shapes_379823-2234.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1704240000&semt=ais') no-repeat center center fixed;
+            background-size: cover;
         }
 
-
-        .content {
+        .material-box {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: black;
             text-align: center;
-            font-size: 24px;
+            font-size: 20px; /* Reduced font size */
+            background-color: #fff; /* Material Design white background color */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Material Design box shadow */
+            margin: 10px;
+        }
 
+        .material-box a {
+            text-decoration: none;
+            color: #fff; /* White text color */
+            font-weight: bold;
+            display: block;
+            padding: 10px;
+            margin-top: 15px;
+            background-color: #e53935; /* Red background color */
+            border: 2px solid #e53935; /* Red border color */
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .material-box a:hover {
+            background-color: #c62828; /* Darker red hover color */
+            border-color: #c62828; /* Darker red hover border color */
         }
     </style>
 </head>
 <body>
 
-    <div class="content">
-        <p> <b>NFB</b> </p>
-        <p>Don't have an account yet?<a href="/register">Sign Up</a></p>
+    <div id="fullscreen-photo"></div>
+
+    <div class="material-box">
+        <p><b>NFB</b></p>
+        <p>Don't have an account yet? <a href="/register">Sign Up</a></p>
         <p><a href="/login">Login</a></p>
     </div>
+
 </body>
+</html>

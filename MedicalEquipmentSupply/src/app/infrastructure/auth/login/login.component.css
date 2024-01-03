@@ -1,60 +1,85 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+#fullscreen-photo {
+    width: 100%;
     height: 100%;
+    object-fit: cover;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background: url('https://img.freepik.com/premium-vector/banner-business-presentation-with-red-geometric-shapes_379823-2234.jpg?size=626&ext=jpg&ga=GA1.1.1546980028.1704240000&semt=ais') no-repeat center center fixed;
+    background-size: cover;
 }
 
-.submit-button {
-    background-color: #E67840 !important;
+
+
+/* login.component.css */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-header {
+    color: black;
+    font-size: 24px;
+  }
+  
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .submit-button {
+    background-color: #E53935 !important; /* Red background color */
     color: white;
-    width: 50%;
-    align-self: center;
+    width: 100%;
     border-radius: 15px;
-    margin-top: 10%;
-}
-
-div {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
+    margin-top: 20px;
+  }
+  
+  .signup-link {
+    color: aqua;
+    width: 80px;
+    height: 20px;
+    margin-left: 190px;
+    vertical-align: middle;
+  }
+  
+  .signup-link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .material-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    text-align: center;
+    font-size: 20px; /* Reduced font size */
+    background-color: #fff; /* Material Design white background color */
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Material Design box shadow */
+    margin: 10px;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(38, 61, 54, 0.65);
-    border-radius: 15px;
-    max-height: 500px;
+.material-box a {
+    text-decoration: none;
+    color: #fff; /* White text color */
+    font-weight: bold;
+    display: block;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #e53935; /* Red background color */
+    border: 2px solid #e53935; /* Red border color */
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.form-header {
-    font-size: 52px;
-    padding: 10%;
-    margin-left: 21%;
-}
-
-p {
-    margin-top: 10px;
-    margin-left: 16%;
-}
-
-p a {
-    margin-left: 5px;
-}
-
-@media screen and (max-width: 768px) {
-    form {
-        height: auto;
-    }
-
-    .submit-button {
-        width: 100%;
-    }
+.material-box a:hover {
+    background-color: #c62828; /* Darker red hover color */
+    border-color: #c62828; /* Darker red hover border color */
 }
