@@ -13,7 +13,7 @@ export interface RegistredUser {
     password: string;
     phoneNumber: string;
     surname: string;
-    penalPoints: number;
+    penal: number;
     appointmentsIds: number[]
   }
   

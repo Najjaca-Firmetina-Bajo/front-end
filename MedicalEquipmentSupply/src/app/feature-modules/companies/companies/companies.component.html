@@ -1,3 +1,11 @@
+<mat-toolbar color="primary">
+  <span class="spacer"></span>
+  <button mat-icon-button color="accent" (click)="navigateToProfileInfo()">
+    <mat-icon style="font-size: 24px;">account_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
+
 <div>
   <h2>Company List</h2>
   <div *ngFor="let company of companies" class="company-card" (click)="navigateToCompanyInfo(company.id)">
