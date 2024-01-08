@@ -58,5 +58,15 @@ export class CompaniesService {
     return this.http.get<number>(url);
   }
 
-  
+  searchCompanies(nameOrPlace: string): Observable<Company[]> {
+    return this.http.get<Company[]>(environment.apiHost + 'companies/search/' + nameOrPlace)
+  }
+
+  filterCompaniesByRating(params: string): Observable<Company[]> {
+    return this.http.get<Company[]>(environment.apiHost + 'companies/filter/' + params)
+  }
+
+  filterCompaniesByEquipmentNum(params: string): Observable<Company[]> {
+    return this.http.get<Company[]>(environment.apiHost + 'companies/filter-eq/' + params)
+  }
 }

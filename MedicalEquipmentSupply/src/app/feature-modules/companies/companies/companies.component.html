@@ -5,8 +5,25 @@
   </button>
 </mat-toolbar>
 
-
 <div>
+  <div class="search-form">
+    <mat-form-field>
+      <input matInput placeholder="Search" [(ngModel)]="search">
+    </mat-form-field>
+    <button mat-icon-button color="primary" (click)="searchCompanies()">
+      <mat-icon style="font-size: 24px;">search</mat-icon>
+    </button>
+    <mat-form-field *ngIf="filter">
+      <input matInput placeholder="Filter for rating" min="-1" [(ngModel)]="filterRating">
+    </mat-form-field>
+    <button *ngIf="filter" class="button" color="primary" (click)="filterCompaniesByRating()" mat-raised-button>Filter by rating</button>
+    <mat-form-field *ngIf="filter">
+      <input matInput placeholder="Filter for equipment num" min="-1" [(ngModel)]="filterEq">
+    </mat-form-field>
+    <button *ngIf="filter" class="button" color="primary" (click)="filterCompaniesByEquipmentNum()" mat-raised-button>Filter by equipment num</button>
+    <button class="button" color="primary" (click)="loadCompanies()" mat-raised-button>Reset</button>
+  </div>
+
   <h2>Company List</h2>
   <div *ngFor="let company of companies" class="company-card" (click)="navigateToCompanyInfo(company.id)">
     <mat-card>

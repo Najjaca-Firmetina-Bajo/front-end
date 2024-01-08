@@ -12,6 +12,11 @@ import { Observable } from 'rxjs';
 export class CompaniesComponent implements OnInit {
   companies: any[] = [];
   userId: number;
+  search: string = '';
+  filterRating: string = '';
+  filterEq: string = '';
+  filter: boolean = false;
+  parameters: string = ''
 
   constructor(private companyService: CompaniesService,private router: Router) {
     this.userId = Number(-1);
@@ -34,9 +39,10 @@ export class CompaniesComponent implements OnInit {
     this.loadCompanies();
   }
 
-  private loadCompanies(): void {
+  loadCompanies(): void {
     this.companyService.getCompanies().subscribe((data) => {
       this.companies = data;
+      this.filter = false;
     });
   }
 
@@ -46,5 +52,26 @@ export class CompaniesComponent implements OnInit {
 
   navigateToProfileInfo(): void {
     this.router.navigate(['/profile-info', this.userId]);
+  }
+
+  searchCompanies(): void {
+    this.companyService.searchCompanies(this.search).subscribe((data) => {
+      this.companies = data;
+      this.filter = true;
+    })
+  }
+
+  filterCompaniesByRating(): void {
+    this.parameters = this.search + ',' + this.filterRating
+    this.companyService.filterCompaniesByRating(this.parameters).subscribe((data) => {
+      this.companies = data;
+    })
+  }
+
+  filterCompaniesByEquipmentNum(): void {
+    this.parameters = this.search + ',' + this.filterEq
+    this.companyService.filterCompaniesByEquipmentNum(this.parameters).subscribe((data) => {
+      this.companies = data;
+    })
   }
 }
