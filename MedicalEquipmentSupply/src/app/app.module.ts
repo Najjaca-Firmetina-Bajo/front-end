@@ -31,6 +31,7 @@ import { CompaniesComponent } from './feature-modules/companies/companies/compan
 import { EquipmentReviewComponent } from './feature-modules/administration/equipment-review/equipment-review/equipment-review.component';
 import { CompanyAdminProfileComponent } from './feature-modules/administration/company-admin/company-admin-profile/company-admin-profile.component';
 import { CompanyInfoComponent } from './feature-modules/companies/company-info/company-info.component';
+import { NavbarComponent } from './feature-modules/layout/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { CompanyInfoComponent } from './feature-modules/companies/company-info/c
     EquipmentReviewComponent,
     CompanyAdminProfileComponent,
     CompanyInfoComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
