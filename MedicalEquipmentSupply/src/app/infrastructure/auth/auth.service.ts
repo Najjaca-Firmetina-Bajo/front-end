@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/env/enviroment';
 import { Registration } from './model/registration.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { User } from './model/user.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  user$ = new BehaviorSubject<User>({email: "", id: 0, role: "" });
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -50,7 +53,14 @@ export class AuthService {
         tap((response) => {
           if (response.accessToken) {
             this.setToken(response.accessToken);
-            console.log(response.accessToken);
+            this.getAuthenticatedUserDetails().subscribe(
+              (user) => {
+                this.user$.next(user);
+              },
+              (error) => {
+                console.error('Error getting authenticated user details:', error);
+              }
+            );
           }
         }),
         catchError((error) => {
@@ -63,7 +73,11 @@ export class AuthService {
   }
 
   logout() {
-    this.removeToken();
+    this.router.navigate(['/home']).then(_ => {
+      this.removeToken();
+      this.user$.next({email: "", id: 0, role: "" });
+      }
+    );
   }
 
   getAuthenticatedUserId(): Observable<number> {
@@ -82,5 +96,9 @@ export class AuthService {
 
   updatePasswordChanged(adminId: number): void {
     this.http.put(environment.apiHost + 'systemAdministrators/update-password/' + adminId, null);
+  }
+
+  getAuthenticatedUserDetails(): Observable<User> {
+    return this.http.get<User>(environment.wwwRoot + 'auth/who-am-i-detailed');
   }
 }

@@ -1,5 +1,5 @@
 .frame {
-    height: 70px;
+    height: 80px;
     background: #eadfdf;
     margin-bottom: 40px;
   }
@@ -15,8 +15,12 @@
   }
   
   .frame img.logo {
-    max-height: 12vh;
-    margin-top: -10px;
+    max-height: 17vh;
+    margin-top: -5px;
+  }
+
+  .logo{
+    font-size: 25px;
   }
   
   #buttons {

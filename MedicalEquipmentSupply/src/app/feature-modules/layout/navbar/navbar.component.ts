@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/model/user.model';
 
 @Component({
   selector: 'xp-navbar',
@@ -9,10 +10,15 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 export class NavbarComponent implements OnInit {
 
+  user: User | undefined;
+
   constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {
 
+  ngOnInit(): void {
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+    });
   }
 
   onLogout(): void {

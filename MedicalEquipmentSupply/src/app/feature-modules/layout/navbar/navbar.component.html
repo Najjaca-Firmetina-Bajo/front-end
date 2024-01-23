@@ -1,10 +1,11 @@
 <div class="frame">
     <div class="flex-container">
-        <img class="logo" src="assets/explorerLogo.png">
+        <p class="logo" >NFB Medical Supply</p>
         <div id="buttons">
-
-            <button class="button"   mat-raised-button [routerLink]="['login']">Login</button>
-            <button class="button"   mat-raised-button (click)="onLogout()">Logout</button>
+            <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['my-profile']">My profile</button> 
+            
+            <button class="button" *ngIf="user && user.email === ''"  mat-raised-button [routerLink]="['login']">Login</button>
+            <button class="button" *ngIf="user && user.email !== ''"  mat-raised-button (click)="onLogout()">Logout</button>
         </div>
     </div>
 </div>
