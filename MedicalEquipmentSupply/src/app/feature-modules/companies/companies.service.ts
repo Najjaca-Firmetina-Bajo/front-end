@@ -7,6 +7,7 @@ import { WorkingDay } from '../administration/model/wrking-day.model';
 import { WorkingCalendar } from '../administration/model/working-calendar.model';
 import { Appointment } from '../administration/model/appointment.model';
 import { Company } from '../administration/model/comapny.model';
+import { QRCodeDto } from '../administration/model/qrcode.model';
 
 @Injectable({
   providedIn: 'root',
@@ -48,8 +49,8 @@ export class CompaniesService {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-all-from-calendar/'+id)
   }
 
-  reserveAppointment(appointment:Appointment): Observable<Appointment> {
-    return this.http.post<Appointment>(environment.apiHost + 'appointments/reserve',appointment)
+  reserveAppointment(qrCodeDto: QRCodeDto): Observable<QRCodeDto> {
+    return this.http.post<QRCodeDto>(environment.apiHost + 'appointments/reserve/', qrCodeDto)
   }
 
   getAuthenticatedUserId(): Observable<number> {

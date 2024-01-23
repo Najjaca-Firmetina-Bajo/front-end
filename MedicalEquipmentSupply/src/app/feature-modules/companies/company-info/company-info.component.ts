@@ -6,6 +6,7 @@ import { WorkingDay } from '../../administration/model/wrking-day.model';
 import { WorkingCalendar } from '../../administration/model/working-calendar.model';
 import { Appointment, AppointmentType } from '../../administration/model/appointment.model';
 import { CompaniesService } from '../companies.service';
+import { QRCodeDto } from '../../administration/model/qrcode.model';
 
 @Component({
   selector: 'app-company-info',
@@ -58,14 +59,19 @@ export class CompanyInfoComponent implements OnInit {
     }
   }
 
-  public reserveAppointment(): void{
-    if(this.selectedAppointment ){
+  reserveAppointment(): void {
+    if (this.selectedAppointment) {
       this.getAuthenticatedUserId();
-      this.selectedAppointment.registredUserId = this.userId;
-      const selectedEquipmentIds = Array.from(this.selectedEquipmentMap.keys());
-      this.selectedAppointment.reservedEquipmentIds = selectedEquipmentIds;
-      console.log(this.selectedAppointment);
-      this.companyService.reserveAppointment(this.selectedAppointment).subscribe((data) => {
+      const qrCodeDto: QRCodeDto = {
+        id: 0,
+        code: 'string', 
+        status: 'NEW', 
+        registeredUserId: this.userId,
+        appointmentId: this.selectedAppointment.id,
+        reservedEquipmentIds: Array.from(this.selectedEquipmentMap.keys())
+      };
+
+      this.companyService.reserveAppointment(qrCodeDto).subscribe(() => {
         this.router.navigate(['/companies']);
       });
     }
