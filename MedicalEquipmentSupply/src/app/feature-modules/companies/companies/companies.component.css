@@ -8,3 +8,12 @@
     border-radius: 50%;
     background-color: gray; /* Gray background color */
   }
+
+  .button {
+    background-color: #E53935 !important; /* Red background color */
+    color: white !important;
+    width: 10%;
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-left: 1350px;
+  }

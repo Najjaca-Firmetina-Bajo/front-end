@@ -25,4 +25,9 @@ export class CompaniesComponent implements OnInit {
   navigateToCompanyInfo(companyId: number): void {
     this.router.navigate(['/company-info', companyId]);
   }
+
+  searchEquipment(): void {
+    this.router.navigate(['/equipment-review']);
+  }
+
 }

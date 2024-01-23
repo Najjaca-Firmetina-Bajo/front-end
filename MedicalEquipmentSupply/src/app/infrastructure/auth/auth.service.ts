@@ -7,6 +7,7 @@ import { Registration } from './model/registration.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { User } from './model/user.model';
 
 
 @Injectable({
@@ -74,6 +75,10 @@ export class AuthService {
 
   isSystemAdministrator(username: string): Observable<boolean> {
     return this.http.get<boolean>(environment.apiHost + 'users/is-system-administrator/' + username);
+  }
+
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(environment.apiHost + 'users/get-all');
   }
 
   updatePassword(password: string, username: string): Observable<Registration> {
