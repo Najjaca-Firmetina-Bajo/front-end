@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CompaniesService } from '../companies.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { AdministrationService } from '../../administration/administration.service';
+import { CompanyAdministrator } from '../../administration/model/company-administrator.model';
 
 @Component({
   selector: 'app-companies',
@@ -8,9 +11,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./companies.component.css'],
 })
 export class CompaniesComponent implements OnInit {
+  
   companies: any[] = [];
+  isCompanyAdmin: boolean = false
+  companyAdmins: CompanyAdministrator[] = []
 
-  constructor(private companyService: CompaniesService,private router: Router) {}
+  constructor(private companyService: CompaniesService,
+              private authService: AuthService,
+              private administrationService: AdministrationService,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.loadCompanies();
@@ -19,7 +28,36 @@ export class CompaniesComponent implements OnInit {
   private loadCompanies(): void {
     this.companyService.getCompanies().subscribe((data) => {
       this.companies = data;
+      this.getAllCompanyAdministrators();
     });
+  }
+
+  getAllCompanyAdministrators(): void {
+    this.administrationService.getAllCompanyAdministrators().subscribe({
+      next: (result: CompanyAdministrator[]) => {
+          this.companyAdmins = result;
+          this.getLoggedUser();
+      },
+      error: () => { }
+    });
+  }
+
+  getLoggedUser(): void {
+    this.authService.getAuthenticatedUserId().subscribe({
+      next: (result: number) => {
+          this.investigate(result);
+      },
+      error: () => { }
+    });
+  }
+
+
+  investigate(userId: number): void {
+    this.companyAdmins.forEach(ca => {
+      if(ca.id === userId) {
+        this.isCompanyAdmin = true;
+      }
+    })
   }
 
   navigateToCompanyInfo(companyId: number): void {
@@ -28,6 +66,10 @@ export class CompaniesComponent implements OnInit {
 
   searchEquipment(): void {
     this.router.navigate(['/equipment-review']);
+  }
+
+  showCompanyAdminProfile(): void {
+    this.router.navigate(['/company-admin-profile']);
   }
 
 }

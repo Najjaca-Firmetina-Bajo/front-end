@@ -11,3 +11,9 @@
     margin-top: 20px; /* Dodaj po potrebi za odgovarajući razmak između formi */
   }
   
+  .fc {
+    width: 1520px;
+    height: 600px;
+    font-size: 12px;
+    align-self: center;
+  }
