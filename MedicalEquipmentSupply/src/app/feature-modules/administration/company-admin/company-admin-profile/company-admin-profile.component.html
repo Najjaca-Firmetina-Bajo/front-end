@@ -1,15 +1,25 @@
 <div class="container">
-<h1>Company admin profile</h1>
-<label for="calendarRange">Select display range:</label>
-<select id="calendarRange" name="calendarRange" [(ngModel)]="selectedRange">
-  <option value="week">Week</option>
-  <option value="month">Month</option>
-  <option value="year">Year</option>
-</select>
-<div>
-    <button class="button" color="primary" (click)="nextOptions()" mat-raised-button>Select</button>
-</div>
-<div *ngIf="weekSelected">
+    <div id="fullscreen-photo"></div>
+    <h1>{{ caName }}</h1>
+    <div>
+        <button class="back-button" (click)="backToPerviousPage()" mat-raised-button>Back</button>
+    </div>
+    <div class="form-row">
+        <div>
+            <label for="calendarRange">Select display range:</label>
+        </div>
+        <div>
+            <select class="combobox" id="calendarRange" name="calendarRange" [(ngModel)]="selectedRange">
+                <option value="week">Week</option>
+                <option value="month">Month</option>
+                <option value="year">Year</option>
+            </select>
+        </div>
+        <div>
+            <button class="button" color="primary" (click)="changeCalendarPerspective()" mat-raised-button>Select</button>
+        </div>
+    </div>
+<!--div *ngIf="weekSelected">
     <label for="selectWeek">Select the date that represents the first of the seven days you want to display:</label>
     <div>
     <label for="selectWeekDay">Select day:</label>
@@ -148,7 +158,8 @@
         </tbody>
     </table>
 </div>
-</div>
-<div>
-    <full-calendar [events]="calendarEvents" [options]="calendarOptions"></full-calendar>
+</div-->
+    <div class="calendar-container">
+        <full-calendar [events]="calendarEvents" [options]="calendarOptions"></full-calendar>
+    </div>
 </div>

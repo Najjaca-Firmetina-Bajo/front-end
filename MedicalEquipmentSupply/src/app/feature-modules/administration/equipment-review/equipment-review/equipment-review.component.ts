@@ -5,6 +5,7 @@ import { Company } from '../../model/comapny.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/model/user.model';
 import { CompanyAdministrator } from '../../model/company-administrator.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-equipment-review',
@@ -27,6 +28,7 @@ export class EquipmentReviewComponent implements OnInit{
   filter: boolean = false
 
   constructor (private administrationService: AdministrationService,
+               private router: Router,
                private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -136,6 +138,10 @@ export class EquipmentReviewComponent implements OnInit{
     if(flag) {
       this.completeBindingList();
     }
+  }
+
+  backToPerviousPage(): void {
+    this.router.navigate(['/companies']); 
   }
 
   completeBindingList(): void {

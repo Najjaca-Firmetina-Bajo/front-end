@@ -2,6 +2,9 @@
     <div id="fullscreen-photo"></div>
     <h1>Equipment review</h1>
     <div>
+        <button class="back-button" (click)="backToPerviousPage()" mat-raised-button>Back</button>
+    </div>
+    <div>
         <label>Name: </label>
         <input class="input-field" type="text" [(ngModel)]="search">
         <button class="button" color="primary" (click)="searchEquipment()" mat-raised-button>Search</button>

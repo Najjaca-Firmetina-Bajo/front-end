@@ -19,6 +19,15 @@
     margin-left: 5px;
   }
 
+  .back-button {
+    background-color: white !important; 
+    color: #E53935 !important; 
+    width: 10%;
+    border-radius: 15px;
+    margin-right: 1350px;
+    margin-top: -100px;
+  }
+  
   .input-field {
     width: 12%;
     text-align: center;
