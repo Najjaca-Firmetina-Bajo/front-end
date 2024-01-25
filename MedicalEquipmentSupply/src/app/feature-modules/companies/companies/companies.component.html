@@ -1,4 +1,6 @@
 <div id="company-list-div">
+  <button *ngIf="isCompanyAdmin" class="button" (click)="showCompanyAdminProfile()" mat-raised-button>Your CA profile</button>
+  <button class="button" (click)="searchEquipment()" mat-raised-button>Search equipment</button>
   <h2>Company List</h2>
   <div *ngFor="let company of companies" class="company-card" (click)="navigateToCompanyInfo(company.id)">
     <mat-card>

@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { WorkingCalendar } from '../../model/working-calendar.model';
 import { WorkingDay } from '../../model/wrking-day.model';
 import { Appointment } from '../../model/appointment.model';
 import { AdministrationService } from '../../administration.service';
 import { Equipment } from '../../model/equipment.model';
 import { RegistredUser } from '../../model/registred-user.model';
+import { CalendarOptions, EventInput } from '@fullcalendar/core'; // useful for typechecking
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { CompanyAdministrator } from '../../model/company-administrator.model';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -13,6 +19,25 @@ import { RegistredUser } from '../../model/registred-user.model';
 })
 export class CompanyAdminProfileComponent implements OnInit {
   
+  calendarEvents: EventInput[] = [];
+  calendarFlag: boolean = false
+
+  calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin],
+    initialView: 'dayGridMonth', //dayGridMonth, dayGridWeek, dayGridYear
+    events: this.calendarEvents,
+    eventTimeFormat: { // Objekat koji definiše format vremena
+      hour: 'numeric', // Prikaz sata
+      minute: '2-digit', // Prikaz minuta
+      meridiem: false, // Da li prikazivati AM/PM
+      hour12: false
+    },
+    eventColor: '#E53935',
+    eventDisplay: 'block'
+  };
+
+  @ViewChild(FullCalendarComponent) fullCalendar!: FullCalendarComponent;
+
   workingCalendar: WorkingCalendar = {
     id: -1,
     companyId: -1,
@@ -26,7 +51,7 @@ export class CompanyAdminProfileComponent implements OnInit {
   registeredUsers: RegistredUser[] = []
   
   daysTable: boolean = false
-  selectedRange: string = 'year'
+  selectedRange: string = 'month'
   monthSelected: boolean = false
   weekSelected: boolean = false
   yearSelected: boolean = false
@@ -41,16 +66,107 @@ export class CompanyAdminProfileComponent implements OnInit {
   sevenDays: string = ''
   emptyDaysTable: boolean = false
 
-  constructor(private administrationService: AdministrationService) {}
+  loggedCA: CompanyAdministrator = {
+    activated: false,
+    role: '',
+    companyId: 0,
+    id: 0,
+    dtype: '',
+    city: '',
+    companyInfo: '',
+    country: '',
+    email: '',
+    name: '',
+    occupation: '',
+    password: '',
+    phoneNumber: '',
+    surname: '',
+    appointmentsIds: []
+  }
+
+  caName: String = ""
+
+  companyAdmins: CompanyAdministrator[] = []
+  
+  constructor(private administrationService: AdministrationService,
+              private router: Router,
+              private authService: AuthService) {}
 
   ngOnInit(): void {
     const currentDate = new Date();
     this.currentYear = currentDate.getFullYear();
-    this.getWorkingCalednar()
+    //this.getWorkingCalednar()
+    this.getAllCompanyAdministrators()
+  }
+
+  backToPerviousPage(): void {
+    this.router.navigate(['/companies']); 
+  }
+
+  getAllCompanyAdministrators(): void {
+    this.administrationService.getAllCompanyAdministrators().subscribe({
+      next: (result: CompanyAdministrator[]) => {
+          this.companyAdmins = result;
+          this.getLoggedUser();
+      },
+      error: () => { }
+    });
+  }
+
+  getLoggedUser(): void {
+    this.authService.getAuthenticatedUserId().subscribe({
+      next: (result: number) => {
+          this.investigate(result);
+      },
+      error: () => { }
+    });
+  }
+
+  changeCalendarPerspective(): void {
+    if(this.selectedRange === 'week') {
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        initialView: 'dayGridWeek'
+      }
+      
+      if(this.fullCalendar) {
+        this.fullCalendar.getApi().changeView('dayGridWeek');
+      }
+    }
+    else if(this.selectedRange === 'month') {
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        initialView: 'dayGridMonth'
+      }
+
+      if(this.fullCalendar) {
+        this.fullCalendar.getApi().changeView('dayGridMonth');
+      }
+    }
+    else {
+      this.calendarOptions = {
+        ...this.calendarOptions,
+        initialView: 'dayGridYear'
+      }
+
+      if(this.fullCalendar) {
+        this.fullCalendar.getApi().changeView('dayGridYear');
+      }
+    }
+  }
+
+  investigate(userId: number): void {
+    this.companyAdmins.forEach(ca => {
+      if(ca.id === userId) {
+        this.loggedCA = ca;
+        this.caName = "CA profile of " + ca.name + " " + ca.surname
+        this.getWorkingCalednar()
+      }
+    })
   }
 
   getWorkingCalednar(): void {
-    this.administrationService.getWorkingCalendar(3).subscribe({
+    this.administrationService.getWorkingCalendar(this.loggedCA.companyId).subscribe({
       next: (result: WorkingCalendar) => {
           this.workingCalendar = result;
           this.getWorkingDays()
@@ -109,6 +225,13 @@ export class CompanyAdminProfileComponent implements OnInit {
           duration: -1,
           user: ''
         }
+
+        let newEvent: EventInput = {
+          title: '',
+          start: new Date(), 
+          end: new Date(),  
+        };
+
         this.allAppointments.forEach(a => {
           this.registeredUsers.forEach(ru=> {
             if(a.registredUserId === ru.id) {
@@ -117,11 +240,16 @@ export class CompanyAdminProfileComponent implements OnInit {
                   a.reservedEquipmentIds.forEach(eid => {
                     this.allEquipment.forEach(e => {
                       if(eid === e.id) {
-                        item.day = wd.date
+                        item.day = wd.date //a.pickUpDate
                         item.duration = a.duration
                         item.pickUpDate = a.pickUpDate
                         item.user = ru.name + " " + ru.surname 
                         item.equipmentList.push(e.name)
+
+                        newEvent.title = a.duration + "h - " + ru.name + " " + ru.surname 
+                        newEvent.start = new Date(a.pickUpDate)
+                        newEvent.end = new Date(a.pickUpDate)
+                        newEvent.end.setHours(newEvent.end.getHours() + a.duration, newEvent.end.getMinutes())
                       }
                     })
                   })
@@ -132,10 +260,25 @@ export class CompanyAdminProfileComponent implements OnInit {
         })
         if(item.equipmentList.length !== 0) {
           this.daysDetailsList.push(item)
+          // Dodaj događaj u niz
+          this.calendarEvents.push(newEvent);
+
+          this.calendarOptions = {
+            ...this.calendarOptions,
+            events: this.calendarEvents
+          }
+
+          if(this.fullCalendar) {
+            this.fullCalendar.getApi().addEvent(newEvent)
+          }
+          //.log('calendarEvents after adding:', this.calendarEvents);
+          //console.log(this.calendarEvents)
+          //this.cdr.detectChanges()
         }
       })
     })
     this.copyList = this.daysDetailsList
+    //console.log(this.calendarEvents)
   }
 
   showDaysTable(): void {

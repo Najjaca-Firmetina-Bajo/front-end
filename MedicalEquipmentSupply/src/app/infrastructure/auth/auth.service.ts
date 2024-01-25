@@ -120,6 +120,10 @@ export class AuthService {
     return this.http.get<boolean>(environment.apiHost + 'users/is-system-administrator/' + username);
   }
 
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(environment.apiHost + 'users/get-all');
+  }
+
   updatePassword(password: string, username: string): Observable<Registration> {
     return this.http.put<Registration>(environment.apiHost + 'users/update-password/' + password + '/' + username, null);
   }

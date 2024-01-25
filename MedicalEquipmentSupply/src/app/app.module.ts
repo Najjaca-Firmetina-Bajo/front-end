@@ -34,6 +34,7 @@ import { CompanyInfoComponent } from './feature-modules/companies/company-info/c
 import { NavbarComponent } from './feature-modules/layout/navbar/navbar.component';
 import { UnregisteredCompaniesComponent } from './feature-modules/companies/unregistered-companies/unregistered-companies.component';
 import { UnregisteredEqipmentComponent } from './feature-modules/companies/unregistered-eqipment/unregistered-eqipment.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { UnregisteredEqipmentComponent } from './feature-modules/companies/unreg
     MatCardModule,
     HttpClientModule,
     FormsModule,
+    FullCalendarModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
