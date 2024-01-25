@@ -10,6 +10,8 @@ import { WorkingDay } from './model/wrking-day.model';
 import { Appointment } from './model/appointment.model';
 import { RegistredUser } from './model/registred-user.model';
 import { SystemAdministrator } from './model/system-administrator.model';
+import { QRCodeDto } from './model/qrcode.model';
+import { QRCodeEquipment } from './model/qr-eq.model';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +78,14 @@ export class AdministrationService {
 
   getAllRegisteredUsers(): Observable<RegistredUser[]> {
     return this.http.get<RegistredUser[]>(environment.apiHost + 'registeredUsers/get-all')
+  }
+
+  getAllQRCodes(): Observable<QRCodeDto[]> {
+    return this.http.get<QRCodeDto[]>(environment.apiHost + 'qr-codes/get-all')
+  }
+
+  getAllQRCodeEquipments(): Observable<QRCodeEquipment[]> {
+    return this.http.get<QRCodeEquipment[]>(environment.apiHost + 'qreq/get-all')
   }
 
 }
