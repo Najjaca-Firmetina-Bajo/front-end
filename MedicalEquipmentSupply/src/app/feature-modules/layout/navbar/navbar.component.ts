@@ -17,15 +17,10 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.getUserFromLocalStorage()!;
-  
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        this.user = this.authService.getUserFromLocalStorage()!;
-      }
-    });
   }
 
   isUserLoggedIn(): boolean {
+    this.user = this.authService.getUserFromLocalStorage()!;
     return !!this.user; // Returns true if user is defined, false if undefined
   }
 
