@@ -1,6 +1,7 @@
 import { Component , OnInit } from '@angular/core';
 import { CompaniesService } from '../companies.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'app-unregistered-companies',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 export class UnregisteredCompaniesComponent implements OnInit {
   companies: any[] = [];
 
-  constructor(private companyService: CompaniesService,private router: Router) {}
+  constructor(private companyService: CompaniesService,private router: Router,private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loadCompanies();
@@ -23,6 +24,13 @@ export class UnregisteredCompaniesComponent implements OnInit {
   }
 
   navigateToCompanyInfo(companyId: number): void {
-    this.router.navigate(['/company-info', companyId]);
+    console.log(this.authService.isAuthenticated());
+    if(!this.authService.isAuthenticated())
+    {
+      this.router.navigate(['/company', companyId]);
+    }
+    else{
+      this.router.navigate(['/company-info', companyId]);
+    }
   }
 }

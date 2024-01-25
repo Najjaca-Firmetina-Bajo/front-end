@@ -8,9 +8,11 @@ import { SystemAdminHomePageComponent } from './feature-modules/administration/s
 import { EquipmentReviewComponent } from './feature-modules/administration/equipment-review/equipment-review/equipment-review.component';
 import { CompanyAdminProfileComponent } from './feature-modules/administration/company-admin/company-admin-profile/company-admin-profile.component';
 import { CompanyInfoComponent } from './feature-modules/companies/company-info/company-info.component';
+import { UnregisteredEqipmentComponent } from './feature-modules/companies/unregistered-eqipment/unregistered-eqipment.component';
 
 
 const routes: Routes = [
+  { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
@@ -19,6 +21,7 @@ const routes: Routes = [
   { path: 'equipment-review', component: EquipmentReviewComponent },
   { path: 'company-admin-profile', component: CompanyAdminProfileComponent },
   { path: 'company-info/:id', component: CompanyInfoComponent },
+  { path: 'company/:id', component: UnregisteredEqipmentComponent },
 ];
 
 @NgModule({

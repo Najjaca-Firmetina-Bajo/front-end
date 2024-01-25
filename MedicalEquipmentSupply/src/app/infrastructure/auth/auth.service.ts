@@ -15,11 +15,12 @@ import { User } from './model/user.model';
 })
 export class AuthService {
 
-  user$ = new BehaviorSubject<User>({email: "", id: 0, role: "" });
 
   constructor(private http: HttpClient,
     private router: Router,
     private jwtHelper: JwtHelperService) { }
+
+
 
   register(registration: Registration): Observable<any> {
     const headers = new HttpHeaders({
@@ -28,10 +29,26 @@ export class AuthService {
     return this.http.post(environment.wwwRoot + 'auth/signup', registration, { headers });
   }
 
+
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
-    // Check whether the token is expired
-    return !this.jwtHelper.isTokenExpired(token || '');
+    
+    if (token) {
+      const user = this.getUserFromLocalStorage();
+      
+      if (user) {
+        if (this.jwtHelper.isTokenExpired(token)) {
+          this.logout();
+          return false;
+        }
+  
+        // User is logged in
+        return true;
+      }
+    }
+  
+    // No token or user found
+    return false;
   }
 
   public setToken(token: string): void {
@@ -46,6 +63,19 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 
+  public setUserInLocalStorage(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  public getUserFromLocalStorage(): User | null {
+    const userString = localStorage.getItem('user');
+    return userString ? JSON.parse(userString) : null;
+  }
+
+  public removeUserFromLocalStorage(): void {
+    localStorage.removeItem('user');
+  }
+
   login(credentials: { username: string; password: string }) {
     return this.http
       .post<any>(environment.wwwRoot + 'auth/login', credentials)
@@ -55,7 +85,7 @@ export class AuthService {
             this.setToken(response.accessToken);
             this.getAuthenticatedUserDetails().subscribe(
               (user) => {
-                this.user$.next(user);
+                this.setUserInLocalStorage(user);
               },
               (error) => {
                 console.error('Error getting authenticated user details:', error);
@@ -75,7 +105,7 @@ export class AuthService {
   logout() {
     this.router.navigate(['/home']).then(_ => {
       this.removeToken();
-      this.user$.next({email: "", id: 0, role: "" });
+      this.removeUserFromLocalStorage();
       }
     );
   }

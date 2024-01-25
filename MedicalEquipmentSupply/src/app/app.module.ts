@@ -33,6 +33,7 @@ import { CompanyAdminProfileComponent } from './feature-modules/administration/c
 import { CompanyInfoComponent } from './feature-modules/companies/company-info/company-info.component';
 import { NavbarComponent } from './feature-modules/layout/navbar/navbar.component';
 import { UnregisteredCompaniesComponent } from './feature-modules/companies/unregistered-companies/unregistered-companies.component';
+import { UnregisteredEqipmentComponent } from './feature-modules/companies/unregistered-eqipment/unregistered-eqipment.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { UnregisteredCompaniesComponent } from './feature-modules/companies/unre
     CompanyInfoComponent,
     NavbarComponent,
     UnregisteredCompaniesComponent,
+    UnregisteredEqipmentComponent,
   ],
   imports: [
     BrowserModule,

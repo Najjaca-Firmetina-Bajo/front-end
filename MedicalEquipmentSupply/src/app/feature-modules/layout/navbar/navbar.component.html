@@ -4,8 +4,8 @@
         <div id="buttons">
             <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['my-profile']">My profile</button> 
             
-            <button class="button" *ngIf="user && user.email === ''"  mat-raised-button [routerLink]="['login']">Login</button>
-            <button class="button" *ngIf="user && user.email !== ''"  mat-raised-button (click)="onLogout()">Logout</button>
+            <button class="button" *ngIf="!isUserLoggedIn()"  mat-raised-button [routerLink]="['login']">Login</button>
+            <button class="button" *ngIf="user && isUserLoggedIn()"  mat-raised-button (click)="onLogout()">Logout</button>
         </div>
     </div>
 </div>
