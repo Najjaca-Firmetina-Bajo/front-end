@@ -59,5 +59,9 @@ export class CompaniesService {
     return this.http.get<number>(url);
   }
 
+  getCompanyById(companyId: number): Observable<Company> {
+    return this.http.get<Company>(environment.apiHost + 'company/findBy/' + companyId)
+  }
+
   
 }

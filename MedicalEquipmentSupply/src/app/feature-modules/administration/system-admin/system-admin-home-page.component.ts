@@ -171,7 +171,8 @@ export class SystemAdminHomePageComponent implements OnInit{
   }
 
   registerCompany(): void {
-    if (this.companyRegistrationForm.valid) {
+    //TODO: fix
+    /*if (this.companyRegistrationForm.valid) {
       const newCompany: Company = {
         averageRating: this.companyRegistrationForm.value.rating,
         id: 0,
@@ -194,7 +195,7 @@ export class SystemAdminHomePageComponent implements OnInit{
     } 
     else {
       console.error('Form is invalid.');
-    }
+    }*/
   }
 
   registerSystemAdministrator(): void {

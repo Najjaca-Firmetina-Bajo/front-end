@@ -1,10 +1,15 @@
-export interface Company {
-    averageRating: number;
-    id: number;
-    address: string;
-    name: string;
-    availableEquipmentIds: number[];
-    companyAdministraotrsIds: number[];
-    workingCalendarId: number
+
+  export interface AvailableEquipment {
+    equipmentId: number;
+    quantity: number;
   }
   
+  export interface Company {
+    id: number;
+    name: string;
+    address: string;
+    averageRating: number;
+    availableEquipment: AvailableEquipment[];
+    companyAdministratorIds: number[];
+    workingCalendarId: number;
+  }
