@@ -11,6 +11,8 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CompanyAdministrator } from '../../model/company-administrator.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Router } from '@angular/router';
+import { QRCodeDto } from '../../model/qrcode.model';
+import { QRCodeEquipment } from '../../model/qr-eq.model';
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -45,26 +47,10 @@ export class CompanyAdminProfileComponent implements OnInit {
   }
   workingDays: WorkingDay[] = []
   allAppointments: Appointment[] = []
-  allEquipment: Equipment[] = []
-  daysDetailsList: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string }[] = []
-  copyList: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string }[] = []
+  allQRCodes: QRCodeDto[] = []
   registeredUsers: RegistredUser[] = []
   
-  daysTable: boolean = false
   selectedRange: string = 'month'
-  monthSelected: boolean = false
-  weekSelected: boolean = false
-  yearSelected: boolean = false
-  selectedMonth: string = '01'
-  selectedWeekDate: string = '01'
-  selectedWeekMonth: string = '01'
-  selectedYear: string = '2023'
-  invalidWeekDate: boolean = false
-  currentYear: number = -1
-  selectedMonthYear: string = '2023'
-  selectedWeekYear: string = '2023'
-  sevenDays: string = ''
-  emptyDaysTable: boolean = false
 
   loggedCA: CompanyAdministrator = {
     activated: false,
@@ -93,9 +79,6 @@ export class CompanyAdminProfileComponent implements OnInit {
               private authService: AuthService) {}
 
   ngOnInit(): void {
-    const currentDate = new Date();
-    this.currentYear = currentDate.getFullYear();
-    //this.getWorkingCalednar()
     this.getAllCompanyAdministrators()
   }
 
@@ -189,16 +172,6 @@ export class CompanyAdminProfileComponent implements OnInit {
     this.administrationService.getAllAppointments().subscribe({
       next: (result: Appointment[]) => {
           this.allAppointments = result;
-          this.getAllEquipment()
-      },
-      error: () => { }
-   });
-  }
-
-  getAllEquipment(): void {
-    this.administrationService.getAllEquipment().subscribe({
-      next: (result: Equipment[]) => {
-          this.allEquipment = result;
           this.getAllRegisteredUsers()
       },
       error: () => { }
@@ -209,58 +182,47 @@ export class CompanyAdminProfileComponent implements OnInit {
     this.administrationService.getAllRegisteredUsers().subscribe({
       next: (result: RegistredUser[]) => {
           this.registeredUsers = result;
-          this.prepareBindingList()
+          this.getAllQRCodes()
       },
       error: () => { }
    });
   }
 
-  prepareBindingList(): void {
-    this.workingDays.forEach(wd => {
-      wd.appointmentsIds.forEach(appid => {
-        let item: { day: Date, equipmentList: string[], pickUpDate: Date, duration: number, user: string } = {
-          day: new Date(),
-          equipmentList: [],
-          pickUpDate: new Date(),
-          duration: -1,
-          user: ''
-        }
+  getAllQRCodes(): void {
+    this.administrationService.getAllQRCodes().subscribe({
+      next: (result: QRCodeDto[]) => {
+          this.allQRCodes = result;
+          this.fillCalendar()
+      },
+      error: () => { }
+   });
+  }
 
+  fillCalendar(): void {
+    let flag = false;
+
+    this.workingDays.forEach(wd => {
+      this.allAppointments.forEach(app => {
         let newEvent: EventInput = {
           title: '',
           start: new Date(), 
           end: new Date(),  
         };
 
-        this.allAppointments.forEach(a => {
-          this.registeredUsers.forEach(ru=> {
-            if(a.registredUserId === ru.id) {
-              if(a.reservedEquipmentIds.length !== 0) {
-                if(appid === a.id && a.workingDayId === wd.id) {
-                  a.reservedEquipmentIds.forEach(eid => {
-                    this.allEquipment.forEach(e => {
-                      if(eid === e.id) {
-                        item.day = wd.date //a.pickUpDate
-                        item.duration = a.duration
-                        item.pickUpDate = a.pickUpDate
-                        item.user = ru.name + " " + ru.surname 
-                        item.equipmentList.push(e.name)
+        this.allQRCodes.forEach(qr => {
+          this.registeredUsers.forEach(u => {
+            if(wd.id === app.workingDayId && app.id === qr.appointmentId && qr.registeredUserId === u.id) {
+              newEvent.title = app.duration + "h - " + u.name + " " + u.surname 
+              newEvent.start = new Date(app.pickUpDate)
+              newEvent.end = new Date(app.pickUpDate)
+              newEvent.end.setHours(newEvent.end.getHours() + app.duration, newEvent.end.getMinutes())
 
-                        newEvent.title = a.duration + "h - " + ru.name + " " + ru.surname 
-                        newEvent.start = new Date(a.pickUpDate)
-                        newEvent.end = new Date(a.pickUpDate)
-                        newEvent.end.setHours(newEvent.end.getHours() + a.duration, newEvent.end.getMinutes())
-                      }
-                    })
-                  })
-                }
-              }
+              flag = true;
             }
           })
         })
-        if(item.equipmentList.length !== 0) {
-          this.daysDetailsList.push(item)
-          // Dodaj događaj u niz
+
+        if(flag) {
           this.calendarEvents.push(newEvent);
 
           this.calendarOptions = {
@@ -271,143 +233,10 @@ export class CompanyAdminProfileComponent implements OnInit {
           if(this.fullCalendar) {
             this.fullCalendar.getApi().addEvent(newEvent)
           }
-          //.log('calendarEvents after adding:', this.calendarEvents);
-          //console.log(this.calendarEvents)
-          //this.cdr.detectChanges()
+
+          flag = false;
         }
       })
     })
-    this.copyList = this.daysDetailsList
-    //console.log(this.calendarEvents)
   }
-
-  showDaysTable(): void {
-    if(this.weekSelected) {
-      if(this.selectedWeekMonth === '01' || this.selectedWeekMonth === '03' || this.selectedWeekMonth === '05' || this.selectedWeekMonth === '07' || this.selectedWeekMonth === '08' || this.selectedWeekMonth === '10' || this.selectedWeekMonth === '12') {
-        this.invalidWeekDate = false
-        this.weekFilter()
-      }
-      else if(this.selectedWeekMonth === '04' || this.selectedWeekMonth === '06' || this.selectedWeekMonth === '09' || this.selectedWeekMonth === '11') {
-        if(this.selectedWeekDate === '31') {
-          this.invalidWeekDate = true;
-          this.daysTable = false
-        } 
-        else {
-          this.invalidWeekDate = false
-          this.weekFilter()
-        }
-      }
-      else {
-        let rest = parseInt(this.selectedWeekYear, 10) % 4
-        console.log(parseInt(this.selectedWeekYear, 10))
-        if(rest === 0 && (this.selectedWeekDate === '30' || this.selectedWeekDate === '31')) {
-          this.invalidWeekDate = true
-          this.daysTable = false
-        }
-        else if(rest !== 0 && (this.selectedWeekDate === '29' || this.selectedWeekDate === '30' || this.selectedWeekDate === '31')) {
-          this.invalidWeekDate = true
-          this.daysTable = false
-        }
-        else {
-          this.invalidWeekDate = false
-          this.weekFilter()
-        }
-      }
-    }
-    else if(this.monthSelected) {
-      this.monthFilter()
-    }
-    else {
-      this.yearFilter()
-    }
-  }
-
-  weekFilter(): void {
-    this.daysDetailsList = this.copyList
-    let firstDateString = this.selectedWeekYear + '-' + this.selectedWeekMonth + '-' + this.selectedWeekDate;
-    let firstDate = new Date(firstDateString);
-    let lastDate = new Date(firstDate.getTime() + 7 * 24 * 60 * 60 * 1000);
-    firstDate.setHours(0, 0, 0, 0);
-    lastDate.setHours(0, 0, 0, 0);
-    this.sevenDays = "Appointments between " + firstDate.toDateString() + " and " + lastDate.toDateString() + " are shown."
-
-    this.daysDetailsList = this.daysDetailsList.filter(a => {
-      const dayDate = new Date(a.day);
-      dayDate.setHours(0, 0, 0, 0);
-      return dayDate >= firstDate && dayDate <= lastDate;
-    });
-
-    if(this.daysDetailsList.length > 0) {
-      this.emptyDaysTable = false
-      this.daysTable = true
-    }
-    else {
-      this.daysTable = false
-      this.emptyDaysTable = true
-    }
-  }
-  
-  monthFilter(): void {
-    this.daysDetailsList = this.copyList
-    this.daysDetailsList = this.daysDetailsList.filter(a => {
-      const dateObject = new Date(a.day);
-      const month = dateObject.getMonth() + 1;
-      const year = dateObject.getFullYear()
-      const formattedMonth = month < 10 ? `0${month}` : `${month}`;
-      return formattedMonth === this.selectedMonth && year.toString() === this.selectedMonthYear;
-    });
-
-    if(this.daysDetailsList.length > 0) {
-      this.emptyDaysTable = false
-      this.daysTable = true
-    }
-    else {
-      this.daysTable = false
-      this.emptyDaysTable = true
-    }
-  }
-
-  yearFilter(): void {
-    this.daysDetailsList = this.copyList
-    this.daysDetailsList = this.daysDetailsList.filter(a => {
-      const dateObject = new Date(a.day);
-      const year = dateObject.getFullYear();
-      console.log(year)
-      return year.toString() === this.selectedYear;
-    });
-
-    if(this.daysDetailsList.length > 0) {
-      this.emptyDaysTable = false
-      this.daysTable = true
-    }
-    else {
-      this.daysTable = false
-      this.emptyDaysTable = true
-    }
-  }
-  
-  nextOptions(): void {
-    if(this.selectedRange === 'week') {
-      this.daysTable = false
-      this.monthSelected = false
-      this.yearSelected = false
-      this.emptyDaysTable = false
-      this.weekSelected = true
-    }
-    else if(this.selectedRange === 'month') {
-      this.daysTable = false
-      this.weekSelected = false
-      this.yearSelected = false
-      this.emptyDaysTable = false
-      this.monthSelected = true
-    }
-    else {
-      this.daysTable = false
-      this.weekSelected = false
-      this.monthSelected = false
-      this.emptyDaysTable = false
-      this.yearSelected = true
-    }
-  }
-
 }
