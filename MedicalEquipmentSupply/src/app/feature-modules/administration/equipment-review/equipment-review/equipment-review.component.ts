@@ -141,7 +141,7 @@ export class EquipmentReviewComponent implements OnInit{
   }
 
   backToPerviousPage(): void {
-    this.router.navigate(['/companies']); 
+    this.router.navigate(['/home']); 
   }
 
   completeBindingList(): void {

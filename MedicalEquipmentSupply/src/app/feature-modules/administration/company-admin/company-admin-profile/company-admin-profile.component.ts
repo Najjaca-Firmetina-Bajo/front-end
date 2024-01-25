@@ -100,7 +100,7 @@ export class CompanyAdminProfileComponent implements OnInit {
   }
 
   backToPerviousPage(): void {
-    this.router.navigate(['/companies']); 
+    this.router.navigate(['/home']); 
   }
 
   getAllCompanyAdministrators(): void {
