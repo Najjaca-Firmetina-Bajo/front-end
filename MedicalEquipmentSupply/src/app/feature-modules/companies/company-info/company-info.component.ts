@@ -91,7 +91,7 @@ export class CompanyInfoComponent implements OnInit {
   
       this.companyService.reserveAppointment(qrCodeDto).subscribe(
         () => {
-          this.router.navigate(['/companies']);
+          this.router.navigate(['/home']);
         },
         (error) => {
           console.error('Error reserving appointment:', error);
