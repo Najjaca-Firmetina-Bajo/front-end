@@ -42,9 +42,13 @@ export class SystemAdminHomePageComponent implements OnInit{
       validator: this.passwordMatchValidator
     });
 
+    //TODO ok
     this.companyRegistrationForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      address: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      postal: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      country: ['', [Validators.required]],
       rating: ['', [Validators.required]],
     }, {
       validator: this.addressAndRatingValidator
@@ -71,24 +75,56 @@ export class SystemAdminHomePageComponent implements OnInit{
     this.getAvailableAdministrators()
   }
 
+  //TODO ok
   addressAndRatingValidator(formGroup: FormGroup) {
-    var address = formGroup.get('address');
+    var street = formGroup.get('street');
+    var postal = formGroup.get('postal');
+    var city = formGroup.get('city');
+    var country = formGroup.get('country');
+
     var rating = formGroup.get('rating');
 
-    if (!address || !rating) {
+    if (!street || !postal || !city || !country || !rating) {
       return null; // Ako neki od kontrola nije prisutan, preskoči validaciju
     }
 
-    const addressPattern = /^[a-zA-Z0-9\s-]+-[0-9]+-[a-zA-Z0-9\s_]+-[a-zA-Z0-9\s_]+$/;
-    const validAddress = addressPattern.test(address.value);
+    const streetPattern = /^[a-zA-Z0-9\s-]+$/;
+    const validStreet = streetPattern.test(street.value);
+
+    const postalPattern = /^[0-9]+$/;
+    const validPostal = postalPattern.test(postal.value);
+
+    const cityPattern = /^[a-zA-Z0-9\s_]+$/;
+    const validCity = cityPattern.test(city.value);
+
+    const countryPattern = /^[a-zA-Z0-9\s_]+$/;
+    const validCountry = countryPattern.test(country.value);
 
     const ratingValue = parseFloat(rating.value);
     const validRating = !isNaN(ratingValue) && ratingValue >= 0.0 && ratingValue <= 5.0;
 
-    if (!validAddress) {
-      address.setErrors({ invalidAddress: true });
+    if (!validStreet) {
+      street.setErrors({ invalidAddress: true });
     } else {
-      address.setErrors(null);
+      street.setErrors(null);
+    }
+
+    if (!validPostal) {
+      postal.setErrors({ invalidAddress: true });
+    } else {
+      postal.setErrors(null);
+    }
+
+    if (!validCity) {
+      city.setErrors({ invalidAddress: true });
+    } else {
+      city.setErrors(null);
+    }
+
+    if (!validCountry) {
+      country.setErrors({ invalidAddress: true });
+    } else {
+      country.setErrors(null);
     }
 
     if (!validRating) {
@@ -170,12 +206,13 @@ export class SystemAdminHomePageComponent implements OnInit{
     }
   }
 
+  //TODO ok
   registerCompany(): void {
     if (this.companyRegistrationForm.valid) {
       const newCompany: Company = {
         averageRating: this.companyRegistrationForm.value.rating,
         id: 0,
-        address: this.companyRegistrationForm.value.address,
+        address: this.companyRegistrationForm.value.street + "-" + this.companyRegistrationForm.value.postal + "-" + this.companyRegistrationForm.value.city + "-" + this.companyRegistrationForm.value.country,
         name: this.companyRegistrationForm.value.name,
         availableEquipment: [],
         companyAdministratorIds: [],
@@ -189,6 +226,7 @@ export class SystemAdminHomePageComponent implements OnInit{
           //this.showCompanyForm = false;
           this.currentCompanyName = newCompany.name;
           this.showAdminsTable = true;
+          //this.isAnyAvailableAdmin = false;
         },
       });
     } 
@@ -254,6 +292,7 @@ export class SystemAdminHomePageComponent implements OnInit{
     this.companyRegistrationForm.reset()
     this.showCompanyForm = false;
     this.showAdminsTable = false;
+    //this.isAnyAvailableAdmin = true;
   }
 
   getAvailableAdministrators(): void {
