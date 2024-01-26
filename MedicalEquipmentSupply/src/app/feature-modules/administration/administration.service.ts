@@ -21,11 +21,11 @@ export class AdministrationService {
   constructor(private http: HttpClient) { }
 
   registerCompanyAdmin(newAdmin: CompanyAdministrator): Observable<CompanyAdministrator> {
-    return this.http.post<CompanyAdministrator>(environment.apiHost + 'companyAdministrators/register', newAdmin)
+    return this.http.post<CompanyAdministrator>(environment.wwwRoot + 'auth/register-company-admin', newAdmin)
   }
 
   registerSystemAdmin(newAdmin: SystemAdministrator): Observable<SystemAdministrator> {
-    return this.http.post<SystemAdministrator>(environment.apiHost + 'systemAdministrators/register', newAdmin)
+    return this.http.post<SystemAdministrator>(environment.wwwRoot + 'auth/register-system-admin', newAdmin)
   }
 
   registerCompany(newCompany: Company): Observable<Company> {

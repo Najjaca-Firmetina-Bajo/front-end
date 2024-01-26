@@ -171,15 +171,14 @@ export class SystemAdminHomePageComponent implements OnInit{
   }
 
   registerCompany(): void {
-    //TODO: fix
-    /*if (this.companyRegistrationForm.valid) {
+    if (this.companyRegistrationForm.valid) {
       const newCompany: Company = {
         averageRating: this.companyRegistrationForm.value.rating,
         id: 0,
         address: this.companyRegistrationForm.value.address,
         name: this.companyRegistrationForm.value.name,
-        availableEquipmentIds: [],
-        companyAdministraotrsIds: [],
+        availableEquipment: [],
+        companyAdministratorIds: [],
         workingCalendarId: -1
       };
 
@@ -195,7 +194,7 @@ export class SystemAdminHomePageComponent implements OnInit{
     } 
     else {
       console.error('Form is invalid.');
-    }*/
+    }
   }
 
   registerSystemAdministrator(): void {
