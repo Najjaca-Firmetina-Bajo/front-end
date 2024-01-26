@@ -1,0 +1,18 @@
+.centered-container {
+    text-align: center;
+    padding-left: 50px;
+    padding-top: 20px;
+    padding-right: 50px;
+    padding-bottom: 0px;
+    /* Add other styles for vertical centering if needed */
+  }
+
+  .container {
+    display: flex;
+  }
+  
+  .left-side {
+    width: 100%;
+    padding: 50px;
+  }
+  

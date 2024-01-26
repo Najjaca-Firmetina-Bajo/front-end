@@ -1,1 +1,50 @@
-<p>unregistered-eqipment works!</p>
+<div class="centered-container" *ngIf="company">
+    <mat-card>
+      <mat-card-content>
+        <div class="centered-container">
+          <h2>{{ company.name }}</h2>
+          <p>Address: {{ company.address }}</p>
+          <p>Average Rating: {{ company.averageRating }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <div class="container">
+    <!-- Left side: Company Info, Equipment, Selected Equipment -->
+    <div class="left-side">
+      <mat-card>
+        <mat-card-content>
+          <p><b>Equipment:</b></p>
+          <table mat-table [dataSource]="equipment">
+          
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Name</th>
+              <td mat-cell *matCellDef="let equipment">{{ equipment.name }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="type">
+              <th mat-header-cell *matHeaderCellDef>Type</th>
+              <td mat-cell *matCellDef="let equipment">{{ equipment.type }}</td>
+            </ng-container>
+          
+            <ng-container matColumnDef="companies">
+              <th mat-header-cell *matHeaderCellDef>Companies</th>
+              <td mat-cell *matCellDef="let equipment">{{ equipment.companies.join(', ') }}</td>
+            </ng-container>
+          
+            <!-- Table Rows -->
+            <tr mat-header-row *matHeaderRowDef="['name', 'type', 'companies']"></tr>
+            <tr mat-row *matRowDef="let equipment; columns: [ 'name', 'type', 'companies']"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+  
+      <br>
+  
+      
+    </div>
+
+    
+  </div>
+  

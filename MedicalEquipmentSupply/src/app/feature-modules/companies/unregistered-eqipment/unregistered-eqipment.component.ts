@@ -12,8 +12,7 @@ import { Company } from '../../administration/model/comapny.model';
 export class UnregisteredEqipmentComponent {
   companyId: number;
   company: any;
-  filteredEquipment: any;
-  selectedEquipmentMap: Map<number, boolean> = new Map<number, boolean>();
+  equipment: any;
 
   constructor(private route: ActivatedRoute,private companyService: CompaniesService,private router: Router) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
@@ -28,6 +27,10 @@ export class UnregisteredEqipmentComponent {
       (data: Company) => {
         this.company = data;
         console.log(this.company);
+
+        // Load equipment for the company
+        // Load equipment for the company
+        this.loadEquipmentByIds(this.company.availableEquipment.map((e: { equipmentId: number, quantity: number }) => e.equipmentId));
       },
       error => {
         console.error('Error fetching company data:', error);
@@ -35,30 +38,18 @@ export class UnregisteredEqipmentComponent {
     );
   }
 
-  private loadEquipmentByCompanyId(): void {
-    if(this.companyId){
-      this.companyService.getAllEquipment().subscribe((data) => {
-        this.filteredEquipment = data.filter(equipment => equipment.companies.includes(this.companyId));
-      });
-    }
+  private loadEquipmentByIds(ids: number[]): void {
+    this.companyService.getEquipmentByIds(ids).subscribe(
+      (data: Equipment[]) => {
+        this.equipment = data;
+        console.log(this.equipment);
+      },
+      error => {
+        console.error('Error fetching equipment data:', error);
+      }
+    );
   }
 
-
-
-
-  toggleEquipmentSelection(equipment: Equipment): void {
-    const equipmentId = equipment.id;
-    
-    if (this.selectedEquipmentMap.has(equipmentId)) {
-      this.selectedEquipmentMap.delete(equipmentId);
-    } else {
-      this.selectedEquipmentMap.set(equipmentId, true);
-    }
-  }
-  
-  getIsSelected(equipment: Equipment): boolean {
-    return this.selectedEquipmentMap.has(equipment.id);
-  }
 
   
 

@@ -6,6 +6,7 @@
             <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['company-admin-profile']">Your CA profile</button> 
             <button class="button" *ngIf="user && isUserLoggedIn()" mat-raised-button [routerLink]="['equipment-review']">Equipment search</button> 
             
+            <button class="button"  mat-raised-button [routerLink]="['home']">Home</button>
             <button class="button" *ngIf="!isUserLoggedIn()"  mat-raised-button [routerLink]="['login']">Login</button>
             <button class="button" *ngIf="user && isUserLoggedIn()"  mat-raised-button (click)="onLogout()">Logout</button>
         </div>

@@ -60,7 +60,12 @@ export class CompaniesService {
   }
 
   getCompanyById(companyId: number): Observable<Company> {
-    return this.http.get<Company>(environment.apiHost + 'company/findBy/' + companyId)
+    return this.http.get<Company>(environment.apiHost + 'companies/findById/' + companyId)
+  }
+
+  getEquipmentByIds(ids: number[]): Observable<Equipment[]> {
+    const params = ids.map(id => `ids=${id}`).join('&');
+    return this.http.get<Equipment[]>(`${environment.apiHost}equipment/getByIds?${params}`);
   }
 
   
