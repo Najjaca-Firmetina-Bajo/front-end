@@ -7,6 +7,7 @@ import { WorkingCalendar } from '../../administration/model/working-calendar.mod
 import { Appointment, AppointmentType } from '../../administration/model/appointment.model';
 import { CompaniesService } from '../companies.service';
 import { QRCodeDto } from '../../administration/model/qrcode.model';
+import { Company } from '../../administration/model/comapny.model';
 
 @Component({
   selector: 'app-company-info',
@@ -17,7 +18,7 @@ export class CompanyInfoComponent implements OnInit {
   companyId: number;
   company: any;
   filteredEquipment: any;
-  selectedEquipmentMap: Map<number, boolean> = new Map<number, boolean>();
+  selectedEquipmentMap: Map<number, number> = new Map<number, number>();
   appointments: any;
   selectedAppointment: Appointment | null = null;
   userId: number;
@@ -33,19 +34,28 @@ export class CompanyInfoComponent implements OnInit {
   }
 
   private loadCompanies(): void {
-    this.companyService.getCompanies().subscribe((data) => {
-      this.company = data.find(company => company.id === this.companyId);
-      this.loadEquipmentByCompanyId();
-      this.loadAppointments();
-    });
+    this.companyService.getCompanyById(this.companyId).subscribe(
+      (data: Company) => {
+        this.company = data;
+        console.log(this.company);
+
+        this.loadEquipmentByIds(this.company.availableEquipment.map((e: { equipmentId: number, quantity: number }) => e.equipmentId));
+      },
+      error => {
+        console.error('Error fetching company data:', error);
+      }
+    );
   }
 
-  private loadEquipmentByCompanyId(): void {
-    if(this.companyId){
-      this.companyService.getAllEquipment().subscribe((data) => {
-        this.filteredEquipment = data.filter(equipment => equipment.companies.includes(this.companyId));
-      });
-    }
+  private loadEquipmentByIds(ids: number[]): void {
+    this.companyService.getEquipmentByIds(ids).subscribe(
+      (data: Equipment[]) => {
+        this.filteredEquipment = data;
+      },
+      error => {
+        console.error('Error fetching equipment data:', error);
+      }
+    );
   }
 
   private loadAppointments(): void {
@@ -95,12 +105,24 @@ export class CompanyInfoComponent implements OnInit {
     if (this.selectedEquipmentMap.has(equipmentId)) {
       this.selectedEquipmentMap.delete(equipmentId);
     } else {
-      this.selectedEquipmentMap.set(equipmentId, true);
+      this.selectedEquipmentMap.set(equipmentId, 0);
     }
+  }
+
+  updateSelectedQuantity(equipmentId: number, event: any): void {
+    const selectedQuantity = parseInt(event.target.value, 10);
+    this.selectedEquipmentMap.set(equipmentId, selectedQuantity);
   }
   
   getIsSelected(equipment: Equipment): boolean {
     return this.selectedEquipmentMap.has(equipment.id);
+  }
+
+  getEquipmentQuantity(equipmentId: number): number {
+    const availableEquipment = this.company.availableEquipment;
+    const equipment = availableEquipment.find((e: { equipmentId: number, quantity: number }) => e.equipmentId === equipmentId);
+  
+    return equipment ? equipment.quantity : 0;
   }
 
   

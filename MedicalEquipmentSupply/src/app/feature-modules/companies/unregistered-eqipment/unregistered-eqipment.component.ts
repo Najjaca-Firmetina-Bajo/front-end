@@ -28,8 +28,6 @@ export class UnregisteredEqipmentComponent {
         this.company = data;
         console.log(this.company);
 
-        // Load equipment for the company
-        // Load equipment for the company
         this.loadEquipmentByIds(this.company.availableEquipment.map((e: { equipmentId: number, quantity: number }) => e.equipmentId));
       },
       error => {
