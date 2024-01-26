@@ -79,3 +79,12 @@ th {
 td {
   font-weight: lighter;
 }
+
+.back-button {
+  background-color: white !important; 
+  color: #E53935 !important; 
+  width: 10%;
+  border-radius: 15px;
+  margin-right: 1400px;
+  margin-top: -175px;
+}

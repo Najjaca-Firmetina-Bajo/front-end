@@ -4,6 +4,7 @@ import { CompanyAdministrator } from '../model/company-administrator.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from '../model/comapny.model';
 import { SystemAdministrator } from '../model/system-administrator.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-system-admin-home-page',
@@ -24,6 +25,7 @@ export class SystemAdminHomePageComponent implements OnInit{
   availableAdministrators: CompanyAdministrator[] = []
 
   constructor(private administrationService: AdministrationService,
+              private router: Router,
               private formBuilder: FormBuilder,
     ) {
     this.companyAdminRegistrationForm = this.formBuilder.group({
@@ -73,6 +75,11 @@ export class SystemAdminHomePageComponent implements OnInit{
 
   ngOnInit(): void {
     this.getAvailableAdministrators()
+  }
+
+
+  backToPerviousPage(): void {
+    this.router.navigate(['/home']); 
   }
 
   //TODO ok
