@@ -50,7 +50,7 @@ export class CompaniesService {
   }
 
   reserveAppointment(qrCodeDto: QRCodeDto): Observable<QRCodeDto> {
-    return this.http.post<QRCodeDto>(environment.apiHost + 'appointments/reserve/', qrCodeDto)
+    return this.http.post<QRCodeDto>(environment.apiHost + 'appointments/reserve', qrCodeDto)
   }
 
   getAuthenticatedUserId(): Observable<number> {

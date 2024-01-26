@@ -40,6 +40,7 @@ export class CompanyInfoComponent implements OnInit {
         console.log(this.company);
 
         this.loadEquipmentByIds(this.company.availableEquipment.map((e: { equipmentId: number, quantity: number }) => e.equipmentId));
+        this.loadAppointments();
       },
       error => {
         console.error('Error fetching company data:', error);
@@ -63,7 +64,6 @@ export class CompanyInfoComponent implements OnInit {
       this.companyService.getWorkingCalendar(this.companyId).subscribe((data) => {
         this.companyService.getAllAppointmentsByCalendar(data.id).subscribe((data) => {
           this.appointments = data;
-          console.log(data);
         });
       });
     }
@@ -72,18 +72,31 @@ export class CompanyInfoComponent implements OnInit {
   reserveAppointment(): void {
     if (this.selectedAppointment) {
       this.getAuthenticatedUserId();
+  
+      const reservedEquipment: { equipmentId: number; quantity: number }[] = [];
+  
+      // Iterate over selected equipment map and construct reserved equipment array
+      this.selectedEquipmentMap.forEach((quantity, equipmentId) => {
+        reservedEquipment.push({ equipmentId, quantity });
+      });
+  
       const qrCodeDto: QRCodeDto = {
         id: 0,
-        code: 'string', 
-        status: 'NEW', 
+        code: 'string',
+        status: 'NEW',
         registeredUserId: this.userId,
         appointmentId: this.selectedAppointment.id,
-        reservedEquipmentIds: Array.from(this.selectedEquipmentMap.keys())
+        reservedEquipment: reservedEquipment,
       };
-
-      this.companyService.reserveAppointment(qrCodeDto).subscribe(() => {
-        this.router.navigate(['/companies']);
-      });
+  
+      this.companyService.reserveAppointment(qrCodeDto).subscribe(
+        () => {
+          this.router.navigate(['/companies']);
+        },
+        (error) => {
+          console.error('Error reserving appointment:', error);
+        }
+      );
     }
   }
 
