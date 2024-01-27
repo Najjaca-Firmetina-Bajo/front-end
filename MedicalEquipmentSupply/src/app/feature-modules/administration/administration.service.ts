@@ -48,10 +48,6 @@ export class AdministrationService {
     return this.http.get<Company>(environment.apiHost + 'companies/find/' + name)
   }
 
-  getAllEquipment(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(environment.apiHost + 'equipment/getAll')
-  }
-
   searchEquipment(name: string): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(environment.apiHost + 'equipment/search/' + name)
   }
@@ -76,12 +72,37 @@ export class AdministrationService {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/findBy/' + dayId)
   }
 
+  getAllRegisteredUsers(): Observable<RegistredUser[]> {
+    return this.http.get<RegistredUser[]>(environment.apiHost + 'registeredUsers/get-all')
+  }
+
+  //3.14
+  downloadEquipmentAndSendEmail(appointmentId: number, qrCodeId: number): Observable<number> {
+    return this.http.put<number>(environment.apiHost + 'appointments/download-equipment/' + appointmentId + '/' + qrCodeId, null)
+  }
+
+  getExpiredAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/find-expired-appointments')
+  }
+
+  getNotExpiredAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/find-non-expired-not-downloaded-appointments')
+  }
+
+  givePenalPoints(registeredUserId: number): Observable<number> {
+    return this.http.put<number>(environment.apiHost + 'registeredUsers/give-penal-points/' + registeredUserId, null)
+  }
+
+  updateStockStatus(equipmentId: number, companyId: number, quantity: number): Observable<number> {
+    return this.http.put<number>(environment.apiHost + 'companyEquipment/pick-up-equipment/' + equipmentId + '/' + companyId + '/' + quantity, null)
+  }
+
   getAllAppointments(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-all')
   }
 
-  getAllRegisteredUsers(): Observable<RegistredUser[]> {
-    return this.http.get<RegistredUser[]>(environment.apiHost + 'registeredUsers/get-all')
+  getAllEquipment(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(environment.apiHost + 'equipment/getAll')
   }
 
   getAllQRCodes(): Observable<QRCodeDto[]> {
@@ -91,5 +112,4 @@ export class AdministrationService {
   getAllQRCodeEquipments(): Observable<QRCodeEquipment[]> {
     return this.http.get<QRCodeEquipment[]>(environment.apiHost + 'qreq/get-all')
   }
-
 }
