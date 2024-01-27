@@ -4,6 +4,8 @@ import { CompanyAdministrator } from '../model/company-administrator.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from '../model/comapny.model';
 import { SystemAdministrator } from '../model/system-administrator.model';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'app-system-admin-home-page',
@@ -22,8 +24,12 @@ export class SystemAdminHomePageComponent implements OnInit{
   companyRegistrationForm: FormGroup;
   systemAdminRegistrationForm: FormGroup;
   availableAdministrators: CompanyAdministrator[] = []
+  allSystemAdministrators: SystemAdministrator[] = []
+  saName: string = ""
 
   constructor(private administrationService: AdministrationService,
+              private authService: AuthService,
+              private router: Router,
               private formBuilder: FormBuilder,
     ) {
     this.companyAdminRegistrationForm = this.formBuilder.group({
@@ -42,9 +48,13 @@ export class SystemAdminHomePageComponent implements OnInit{
       validator: this.passwordMatchValidator
     });
 
+    //TODO ok
     this.companyRegistrationForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      address: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      postal: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      country: ['', [Validators.required]],
       rating: ['', [Validators.required]],
     }, {
       validator: this.addressAndRatingValidator
@@ -68,27 +78,64 @@ export class SystemAdminHomePageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getAvailableAdministrators()
+    this.getLoggedUser()
   }
 
+
+  backToPerviousPage(): void {
+    this.router.navigate(['/home']); 
+  }
+
+  //TODO ok
   addressAndRatingValidator(formGroup: FormGroup) {
-    var address = formGroup.get('address');
+    var street = formGroup.get('street');
+    var postal = formGroup.get('postal');
+    var city = formGroup.get('city');
+    var country = formGroup.get('country');
+
     var rating = formGroup.get('rating');
 
-    if (!address || !rating) {
+    if (!street || !postal || !city || !country || !rating) {
       return null; // Ako neki od kontrola nije prisutan, preskoči validaciju
     }
 
-    const addressPattern = /^[a-zA-Z0-9\s-]+-[0-9]+-[a-zA-Z0-9\s_]+-[a-zA-Z0-9\s_]+$/;
-    const validAddress = addressPattern.test(address.value);
+    const streetPattern = /^[a-zA-Z0-9\s-]+$/;
+    const validStreet = streetPattern.test(street.value);
+
+    const postalPattern = /^[0-9]+$/;
+    const validPostal = postalPattern.test(postal.value);
+
+    const cityPattern = /^[a-zA-Z0-9\s_]+$/;
+    const validCity = cityPattern.test(city.value);
+
+    const countryPattern = /^[a-zA-Z0-9\s_]+$/;
+    const validCountry = countryPattern.test(country.value);
 
     const ratingValue = parseFloat(rating.value);
     const validRating = !isNaN(ratingValue) && ratingValue >= 0.0 && ratingValue <= 5.0;
 
-    if (!validAddress) {
-      address.setErrors({ invalidAddress: true });
+    if (!validStreet) {
+      street.setErrors({ invalidAddress: true });
     } else {
-      address.setErrors(null);
+      street.setErrors(null);
+    }
+
+    if (!validPostal) {
+      postal.setErrors({ invalidAddress: true });
+    } else {
+      postal.setErrors(null);
+    }
+
+    if (!validCity) {
+      city.setErrors({ invalidAddress: true });
+    } else {
+      city.setErrors(null);
+    }
+
+    if (!validCountry) {
+      country.setErrors({ invalidAddress: true });
+    } else {
+      country.setErrors(null);
     }
 
     if (!validRating) {
@@ -170,16 +217,16 @@ export class SystemAdminHomePageComponent implements OnInit{
     }
   }
 
+  //TODO ok
   registerCompany(): void {
-    //TODO: fix
-    /*if (this.companyRegistrationForm.valid) {
+    if (this.companyRegistrationForm.valid) {
       const newCompany: Company = {
         averageRating: this.companyRegistrationForm.value.rating,
         id: 0,
-        address: this.companyRegistrationForm.value.address,
+        address: this.companyRegistrationForm.value.street + "-" + this.companyRegistrationForm.value.postal + "-" + this.companyRegistrationForm.value.city + "-" + this.companyRegistrationForm.value.country,
         name: this.companyRegistrationForm.value.name,
-        availableEquipmentIds: [],
-        companyAdministraotrsIds: [],
+        availableEquipment: [],
+        companyAdministratorIds: [],
         workingCalendarId: -1
       };
 
@@ -190,12 +237,13 @@ export class SystemAdminHomePageComponent implements OnInit{
           //this.showCompanyForm = false;
           this.currentCompanyName = newCompany.name;
           this.showAdminsTable = true;
+          //this.isAnyAvailableAdmin = false;
         },
       });
     } 
     else {
       console.error('Form is invalid.');
-    }*/
+    }
   }
 
   registerSystemAdministrator(): void {
@@ -241,12 +289,40 @@ export class SystemAdminHomePageComponent implements OnInit{
     });
   }
 
+  getLoggedUser(): void {
+    this.authService.getAuthenticatedUserId().subscribe({
+      next: (result: number) => {
+          this.getSystemAdministrators(result);
+      },
+      error: () => { }
+    });
+  }
+
+  getSystemAdministrators(userId: number): void {
+    this.administrationService.getAllSystemAdministrators().subscribe({
+      next: (result: SystemAdministrator[]) => {
+          this.allSystemAdministrators = result;
+          this.investigate(userId)
+      },
+      error: () => { }
+    });
+  }
+
+  investigate(userId: number): void {
+    this.allSystemAdministrators.forEach(sa => {
+      if(sa.id === userId) {
+        this.saName = "SA profile of " + sa.name + " " + sa.surname
+        this.getAvailableAdministrators()
+      }
+    })
+  }
+
   addAdministrator(adminId: number, companyId: number) : void {
     this.administrationService.setCompanyAdministrator(adminId, companyId).subscribe({
       next: (result: number) => {
         //this.router.navigate(['']); 
         this.availableAdministrators.length = 0;
-        this.getAvailableAdministrators()
+        this.getLoggedUser()
       },
     });
   }
@@ -255,6 +331,7 @@ export class SystemAdminHomePageComponent implements OnInit{
     this.companyRegistrationForm.reset()
     this.showCompanyForm = false;
     this.showAdminsTable = false;
+    //this.isAnyAvailableAdmin = true;
   }
 
   getAvailableAdministrators(): void {

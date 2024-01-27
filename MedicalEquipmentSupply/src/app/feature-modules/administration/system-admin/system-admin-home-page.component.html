@@ -1,11 +1,16 @@
 <div class="container">
-<h1>System administrator's options</h1>
-<button (click)="addCompany()">Add Company</button>
-<button (click)="addCompanyAdministrator()">Add Company Administrator</button>
-<button (click)="addSystemAdministrator()">Add System Administrator</button>
+<h1>{{saName}}</h1>
+<div>
+  <button class="back-button" (click)="backToPerviousPage()" mat-raised-button>Back</button>
+</div>
+<div class="buttons-row">
+<button class="button" (click)="addCompany()">Add Company</button>
+<button class="button" (click)="addCompanyAdministrator()">Add Company Administrator</button>
+<button class="button" (click)="addSystemAdministrator()">Add System Administrator</button>
+</div>
 
-<div *ngIf="showCompanyForm" class="form-container">
-    <h2>Add Company Form</h2>
+<div *ngIf="showCompanyForm" class="material-box">
+    <p class="form-header">Enter company data:</p>
     <form [formGroup]="companyRegistrationForm" (ngSubmit)="registerCompany()" enctype="multipart/form-data">
         <div>
           <div>
@@ -16,13 +21,30 @@
           </div>
           <div>
           <mat-form-field>
-            <mat-label>Address</mat-label>
-            <input matInput formControlName="address" type="text" />
-            <div *ngIf="companyRegistrationForm.hasError('invalidAddress')">
-                <p>Address must be in format: Street-Number-City-Country.</p>
-            </div>
+            <mat-label>Street</mat-label>
+            <input matInput formControlName="street" type="text" />
           </mat-form-field>
           </div>
+
+          <div>
+          <mat-form-field>
+            <mat-label>Postal code</mat-label>
+            <input matInput formControlName="postal" type="text" />
+          </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>City</mat-label>
+              <input matInput formControlName="city" type="text" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Country</mat-label>
+              <input matInput formControlName="country" type="text" />
+            </mat-form-field>
+          </div>
+
           <div>
           <mat-form-field>
             <mat-label>Average rating</mat-label>
@@ -33,18 +55,18 @@
           </mat-form-field>
           </div>
           <div>
-            <button class="button" color="primary" type="submit" mat-raised-button>Register</button>
+            <button class="submit-button" color="primary" type="submit" mat-raised-button>Show available administrators</button>
           </div>
         </div>
       </form>
-      <div *ngIf="!isAnyAvailableAdmin">
-        <p>
+      <div *ngIf="showAdminsTable && !isAnyAvailableAdmin">
+        <p class="form-header">
           No available admin. 
           If you plan to add admins to the company now, please fill out the admin creation form first.
         </p>
       </div>
       <div *ngIf="showAdminsTable && isAnyAvailableAdmin">
-        <h1>Available administrators:</h1>
+        <p class="form-header">Available administrators:</p>
         <div>
             <div>
                 <table>
@@ -63,7 +85,7 @@
                             <td>{{a.email}}</td>
                             <td>
                               <div>
-                                <button class="button" color="primary" (click)="findCompany(a.id)" mat-raised-button>Add</button>
+                                <button class="submit-button" color="primary" (click)="findCompany(a.id)" mat-raised-button>Add</button>
                               </div>
                             </td>
                         </tr>
@@ -72,13 +94,13 @@
             </div>
         </div>
       </div>
-      <div *ngIf="showAdminsTable">
-        <button class="button" color="primary" (click)="finishCompanyRegistration()" mat-raised-button>Finish registration</button>
+      <div *ngIf="showAdminsTable"> 
+        <button class="submit-button" color="primary" (click)="finishCompanyRegistration()" mat-raised-button>Register company</button>
       </div>
 </div>
   
-<div *ngIf="showCompanyAdministratorForm" class="form-container">
-    <h2>Add Company Administrator Form</h2>
+<div *ngIf="showCompanyAdministratorForm" class="material-box">
+    <p class="form-header">Enter company administrator data:</p>
     <form [formGroup]="companyAdminRegistrationForm" (ngSubmit)="registerCompanyAdministrator()" enctype="multipart/form-data">
         <div>
           <div>
@@ -145,13 +167,13 @@
           </mat-form-field>
           </div>
           <div>
-            <button class="button" color="primary" type="submit" mat-raised-button>Register</button>
+            <button class="submit-button" color="primary" type="submit" mat-raised-button>Register company administrator</button>
           </div>
         </div>
       </form>         
 </div>
-<div *ngIf="showSystemAdministratorForm" class="form-container">
-  <h2>Add Company Administrator Form</h2>
+<div *ngIf="showSystemAdministratorForm" class="material-box">
+  <p class="form-header">Enter system administrator data:</p>
   <form [formGroup]="systemAdminRegistrationForm" (ngSubmit)="registerSystemAdministrator()" enctype="multipart/form-data">
       <div>
         <div>
@@ -218,7 +240,7 @@
         </mat-form-field>
         </div>
         <div>
-          <button class="button" color="primary" type="submit" mat-raised-button>Register</button>
+          <button class="submit-button" color="primary" type="submit" mat-raised-button>Register system administrator</button>
         </div>
       </div>
     </form>         

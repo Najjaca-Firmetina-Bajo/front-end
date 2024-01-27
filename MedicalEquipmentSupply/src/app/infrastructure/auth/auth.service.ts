@@ -124,12 +124,8 @@ export class AuthService {
     return this.http.get<User[]>(environment.apiHost + 'users/get-all');
   }
 
-  updatePassword(password: string, username: string): Observable<Registration> {
-    return this.http.put<Registration>(environment.apiHost + 'users/update-password/' + password + '/' + username, null);
-  }
-
-  updatePasswordChanged(adminId: number): void {
-    this.http.put(environment.apiHost + 'systemAdministrators/update-password/' + adminId, null);
+  changePassword(adminId: number, password: string): Observable<number> {
+    return this.http.put<number>(environment.apiHost + 'systemAdministrators/update-password/' + adminId + '/' + password, null);
   }
 
   getAuthenticatedUserDetails(): Observable<User> {

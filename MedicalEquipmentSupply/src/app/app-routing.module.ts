@@ -9,6 +9,7 @@ import { EquipmentReviewComponent } from './feature-modules/administration/equip
 import { CompanyAdminProfileComponent } from './feature-modules/administration/company-admin/company-admin-profile/company-admin-profile.component';
 import { CompanyInfoComponent } from './feature-modules/companies/company-info/company-info.component';
 import { UnregisteredEqipmentComponent } from './feature-modules/companies/unregistered-eqipment/unregistered-eqipment.component';
+import { ChangePasswordFormComponent } from './infrastructure/auth/change-password-form/change-password-form.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'company-admin-profile', component: CompanyAdminProfileComponent },
   { path: 'company-info/:id', component: CompanyInfoComponent },
   { path: 'company/:id', component: UnregisteredEqipmentComponent },
+  { path: 'change-password-form', component: ChangePasswordFormComponent },
 ];
 
 @NgModule({
