@@ -4,6 +4,8 @@ import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Login } from '../model/login.model';
 import { Observable } from 'rxjs';
+import { AdministrationService } from 'src/app/feature-modules/administration/administration.service';
+import { SystemAdministrator } from 'src/app/feature-modules/administration/model/system-administrator.model';
 
 @Component({
   selector: 'xp-login',
@@ -12,8 +14,13 @@ import { Observable } from 'rxjs';
 })
 export class LoginComponent {
 
+  loggedUserId: number = -1
+  username: string = ""
+  systemAdministrators: SystemAdministrator[] = []
+
   constructor(
     private authService: AuthService,
+    private administrationService: AdministrationService,
     private router: Router
   ) {}
 
@@ -32,7 +39,9 @@ export class LoginComponent {
     if (this.loginForm.valid) {
           this.authService.login(login).subscribe({
             next: () => {
-              this.router.navigate(['/home']);
+              this.username = this.loginForm.value.username || "";
+              this.getLoggedUser();
+              //this.router.navigate(['/home']);
             },
             error: (error)=>{
             console.error('Login failed:', error); // Log the error for debugging
@@ -41,4 +50,49 @@ export class LoginComponent {
           });
         } 
   }
+
+  getLoggedUser(): void {
+    this.authService.getAuthenticatedUserId().subscribe({
+      next: (result: number) => {
+          this.loggedUserId = result;
+          this.getAllSystemAdministrators()
+      },
+      error: () => { }
+    });
+  }
+
+  getAllSystemAdministrators(): void {
+    this.administrationService.getAllSystemAdministrators().subscribe({
+      next: (result: SystemAdministrator[]) => {
+          this.systemAdministrators = result;
+          this.investigateRole()
+      },
+      error: () => { }
+    });
+  }
+
+  investigateRole(): void {
+    this.authService.isSystemAdministrator(this.username).subscribe({
+      next: (result: boolean) => {
+          if(result) {
+            this.systemAdministrators.forEach(sa => {
+              if(sa.id === this.loggedUserId) {
+                if(!sa.passwordChanged) {
+                  this.router.navigate(['/change-password-form']);
+                }
+                else {
+                  this.router.navigate(['/home']);
+                }
+              }
+              
+            })
+          }
+          else {
+            this.router.navigate(['/home']);
+          }
+      },
+      error: () => { }
+    });
+  }
+
 }

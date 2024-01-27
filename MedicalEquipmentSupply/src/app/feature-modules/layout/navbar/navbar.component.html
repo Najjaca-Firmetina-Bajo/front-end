@@ -4,7 +4,7 @@
         <div id="buttons">
             <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['my-profile']">My profile</button>
             <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['company-admin-profile']">Your CA profile</button> 
-            <button class="button" *ngIf="user && user.role === 'SYSTEM_ADMINISTRATOR'" mat-raised-button [routerLink]="['system-admin-home-page']">Options</button> 
+            <button class="button" *ngIf="user && user.role === 'SYSTEM_ADMINISTRATOR'" mat-raised-button [routerLink]="['system-admin-home-page']">Your SA profile</button> 
             <button class="button" *ngIf="user && isUserLoggedIn()" mat-raised-button [routerLink]="['equipment-review']">Equipment search</button> 
             
             <button class="button" *ngIf="!isUserLoggedIn()"  mat-raised-button [routerLink]="['login']">Login</button>

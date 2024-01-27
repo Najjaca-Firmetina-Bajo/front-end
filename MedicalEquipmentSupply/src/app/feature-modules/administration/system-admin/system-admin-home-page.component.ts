@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Company } from '../model/comapny.model';
 import { SystemAdministrator } from '../model/system-administrator.model';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'app-system-admin-home-page',
@@ -23,8 +24,11 @@ export class SystemAdminHomePageComponent implements OnInit{
   companyRegistrationForm: FormGroup;
   systemAdminRegistrationForm: FormGroup;
   availableAdministrators: CompanyAdministrator[] = []
+  allSystemAdministrators: SystemAdministrator[] = []
+  saName: string = ""
 
   constructor(private administrationService: AdministrationService,
+              private authService: AuthService,
               private router: Router,
               private formBuilder: FormBuilder,
     ) {
@@ -74,7 +78,7 @@ export class SystemAdminHomePageComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getAvailableAdministrators()
+    this.getLoggedUser()
   }
 
 
@@ -285,12 +289,40 @@ export class SystemAdminHomePageComponent implements OnInit{
     });
   }
 
+  getLoggedUser(): void {
+    this.authService.getAuthenticatedUserId().subscribe({
+      next: (result: number) => {
+          this.getSystemAdministrators(result);
+      },
+      error: () => { }
+    });
+  }
+
+  getSystemAdministrators(userId: number): void {
+    this.administrationService.getAllSystemAdministrators().subscribe({
+      next: (result: SystemAdministrator[]) => {
+          this.allSystemAdministrators = result;
+          this.investigate(userId)
+      },
+      error: () => { }
+    });
+  }
+
+  investigate(userId: number): void {
+    this.allSystemAdministrators.forEach(sa => {
+      if(sa.id === userId) {
+        this.saName = "SA profile of " + sa.name + " " + sa.surname
+        this.getAvailableAdministrators()
+      }
+    })
+  }
+
   addAdministrator(adminId: number, companyId: number) : void {
     this.administrationService.setCompanyAdministrator(adminId, companyId).subscribe({
       next: (result: number) => {
         //this.router.navigate(['']); 
         this.availableAdministrators.length = 0;
-        this.getAvailableAdministrators()
+        this.getLoggedUser()
       },
     });
   }

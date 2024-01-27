@@ -35,6 +35,7 @@ import { NavbarComponent } from './feature-modules/layout/navbar/navbar.componen
 import { UnregisteredCompaniesComponent } from './feature-modules/companies/unregistered-companies/unregistered-companies.component';
 import { UnregisteredEqipmentComponent } from './feature-modules/companies/unregistered-eqipment/unregistered-eqipment.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { ChangePasswordFormComponent } from './infrastructure/auth/change-password-form/change-password-form.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     NavbarComponent,
     UnregisteredCompaniesComponent,
     UnregisteredEqipmentComponent,
+    ChangePasswordFormComponent,
   ],
   imports: [
     BrowserModule,

@@ -36,6 +36,10 @@ export class AdministrationService {
     return this.http.get<CompanyAdministrator[]>(environment.apiHost + 'companyAdministrators/get-all')
   }
 
+  getAllSystemAdministrators(): Observable<SystemAdministrator[]> {
+    return this.http.get<SystemAdministrator[]>(environment.apiHost + 'systemAdministrators/get-all')
+  }
+
   setCompanyAdministrator(adminId: number, companyId: number): Observable<number> {
     return this.http.put<number>(environment.apiHost + 'companyAdministrators/set-company/' + adminId + '/' + companyId, null)
   }
