@@ -1,15 +1,15 @@
 <div class="centered-container">
-    <h2>Your QR Codes</h2>
+    <h2>Your future Appointments</h2>
   </div>
   
   <div class="container">
     <mat-card *ngFor="let qrCode of qrCodes">
-      <mat-card-content>
-        <h3>QR Code ID: {{ qrCode.id }}</h3>
-        <p>Status: {{ qrCode.status }}</p>
-        
-        <button mat-button color="warn" *ngIf="qrCode.status !== 'CANCELED' && qrCode.status !== 'DECLINED'" (click)="cancelQRCode(qrCode.id)">CANCEL</button>
-      </mat-card-content>
+        <mat-card-content>
+            <h3>QR Code ID: {{ qrCode.id }}</h3>
+            <p>Status: {{ qrCode.status }}</p>
+
+            <button mat-button class="submit-button" *ngIf="qrCode.status !== 'CANCELED' && qrCode.status !== 'DECLINED'" (click)="cancelQRCode(qrCode.id)">CANCEL</button>
+        </mat-card-content>
     </mat-card>
-  </div>
+</div>
   

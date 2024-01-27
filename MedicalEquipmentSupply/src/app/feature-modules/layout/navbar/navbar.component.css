@@ -1,8 +1,8 @@
 .frame {
-    height: 80px;
-    background: #eadfdf;
-    margin-bottom: 40px;
-  }
+  height: 80px;
+  background: linear-gradient(to top, rgb(198, 192, 192), white);
+  margin-bottom: 40px;
+}
     
   .flex-container {
     margin-left: 2vh;
@@ -21,6 +21,7 @@
 
   .logo{
     font-size: 25px;
+    font-weight: 400;
   }
   
   #buttons {

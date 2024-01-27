@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 })
 export class UnregisteredCompaniesComponent implements OnInit {
   companies: any[] = [];
+  logoUrl: string = 'https://png.pngtree.com/png-vector/20230415/ourmid/pngtree-company-line-icon-vector-png-image_6707332.png';
 
   constructor(private companyService: CompaniesService,private router: Router,private authService: AuthService) {}
 
