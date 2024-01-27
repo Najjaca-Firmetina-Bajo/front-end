@@ -36,6 +36,7 @@ import { UnregisteredCompaniesComponent } from './feature-modules/companies/unre
 import { UnregisteredEqipmentComponent } from './feature-modules/companies/unregistered-eqipment/unregistered-eqipment.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ChangePasswordFormComponent } from './infrastructure/auth/change-password-form/change-password-form.component';
+import { AppointmentsComponent } from './feature-modules/companies/appointments/appointments.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { ChangePasswordFormComponent } from './infrastructure/auth/change-passwo
     UnregisteredCompaniesComponent,
     UnregisteredEqipmentComponent,
     ChangePasswordFormComponent,
+    AppointmentsComponent,
   ],
   imports: [
     BrowserModule,

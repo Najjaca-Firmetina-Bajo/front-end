@@ -68,5 +68,13 @@ export class CompaniesService {
     return this.http.get<Equipment[]>(`${environment.apiHost}equipment/getByIds?${params}`);
   }
 
+  getAllQRCodesForUser(userId: number): Observable<QRCodeDto[]> {
+    return this.http.get<QRCodeDto[]>(environment.apiHost + 'qr-codes/get-all-by-user/' + userId);
+  }
+
+  cancelAppointmentReservation(appointmentId: number): Observable<void> {
+    return this.http.post<void>(`${environment.apiHost}appointments/cancel-reservation/${appointmentId}`, null);
+  }
+
   
 }

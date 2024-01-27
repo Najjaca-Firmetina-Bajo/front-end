@@ -103,7 +103,6 @@ export class CompanyInfoComponent implements OnInit {
   getAuthenticatedUserId(): void {
     this.companyService.getAuthenticatedUserId().subscribe(
       (userId: number) => {
-        console.log('Authenticated User ID:', Number(userId));
         this.userId = Number(userId)
       },
       (error) => {
