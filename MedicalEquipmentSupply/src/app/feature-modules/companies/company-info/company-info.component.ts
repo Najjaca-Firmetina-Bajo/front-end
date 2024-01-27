@@ -70,7 +70,7 @@ export class CompanyInfoComponent implements OnInit {
   }
 
   reserveAppointment(): void {
-    if (this.selectedAppointment) {
+    if (this.selectedAppointment && this.hasSelectedEquipment()) {
       this.getAuthenticatedUserId();
   
       const reservedEquipment: { equipmentId: number; quantity: number }[] = [];
@@ -118,12 +118,17 @@ export class CompanyInfoComponent implements OnInit {
     if (this.selectedEquipmentMap.has(equipmentId)) {
       this.selectedEquipmentMap.delete(equipmentId);
     } else {
-      this.selectedEquipmentMap.set(equipmentId, 0);
+      this.selectedEquipmentMap.set(equipmentId, 1);
     }
+  }
+
+  hasSelectedEquipment(): boolean {
+    return this.selectedEquipmentMap.size > 0;
   }
 
   updateSelectedQuantity(equipmentId: number, event: any): void {
     const selectedQuantity = parseInt(event.target.value, 10);
+    if(selectedQuantity > 0)
     this.selectedEquipmentMap.set(equipmentId, selectedQuantity);
   }
   
