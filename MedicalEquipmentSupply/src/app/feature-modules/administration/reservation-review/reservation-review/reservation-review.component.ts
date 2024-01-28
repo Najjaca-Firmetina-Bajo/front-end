@@ -208,7 +208,7 @@ export class ReservationReviewComponent implements OnInit{
   }
 
   findAppropriateCompanyAdministrator(): void {
-    this.allExpiredAppointments.forEach(a => {
+    this.allUnexpiredAppointments.forEach(a => {
       const qrid = parseInt(this.qrCodeAppointmentId, 10);
       if(a.id === qrid) {
         this.companyAdmins.forEach(ca => {
