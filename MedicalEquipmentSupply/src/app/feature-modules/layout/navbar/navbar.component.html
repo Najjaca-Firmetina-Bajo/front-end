@@ -2,8 +2,10 @@
     <div class="flex-container">
         <p class="logo" >NFB Medical Supply</p>
         <div id="buttons">
+            <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['my-profile']">My profile</button>
             <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['appointments']">My appointments</button>
-            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['company-admin-profile']">Your CA profile</button> 
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['company-admin-profile']">Your CA profile</button>
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['reservation-review']">Issuing of equipment</button> 
             <button class="button" *ngIf="user && user.role === 'SYSTEM_ADMINISTRATOR'" mat-raised-button [routerLink]="['system-admin-home-page']">Your SA profile</button> 
             <button class="button" *ngIf="user && isUserLoggedIn()" mat-raised-button [routerLink]="['equipment-review']">Equipment search</button> 
             

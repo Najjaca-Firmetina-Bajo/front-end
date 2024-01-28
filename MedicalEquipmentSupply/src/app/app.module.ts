@@ -37,6 +37,7 @@ import { UnregisteredEqipmentComponent } from './feature-modules/companies/unreg
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ChangePasswordFormComponent } from './infrastructure/auth/change-password-form/change-password-form.component';
 import { AppointmentsComponent } from './feature-modules/companies/appointments/appointments.component';
+import { ReservationReviewComponent } from './feature-modules/administration/reservation-review/reservation-review/reservation-review.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { AppointmentsComponent } from './feature-modules/companies/appointments/
     UnregisteredEqipmentComponent,
     ChangePasswordFormComponent,
     AppointmentsComponent,
+    ReservationReviewComponent,
   ],
   imports: [
     BrowserModule,

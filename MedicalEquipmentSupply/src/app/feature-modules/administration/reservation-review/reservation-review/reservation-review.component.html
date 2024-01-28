@@ -1,0 +1,54 @@
+<div class="container">
+    <h1>{{caName}}</h1>
+    <div>
+        <button class="back-button" (click)="backToPerviousPage()" mat-raised-button>Back</button>
+    </div>
+    <div class="form-row">
+        <input type="file" (change)="handleFileInput($event)">
+        <button class="button" color="primary" (click)="findAppointment()" mat-raised-button>Scan QR code</button>
+    </div>
+    <div class="image">
+        <img *ngIf="imageUrl" [src]="imageUrl" alt="Selected Image">
+    </div>
+
+    <div *ngIf="isValidQRcode">
+        <table>
+            <thead>
+                <tr>
+                    <th>Reservation number</th>
+                    <th>Registered user</th>
+                    <th>Equipment</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{reservationDetails.reservationNumber}}</td>
+                    <td>{{reservationDetails.registeredUser}}</td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let e of reservationDetails.equipments">{{e}}</li>
+                        </ul>    
+                    </td>
+                    <td>
+                        <div>
+                            <button class="button" color="primary" (click)="updateStockStatus()" mat-raised-button>Confirm</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="isUsed">
+        <p class="form-header">The QR code has already been used!</p>
+    </div>
+    <div *ngIf="isExpiredQRcode">
+        <p class="form-header">The QR code has expired. {{reservationDetails.registeredUser}} have received two penalty points.</p>
+    </div>
+    <div *ngIf="isWrongAdministrator">
+        <p class="form-header">The QR code cannot be loaded. The user should contact the responsible company administrator. It's {{responsibleCompanyAdministrator}}</p>
+    </div>
+    <div *ngIf="isDownloaded">
+        <p class="form-header">The order was successfully executed! A confirmation email has been sent to {{reservationDetails.registeredUser}}.</p>
+    </div>
+</div>
