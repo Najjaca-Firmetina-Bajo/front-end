@@ -1,1 +1,5 @@
-<p>reservation-review works!</p>
+<div>
+    <input type="file" (change)="handleFileInput($event)">
+</div>
+<button class="button" color="primary" (click)="findAppointment()" mat-raised-button>Find</button>
+<button class="button" color="primary" (click)="show()" mat-raised-button>Show</button>
