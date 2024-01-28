@@ -33,6 +33,7 @@ export class ReservationReviewComponent implements OnInit{
   isExpiredQRcode: boolean = false;
   isWrongAdministrator: boolean = false;
   isDownloaded: boolean = false;
+  isUsed: boolean = false;
 
   imageUrl: string = ""
 
@@ -172,6 +173,7 @@ export class ReservationReviewComponent implements OnInit{
     this.isExpiredQRcode = false;
     this.isWrongAdministrator = false;
     this.isDownloaded = false;
+    this.isUsed = false;
 
     let flag = false;
     this.unexpiredAppointmentsForCA.forEach(uap => { //this.unexpiredAppointmentsForCA.forEach, this.allExpiredAppointments
@@ -185,8 +187,23 @@ export class ReservationReviewComponent implements OnInit{
         this.findQRCodeInformations(uap, true);
       }
     })
-
+  
     if(!flag) {
+      this.isQRcodeAlreadyUsed()
+    }
+  }
+
+  isQRcodeAlreadyUsed(): void {
+    let flag = false;
+    const qrid = parseInt(this.qrCodeAppointmentId, 10);
+    this.allUnexpiredAppointments.forEach(uap => {
+      if(uap.id === qrid) {
+        flag = true;
+      }
+    }) 
+    
+    if(!flag) {
+      this.isUsed = true;
       this.isReservationExpired()
     }
   }

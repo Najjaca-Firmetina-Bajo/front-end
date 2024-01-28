@@ -39,6 +39,9 @@
             </tbody>
         </table>
     </div>
+    <div *ngIf="isUsed">
+        <p class="form-header">The QR code has already been used!</p>
+    </div>
     <div *ngIf="isExpiredQRcode">
         <p class="form-header">The QR code has expired. {{reservationDetails.registeredUser}} have received two penalty points.</p>
     </div>
