@@ -81,6 +81,10 @@ export class AdministrationService {
     return this.http.put<number>(environment.apiHost + 'appointments/download-equipment/' + appointmentId + '/' + qrCodeId, null)
   }
 
+  getDownloadedAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/find-downloaded-appointments')
+  }
+
   getExpiredAppointments(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/find-expired-appointments')
   }

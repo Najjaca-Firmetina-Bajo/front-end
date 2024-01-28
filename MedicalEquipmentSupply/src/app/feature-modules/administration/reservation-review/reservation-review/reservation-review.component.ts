@@ -19,6 +19,7 @@ export class ReservationReviewComponent implements OnInit{
 
   allUnexpiredAppointments: Appointment[] = []
   allExpiredAppointments: Appointment[] = []
+  allDownloadedAppointments: Appointment[] = []
   allQRCodes: QRCodeDto[] = []
   allQRCodeEquipment: QRCodeEquipment[] = []
   allEquipment: Equipment[] = []
@@ -124,6 +125,16 @@ export class ReservationReviewComponent implements OnInit{
     this.administrationService.getExpiredAppointments().subscribe({
       next: (result: Appointment[]) => {
           this.allExpiredAppointments = result;
+          this.getAllDownloadedAppointments();
+      },
+      error: () => { }
+    });
+  }
+
+  getAllDownloadedAppointments(): void {
+    this.administrationService.getDownloadedAppointments().subscribe({
+      next: (result: Appointment[]) => {
+          this.allDownloadedAppointments = result;
           this.getAllQRCodes();
       },
       error: () => { }
@@ -196,14 +207,15 @@ export class ReservationReviewComponent implements OnInit{
   isQRcodeAlreadyUsed(): void {
     let flag = false;
     const qrid = parseInt(this.qrCodeAppointmentId, 10);
-    this.allUnexpiredAppointments.forEach(uap => {
-      if(uap.id === qrid) {
+
+    this.allDownloadedAppointments.forEach(dap => {
+      if(dap.id === qrid) {
         flag = true;
+        this.isUsed = true;
       }
-    }) 
+    })
     
     if(!flag) {
-      this.isUsed = true;
       this.isReservationExpired()
     }
   }
