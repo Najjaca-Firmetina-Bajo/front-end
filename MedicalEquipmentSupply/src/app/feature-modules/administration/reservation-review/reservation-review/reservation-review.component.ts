@@ -8,6 +8,7 @@ import { QRCodeEquipment } from '../../model/qr-eq.model';
 import { Equipment } from '../../model/equipment.model';
 import jsQR from 'jsqr';
 import { RegistredUser } from '../../model/registred-user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reservation-review',
@@ -25,6 +26,15 @@ export class ReservationReviewComponent implements OnInit{
 
   unexpiredAppointmentsForCA: Appointment[] = []
   qrCodeAppointmentId: string = "";
+  registeredUserId: number = -1
+  responsibleCompanyAdministrator: string = ""
+
+  isValidQRcode: boolean = false;
+  isExpiredQRcode: boolean = false;
+  isWrongAdministrator: boolean = false;
+  isDownloaded: boolean = false;
+
+  imageUrl: string = ""
 
   reservationDetails: { reservationNumber: number, registeredUser: string, equipments: string[], eids: number[], quantities: number[] } = {
     reservationNumber: -1,
@@ -54,7 +64,7 @@ export class ReservationReviewComponent implements OnInit{
   }
   caName: String = ""
 
-  constructor(private administrationService: AdministrationService, private authService: AuthService) {}
+  constructor(private administrationService: AdministrationService, private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
       this.getAllCompanyAdministrators()
@@ -157,10 +167,14 @@ export class ReservationReviewComponent implements OnInit{
     })
   }
 
-  //TODO: what if is not QR code for this CA?
   findAppointment(): void {
+    this.isValidQRcode = false;
+    this.isExpiredQRcode = false;
+    this.isWrongAdministrator = false;
+    this.isDownloaded = false;
+
     let flag = false;
-    this.allExpiredAppointments.forEach(uap => { //this.unexpiredAppointmentsForCA.forEach
+    this.unexpiredAppointmentsForCA.forEach(uap => { //this.unexpiredAppointmentsForCA.forEach, this.allExpiredAppointments
       const qrid = parseInt(this.qrCodeAppointmentId, 10);
       if(uap.id === qrid) {
         flag = true;
@@ -168,7 +182,7 @@ export class ReservationReviewComponent implements OnInit{
         this.reservationDetails.equipments.length = 0;
         this.reservationDetails.registeredUser = "";
         this.reservationDetails.reservationNumber = -1;
-        this.findQRCodeInformations(uap);
+        this.findQRCodeInformations(uap, true);
       }
     })
 
@@ -183,7 +197,8 @@ export class ReservationReviewComponent implements OnInit{
       const qrid = parseInt(this.qrCodeAppointmentId, 10);
       if(a.id === qrid) {
         flag = true;
-        //prikazi poruku da je istekla rezervacija
+        this.findQRCodeInformations(a, false)
+        this.givePenalPoints()
       }
     })
 
@@ -193,28 +208,48 @@ export class ReservationReviewComponent implements OnInit{
   }
 
   findAppropriateCompanyAdministrator(): void {
-
+    this.allExpiredAppointments.forEach(a => {
+      const qrid = parseInt(this.qrCodeAppointmentId, 10);
+      if(a.id === qrid) {
+        this.companyAdmins.forEach(ca => {
+          if(a.companyAdministratorId === ca.id) {
+            this.responsibleCompanyAdministrator = ca.name + " " + ca.surname;
+            this.isWrongAdministrator = true;
+          }
+        })
+      }
+    })
   }
 
-  findQRCodeInformations(appointment: Appointment): void {
+  givePenalPoints(): void {
+    this.administrationService.givePenalPoints(this.registeredUserId).subscribe({
+      next: (result: number) => {
+          this.isExpiredQRcode = true;
+      },
+      error: () => { }
+    });
+  }
+
+  findQRCodeInformations(appointment: Appointment, isValid: boolean): void {
     this.allQRCodes.forEach(qr => {
       if(qr.appointmentId === appointment.id) {
         this.reservationDetails.reservationNumber = qr.id;
-        this.findRegisteredUser(qr)
+        this.findRegisteredUser(qr, isValid)
       }
     })
   }
 
-  findRegisteredUser(qrCode: QRCodeDto): void {
+  findRegisteredUser(qrCode: QRCodeDto, isValid: boolean): void {
     this.allRegisteredUsers.forEach(ru => {
       if(qrCode.registeredUserId === ru.id) {
         this.reservationDetails.registeredUser = ru.name + " " + ru.surname;
-        this.findQRCodeEquipment(qrCode);
+        this.registeredUserId = ru.id
+        this.findQRCodeEquipment(qrCode, isValid);
       }
     })
   }
 
-  findQRCodeEquipment(qrCode: QRCodeDto): void {
+  findQRCodeEquipment(qrCode: QRCodeDto, isValid: boolean): void {
     this.allQRCodeEquipment.forEach(qre => {
       if(qre.qrCode === qrCode.id) {
         this.allEquipment.forEach(e => {
@@ -226,6 +261,10 @@ export class ReservationReviewComponent implements OnInit{
         })
       }
     })
+
+    if(isValid) {
+      this.isValidQRcode = true;
+    }
   }
 
   updateStockStatus(): void {
@@ -233,25 +272,27 @@ export class ReservationReviewComponent implements OnInit{
     this.reservationDetails.eids.forEach(eid => {
       this.administrationService.updateStockStatus(eid, this.loggedCA.companyId, this.reservationDetails.quantities[i]).subscribe({
         next: (result: number) => {
-            i += 1;
+            i = i + 1;
         },
         error: () => { }
       });
     })
+    this.downloadEquipmentAndSendEmail()
   }
 
   downloadEquipmentAndSendEmail(): void {
     const qrid = parseInt(this.qrCodeAppointmentId, 10);
     this.administrationService.downloadEquipmentAndSendEmail(qrid, this.reservationDetails.reservationNumber).subscribe({
       next: (result: number) => {
-
+        this.isValidQRcode = false;
+        this.isDownloaded = true;
       },
       error: () => { }
     });
   }
 
-  show(): void {
-    console.log(this.reservationDetails)
+  backToPerviousPage(): void {
+    this.router.navigate(['/home']); 
   }
 
   handleFileInput(event: any): void {
@@ -263,6 +304,7 @@ export class ReservationReviewComponent implements OnInit{
 
       reader.onload = (e: any) => {
         const imageDataUrl = e.target.result;
+        this.imageUrl = reader.result as string;
         this.processImageData(imageDataUrl);
       };
 
@@ -300,11 +342,5 @@ export class ReservationReviewComponent implements OnInit{
 
     img.src = imageDataUrl;
   }
-
-
-
-  //sada CA prilaze QRCode. QRCode se trazi u njegovim listama za pocetak, prikazu se sve informacije koje QRCode sadrzi.
-  //u zavisnosti od datuma, prikazuje se opcija "issue equipment" + obavjestenje o mejlu
-  //u zavisnosti od datuma, prikazuje se poruka o penalima za registrovanog korisnika
 
 }
