@@ -1,0 +1,12 @@
+<div id="mainthing">
+    <p class="osa">Simulator for delivery</p>
+    <p class="osa">Frequency in seconds:</p>
+    <input class="inputblea" type="number" [(ngModel)]="frequency" min="1" max="30" placeholder="Choose Frequency">
+    <br><br>
+    <button class="submit-button" mat-raised-button (click)="startSimulation()">Start sim</button>
+
+    <br><br>
+    <div class="map-container">
+        <app-map [coord]="coord"></app-map>
+    </div>
+</div>

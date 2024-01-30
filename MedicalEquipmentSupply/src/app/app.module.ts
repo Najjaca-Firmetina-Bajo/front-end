@@ -38,6 +38,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { ChangePasswordFormComponent } from './infrastructure/auth/change-password-form/change-password-form.component';
 import { AppointmentsComponent } from './feature-modules/companies/appointments/appointments.component';
 import { MapComponent } from './feature-modules/map/map.component';
+import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { MapComponent } from './feature-modules/map/map.component';
     ChangePasswordFormComponent,
     AppointmentsComponent,
     MapComponent,
+    SimulatorComponent,
   ],
   imports: [
     BrowserModule,

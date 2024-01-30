@@ -12,6 +12,7 @@ import { UnregisteredEqipmentComponent } from './feature-modules/companies/unreg
 import { ChangePasswordFormComponent } from './infrastructure/auth/change-password-form/change-password-form.component';
 import { AppointmentsComponent } from './feature-modules/companies/appointments/appointments.component';
 import { MapComponent } from './feature-modules/map/map.component';
+import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
 
 
 
@@ -28,7 +29,7 @@ const routes: Routes = [
   { path: 'company/:id', component: UnregisteredEqipmentComponent },
   { path: 'change-password-form', component: ChangePasswordFormComponent },
   { path: 'appointments', component: AppointmentsComponent },
-  { path: 'map', component: MapComponent },
+  { path: 'map', component: SimulatorComponent },
 ];
 
 @NgModule({
