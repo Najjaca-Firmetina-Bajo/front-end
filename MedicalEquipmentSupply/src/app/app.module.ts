@@ -38,6 +38,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { ChangePasswordFormComponent } from './infrastructure/auth/change-password-form/change-password-form.component';
 import { AppointmentsComponent } from './feature-modules/companies/appointments/appointments.component';
 import { ReservationReviewComponent } from './feature-modules/administration/reservation-review/reservation-review/reservation-review.component';
+import { MapComponent } from './feature-modules/map/map.component';
+import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { ReservationReviewComponent } from './feature-modules/administration/res
     ChangePasswordFormComponent,
     AppointmentsComponent,
     ReservationReviewComponent,
+    MapComponent,
+    SimulatorComponent,
   ],
   imports: [
     BrowserModule,

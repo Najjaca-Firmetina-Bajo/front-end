@@ -1,0 +1,27 @@
+
+#mainthing{
+    padding: 60px;
+    height: 1000px;
+}
+
+
+.map-container {
+    width: 600px;
+    height: 400px;
+}
+
+.submit-button {
+    background-color: #E53935 !important; /* Red background color */
+    color: white !important;
+    width: 20%;
+    border-radius: 15px;
+    margin-top: 20px;
+  }
+
+  .inputblea {
+    font-size: 30px; /* Adjust the font size as needed */
+  }
+
+  .osa{
+    font-size: 25px;
+  }
