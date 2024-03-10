@@ -40,6 +40,7 @@ import { AppointmentsComponent } from './feature-modules/companies/appointments/
 import { ReservationReviewComponent } from './feature-modules/administration/reservation-review/reservation-review/reservation-review.component';
 import { MapComponent } from './feature-modules/map/map.component';
 import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
+import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { SimulatorComponent } from './feature-modules/map/simulator/simulator.co
     ReservationReviewComponent,
     MapComponent,
     SimulatorComponent,
+    ProfileAdministrationComponent,
   ],
   imports: [
     BrowserModule,

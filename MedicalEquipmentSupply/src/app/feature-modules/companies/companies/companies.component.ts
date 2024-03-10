@@ -15,6 +15,11 @@ export class CompaniesComponent implements OnInit {
   companies: any[] = [];
   isCompanyAdmin: boolean = false
   companyAdmins: CompanyAdministrator[] = []
+  search: string = '';
+  filterRating: string = '';
+  filterEq: string = '';
+  filter: boolean = false;
+  parameters: string = ''
 
   constructor(private companyService: CompaniesService,
               private authService: AuthService,
@@ -25,9 +30,10 @@ export class CompaniesComponent implements OnInit {
     this.loadCompanies();
   }
 
-  private loadCompanies(): void {
+  loadCompanies(): void {
     this.companyService.getCompanies().subscribe((data) => {
       this.companies = data;
+      this.filter = false;
       this.getAllCompanyAdministrators();
     });
   }
@@ -72,4 +78,24 @@ export class CompaniesComponent implements OnInit {
     this.router.navigate(['/company-admin-profile']);
   }
 
+  searchCompanies(): void {
+    this.companyService.searchCompanies(this.search).subscribe((data) => {
+      this.companies = data;
+      this.filter = true;
+    })
+  }
+
+  filterCompaniesByRating(): void {
+    this.parameters = this.search + ',' + this.filterRating
+    this.companyService.filterCompaniesByRating(this.parameters).subscribe((data) => {
+      this.companies = data;
+    })
+  }
+
+  filterCompaniesByEquipmentNum(): void {
+    this.parameters = this.search + ',' + this.filterEq
+    this.companyService.filterCompaniesByEquipmentNum(this.parameters).subscribe((data) => {
+      this.companies = data;
+    })
+  }
 }

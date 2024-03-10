@@ -1,0 +1,41 @@
+<form [formGroup]="profileInfoForm" (ngSubmit)="edit()">
+    <div>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" type="text" [readonly]="!isEditing"/>
+        <mat-error *ngIf="profileInfoForm.get('name')?.hasError('pattern')">Name should start with an uppercase letter</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Surname</mat-label>
+        <input matInput formControlName="surname" type="text" [readonly]="!isEditing"/>
+        <mat-error *ngIf="profileInfoForm.get('surname')?.hasError('pattern')">Surname should start with an uppercase letter</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="text" [readonly]="true"/>
+        <mat-error *ngIf="profileInfoForm.get('email')?.hasError('email')">Invalid email format</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Phone number</mat-label>
+        <input matInput formControlName="phoneNumber" type="text" [readonly]="!isEditing"/>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Country</mat-label>
+        <input matInput formControlName="country" type="text" [readonly]="!isEditing"/>
+      </mat-form-field>    
+      <mat-form-field>
+        <mat-label>City</mat-label>
+        <input matInput formControlName="city" type="text" [readonly]="!isEditing"/>
+      </mat-form-field>  
+      <mat-form-field>
+        <mat-label>Occupation</mat-label>
+        <input matInput formControlName="occupation" type="text" [readonly]="!isEditing"/>
+      </mat-form-field>       
+      <mat-form-field>
+        <mat-label>Penal points</mat-label>
+        <input matInput formControlName="penal" type="text" [readonly]="true"/>
+      </mat-form-field>                              
+      <button *ngIf="!isEditing" color="primary" mat-raised-button (click)="startEditing()">Edit</button>
+      <button *ngIf="isEditing" color="primary" mat-raised-button (click)="saveChanges()">Save</button>
+    </div>
+</form>

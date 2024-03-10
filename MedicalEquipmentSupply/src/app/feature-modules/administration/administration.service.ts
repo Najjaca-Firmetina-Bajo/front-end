@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/env/enviroment';
 import { CompanyAdministrator } from './model/company-administrator.model';
@@ -115,5 +115,16 @@ export class AdministrationService {
 
   getAllQRCodeEquipments(): Observable<QRCodeEquipment[]> {
     return this.http.get<QRCodeEquipment[]>(environment.apiHost + 'qreq/get-all')
+  }
+
+  getRegisteredUser(userId: number): Observable<RegistredUser> {
+    return this.http.get<RegistredUser>(environment.apiHost + 'registeredUsers/get_registered_user/' + userId)
+  }
+
+  edit(registration: RegistredUser): Observable<any> {
+    const headers = new HttpHeaders({
+    });
+
+    return this.http.put(environment.apiHost + 'registeredUsers/update-registered-user', registration, { headers });
   }
 }
