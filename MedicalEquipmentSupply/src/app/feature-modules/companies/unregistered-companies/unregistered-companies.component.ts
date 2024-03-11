@@ -14,13 +14,26 @@ export class UnregisteredCompaniesComponent implements OnInit {
 
   constructor(private companyService: CompaniesService,private router: Router,private authService: AuthService) {}
 
+  search: string = '';
+  filterRating: string = '';
+  filterEq: string = '';
+  filter: boolean = false;
+  parameters: string = ''
+
   ngOnInit(): void {
     this.loadCompanies();
   }
 
-  private loadCompanies(): void {
+  loadCompanies(): void {
     this.companyService.getCompanies().subscribe((data) => {
       this.companies = data;
+    });
+  }
+
+  resetSearching(): void {
+    this.companyService.getCompanies().subscribe((data) => {
+      this.companies = data;
+      this.filter = false;
     });
   }
 
@@ -33,5 +46,26 @@ export class UnregisteredCompaniesComponent implements OnInit {
     else{
       this.router.navigate(['/company-info', companyId]);
     }
+  }
+
+  searchCompanies(): void {
+    this.companyService.searchCompanies(this.search).subscribe((data) => {
+      this.companies = data;
+      this.filter = true;
+    })
+  }
+
+  filterCompaniesByRating(): void {
+    this.parameters = this.search + ',' + this.filterRating
+    this.companyService.filterCompaniesByRating(this.parameters).subscribe((data) => {
+      this.companies = data;
+    })
+  }
+
+  filterCompaniesByEquipmentNum(): void {
+    this.parameters = this.search + ',' + this.filterEq
+    this.companyService.filterCompaniesByEquipmentNum(this.parameters).subscribe((data) => {
+      this.companies = data;
+    })
   }
 }
