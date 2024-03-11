@@ -4,9 +4,7 @@
       <mat-form-field>
         <input matInput placeholder="Search" [(ngModel)]="search">
       </mat-form-field>
-      <button mat-icon-button color="primary" (click)="searchCompanies()">
-        <mat-icon style="font-size: 24px;">search</mat-icon>
-      </button>
+      <button class="button" color="primary" (click)="searchCompanies()" mat-raised-button>Search</button>
       <mat-form-field *ngIf="filter">
         <input matInput placeholder="Filter for rating" min="-1" [(ngModel)]="filterRating">
       </mat-form-field>
