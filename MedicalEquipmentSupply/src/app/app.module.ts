@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 // Auth0 Angular JWT Module
 import { JwtModule } from '@auth0/angular-jwt';
@@ -78,6 +79,7 @@ import { ProfileAdministrationComponent } from './feature-modules/administration
     MatPaginatorModule,
     MatMenuModule,
     MatCardModule,
+    MatDatepickerModule,
     HttpClientModule,
     FormsModule,
     FullCalendarModule,

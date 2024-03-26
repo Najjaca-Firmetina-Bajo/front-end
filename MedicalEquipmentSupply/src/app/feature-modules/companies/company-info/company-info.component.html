@@ -67,10 +67,17 @@
   </div>
 
   <!-- Right side: Appointments and Selected Appointment -->
-  <div class="right-side">
+  <div class="right-side">    
     <mat-card>
       <mat-card-content>
         <ng-container *ngIf="hasSelectedEquipment(); else noEquipmentText">
+          <mat-card>
+            <mat-card-content>
+              <p>Choose date when you want to reserve appointment</p>
+              <input type="date" [(ngModel)]="selectedDate" class="custom-date-picker">
+              <button mat-raised-button color="primary" (click)="loadExtraordinaryAppointments()">Load Extraordinary Appointments</button>
+            </mat-card-content>
+          </mat-card> 
           <table mat-table [dataSource]="appointments">
             <!-- Radio Column -->
             <ng-container matColumnDef="select">
@@ -110,6 +117,5 @@
         <button class="submit-button" mat-button color="primary" (click)="reserveAppointment()">Reserve</button>
       </mat-card-content>
     </mat-card>
-
   </div>
 </div>

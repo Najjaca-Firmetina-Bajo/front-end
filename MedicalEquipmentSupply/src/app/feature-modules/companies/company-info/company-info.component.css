@@ -60,3 +60,9 @@
   .equipment-quantity {
     font-size: 20px; /* Adjust the font size as needed */
   }
+
+  button {
+    background-color: #E53935 !important; /* Red background color */
+    color: white !important;
+    border-radius: 15px;
+  }

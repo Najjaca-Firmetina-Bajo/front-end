@@ -22,6 +22,7 @@ export class CompanyInfoComponent implements OnInit {
   appointments: any;
   selectedAppointment: Appointment | null = null;
   userId: number;
+  selectedDate: Date = new Date();
 
   constructor(private route: ActivatedRoute,private companyService: CompaniesService,private router: Router) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
@@ -66,6 +67,14 @@ export class CompanyInfoComponent implements OnInit {
           this.appointments = data;
         });
       });
+    }
+  }
+
+   loadExtraordinaryAppointments(): void{
+    if(this.companyId){
+      this.companyService.getExtraordinaryAppointments(this.selectedDate,this.companyId).subscribe((data) =>{
+        this.appointments = data;
+      })
     }
   }
 

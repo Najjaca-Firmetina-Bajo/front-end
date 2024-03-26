@@ -87,4 +87,29 @@ export class CompaniesService {
   filterCompaniesByEquipmentNum(params: string): Observable<Company[]> {
     return this.http.get<Company[]>(environment.apiHost + 'companies/filter-eq/' + params)
   }
+
+  getExtraordinaryAppointments(selectedDate: Date, companyId: number): Observable<Appointment[]> {
+    const formattedDate = this.formatDate(selectedDate);
+    const params = { date: formattedDate, companyId: companyId.toString() };
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/extraordinary-appointments', { params });
+  }
+
+  formatDate(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'short',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZone: 'GMT'
+    };
+    const selectedDate = new Date(date);
+  
+    // Formatiranje datuma koristeći Intl.DateTimeFormat
+    const formattedDate = new Intl.DateTimeFormat('en-US', options).format(selectedDate);
+  
+    return formattedDate;
+  }
 }
