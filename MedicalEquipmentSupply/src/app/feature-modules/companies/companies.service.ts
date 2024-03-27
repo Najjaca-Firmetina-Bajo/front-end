@@ -8,6 +8,8 @@ import { WorkingCalendar } from '../administration/model/working-calendar.model'
 import { Appointment } from '../administration/model/appointment.model';
 import { Company } from '../administration/model/comapny.model';
 import { QRCodeDto } from '../administration/model/qrcode.model';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -91,7 +93,15 @@ export class CompaniesService {
   getExtraordinaryAppointments(selectedDate: Date, companyId: number): Observable<Appointment[]> {
     const formattedDate = this.formatDate(selectedDate);
     const params = { date: formattedDate, companyId: companyId.toString() };
-    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/extraordinary-appointments', { params });
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/extraordinary-appointments', { params }).pipe(
+      catchError(error => {
+        // Ovde možete obraditi grešku koja se dogodila
+        console.error('Greška prilikom dobijanja izvanrednih termina:', error);
+        
+        // Vraćanje praznog niza ili neke podrazumevane vrednosti kao rezultata
+        return of([]);
+      })
+    );
   }
 
   formatDate(date: Date): string {

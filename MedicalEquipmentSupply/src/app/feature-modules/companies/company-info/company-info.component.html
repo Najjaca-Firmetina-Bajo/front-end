@@ -76,9 +76,10 @@
               <p>Choose date when you want to reserve appointment</p>
               <input type="date" [(ngModel)]="selectedDate" class="custom-date-picker">
               <button mat-raised-button color="primary" (click)="loadExtraordinaryAppointments()">Load Extraordinary Appointments</button>
+              <button mat-raised-button color="primary" (click)="loadAppointments()">Load Predefined Appointments</button>
             </mat-card-content>
           </mat-card> 
-          <table mat-table [dataSource]="appointments">
+          <table *ngIf="!companyNotWorking; else companyNotWorkingText" mat-table [dataSource]="appointments">
             <!-- Radio Column -->
             <ng-container matColumnDef="select">
               <th mat-header-cell *matHeaderCellDef>Select</th>
@@ -101,6 +102,9 @@
             <tr mat-header-row *matHeaderRowDef="['select', 'pickUpDate', 'pickUpTime']"></tr>
             <tr mat-row *matRowDef="let row; columns: ['select', 'pickUpDate', 'pickUpTime']"></tr>
           </table>
+          <ng-template #companyNotWorkingText>
+            <p>Company is not working that day</p>
+          </ng-template>
         </ng-container>
 
         <!-- Text when no equipment is selected -->
