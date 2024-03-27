@@ -5,6 +5,22 @@
         <input matInput placeholder="Search" [(ngModel)]="search">
       </mat-form-field>
       <button class="button" color="primary" (click)="searchCompanies()" mat-raised-button>Search</button>
+      <mat-form-field>
+        <mat-label>Sort Order</mat-label>
+        <mat-select [(ngModel)]="ascOrDesc">
+          <mat-option value="asc">Ascending</mat-option>
+          <mat-option value="desc">Descending</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Sort Type</mat-label>
+        <mat-select [(ngModel)]="type">
+          <mat-option value="name">Name</mat-option>
+          <mat-option value="rating">Rating</mat-option>
+          <mat-option value="address">Address</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="button" color="primary" (click)="sortCompanies()" mat-raised-button>Sort</button>
       <mat-form-field *ngIf="filter">
         <input matInput placeholder="Filter for rating" min="-1" [(ngModel)]="filterRating">
       </mat-form-field>

@@ -18,7 +18,9 @@ export class UnregisteredCompaniesComponent implements OnInit {
   filterRating: string = '';
   filterEq: string = '';
   filter: boolean = false;
-  parameters: string = ''
+  parameters: string = '';
+  ascOrDesc: string = 'asc';
+  type: string = 'name';
 
   ngOnInit(): void {
     this.loadCompanies();
@@ -52,6 +54,12 @@ export class UnregisteredCompaniesComponent implements OnInit {
     this.companyService.searchCompanies(this.search).subscribe((data) => {
       this.companies = data;
       this.filter = true;
+    })
+  }
+
+  sortCompanies(): void {
+    this.companyService.sortCompanies(this.ascOrDesc,this.type).subscribe((data) => {
+      this.companies = data;
     })
   }
 

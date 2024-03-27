@@ -122,4 +122,8 @@ export class CompaniesService {
   
     return formattedDate;
   }
+
+  sortCompanies(ascOrDesc: string, type: string): Observable<Company[]> {
+    return this.http.get<Company[]>(environment.apiHost + 'companies/sort/' + ascOrDesc + '/' + type)
+  }
 }
