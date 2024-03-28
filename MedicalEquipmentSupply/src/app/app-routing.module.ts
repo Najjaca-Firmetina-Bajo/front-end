@@ -15,6 +15,7 @@ import { ReservationReviewComponent } from './feature-modules/administration/res
 import { MapComponent } from './feature-modules/map/map.component';
 import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
 import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
+import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
 
 
 
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'reservation-review', component: ReservationReviewComponent },
   { path: 'map', component: SimulatorComponent },
   { path: 'my-profile/:id', component: ProfileAdministrationComponent},
+  { path: 'downloaded-appointments/:id', component: DownloadedAppointmentsComponent},
 ];
 
 @NgModule({

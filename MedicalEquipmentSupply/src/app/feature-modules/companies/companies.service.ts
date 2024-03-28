@@ -51,6 +51,10 @@ export class CompaniesService {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-all-from-calendar/'+id)
   }
 
+  getUsersDownloadedAppointments(id: number): Observable<Appointment[]>{
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-users-downloaded-appointments/'+id)
+  }
+
   reserveAppointment(qrCodeDto: QRCodeDto): Observable<QRCodeDto> {
     return this.http.post<QRCodeDto>(environment.apiHost + 'appointments/reserve', qrCodeDto)
   }
