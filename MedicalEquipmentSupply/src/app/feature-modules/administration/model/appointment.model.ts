@@ -1,3 +1,4 @@
+import { Equipment } from "./equipment.model";
 import { ReservedEquipmentItem } from "./qrcode.model";
 
 export enum AppointmentType {
@@ -16,6 +17,7 @@ export interface Appointment {
     companyAdministratorId: number;
     workingDayId: number;
     registredUserId: number;
-    reservedEquipment: ReservedEquipmentItem;
+    reservedEquipment: ReservedEquipmentItem[];
+    reservedEquipmentReal: Equipment[];
   }
   

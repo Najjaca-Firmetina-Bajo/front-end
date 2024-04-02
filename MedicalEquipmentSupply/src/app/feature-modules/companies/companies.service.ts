@@ -130,4 +130,12 @@ export class CompaniesService {
   sortCompanies(ascOrDesc: string, type: string): Observable<Company[]> {
     return this.http.get<Company[]>(environment.apiHost + 'companies/sort/' + ascOrDesc + '/' + type)
   }
+
+  getEquipment(id: number): Observable<Equipment> {;
+    return this.http.get<Equipment>(environment.apiHost + 'equipment/' + id);
+  }
+
+  sortAppointments(ascOrDesc: string, type: string, id: number): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/sort/' + ascOrDesc + '/' + type + '/' + id)
+  }
 }
