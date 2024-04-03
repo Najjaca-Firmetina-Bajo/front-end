@@ -5,15 +5,13 @@ import { CompaniesService } from '../companies.service';
 import { Equipment } from '../../administration/model/equipment.model';
 
 @Component({
-  selector: 'app-downloaded-appointments',
-  templateUrl: './downloaded-appointments.component.html',
-  styleUrls: ['./downloaded-appointments.component.css']
+  selector: 'app-new-appointments',
+  templateUrl: './new-appointments.component.html',
+  styleUrls: ['./new-appointments.component.css']
 })
-export class DownloadedAppointmentsComponent {
+export class NewAppointmentsComponent {
   appointments: Appointment[] = [];
   userId: number;
-  ascOrDesc: string = 'asc';
-  type: string = 'date';
 
   constructor(private route: ActivatedRoute,private companyService: CompaniesService,private router: Router) {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
@@ -24,7 +22,7 @@ export class DownloadedAppointmentsComponent {
   }
 
   loadAppointments(): void {
-      this.companyService.getUsersDownloadedAppointments(this.userId).subscribe((data) => {
+      this.companyService.getUsersNewAppointments(this.userId).subscribe((data) => {
         this.appointments = data;
         this.appointments.forEach((appointment: any) => {
           // radite nešto sa svakim pojedinačnim appointment objektom
@@ -39,23 +37,9 @@ export class DownloadedAppointmentsComponent {
       });
   }
 
-  sortAppointments(): void {
-    this.companyService.sortAppointments(this.ascOrDesc,this.type, this.userId).subscribe((data) => {
-      this.appointments = data;
-        this.appointments.forEach((appointment: any) => {
-          // radite nešto sa svakim pojedinačnim appointment objektom
-          appointment.reservedEquipment.forEach((re: { equipmentId: number; }): any =>{
-            let equipmentList: Equipment[] = []
-            this.companyService.getEquipment(re.equipmentId).subscribe((data)=>{
-              equipmentList.push(data);
-            })
-            appointment.reservedEquipmentReal = equipmentList;
-          })
-        });
+  cancel(qrCodeId: number): void{
+    this.companyService.cancelAppointmentReservation(qrCodeId).subscribe(()=>{
+      this.loadAppointments();
     })
-  }
-
-  reset(): void{
-    this.loadAppointments();
   }
 }

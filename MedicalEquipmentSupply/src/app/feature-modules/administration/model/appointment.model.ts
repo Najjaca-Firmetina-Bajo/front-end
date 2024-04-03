@@ -19,5 +19,6 @@ export interface Appointment {
     registredUserId: number;
     reservedEquipment: ReservedEquipmentItem[];
     reservedEquipmentReal: Equipment[];
+    qrcodeId: number;
   }
   

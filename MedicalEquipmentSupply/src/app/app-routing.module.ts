@@ -16,6 +16,7 @@ import { MapComponent } from './feature-modules/map/map.component';
 import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
 import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
 import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
+import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
 
 
 
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'map', component: SimulatorComponent },
   { path: 'my-profile/:id', component: ProfileAdministrationComponent},
   { path: 'downloaded-appointments/:id', component: DownloadedAppointmentsComponent},
+  { path: 'new-appointments/:id', component: NewAppointmentsComponent},
 ];
 
 @NgModule({

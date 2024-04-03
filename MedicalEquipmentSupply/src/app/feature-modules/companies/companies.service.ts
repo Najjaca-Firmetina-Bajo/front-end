@@ -10,6 +10,7 @@ import { Company } from '../administration/model/comapny.model';
 import { QRCodeDto } from '../administration/model/qrcode.model';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { QRCode } from 'jsqr';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,10 @@ export class CompaniesService {
 
   getUsersDownloadedAppointments(id: number): Observable<Appointment[]>{
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-users-downloaded-appointments/'+id)
+  }
+
+  getUsersNewAppointments(id: number): Observable<Appointment[]>{
+    return this.http.get<Appointment[]>(environment.apiHost + 'appointments/get-users-new-appointments/'+id)
   }
 
   reserveAppointment(qrCodeDto: QRCodeDto): Observable<QRCodeDto> {
@@ -137,5 +142,9 @@ export class CompaniesService {
 
   sortAppointments(ascOrDesc: string, type: string, id: number): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(environment.apiHost + 'appointments/sort/' + ascOrDesc + '/' + type + '/' + id)
+  }
+
+  filterQRCodes(status: string, id: number): Observable<QRCodeDto[]> {
+    return this.http.get<QRCodeDto[]>(environment.apiHost + 'qr-codes/filter-codes-by-user/' + status + '/' + id)
   }
 }

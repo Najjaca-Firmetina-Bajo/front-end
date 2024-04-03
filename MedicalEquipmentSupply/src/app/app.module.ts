@@ -43,6 +43,7 @@ import { MapComponent } from './feature-modules/map/map.component';
 import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
 import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
 import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
+import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { DownloadedAppointmentsComponent } from './feature-modules/companies/dow
     SimulatorComponent,
     ProfileAdministrationComponent,
     DownloadedAppointmentsComponent,
+    NewAppointmentsComponent,
   ],
   imports: [
     BrowserModule,
