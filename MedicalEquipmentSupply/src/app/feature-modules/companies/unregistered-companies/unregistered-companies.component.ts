@@ -2,6 +2,8 @@ import { Component , OnInit } from '@angular/core';
 import { CompaniesService } from '../companies.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
+import { AdministrationService } from '../../administration/administration.service';
+import { concatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-unregistered-companies',
@@ -12,7 +14,7 @@ export class UnregisteredCompaniesComponent implements OnInit {
   companies: any[] = [];
   logoUrl: string = 'https://png.pngtree.com/png-vector/20230415/ourmid/pngtree-company-line-icon-vector-png-image_6707332.png';
 
-  constructor(private companyService: CompaniesService,private router: Router,private authService: AuthService) {}
+  constructor(private companyService: CompaniesService,private router: Router,private authService: AuthService, private administrationService: AdministrationService) {}
 
   search: string = '';
   filterRating: string = '';
@@ -23,6 +25,9 @@ export class UnregisteredCompaniesComponent implements OnInit {
   type: string = 'name';
 
   ngOnInit(): void {
+    this.authService.getAuthenticatedUserId().subscribe(userId => {
+      this.administrationService.removeUsersPenalPoints(userId);
+    });
     this.loadCompanies();
   }
 

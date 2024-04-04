@@ -17,6 +17,7 @@ import { SimulatorComponent } from './feature-modules/map/simulator/simulator.co
 import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
 import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
 import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
+import { UsersPenalPointsComponent } from './feature-modules/companies/users-penal-points/users-penal-points.component';
 
 
 
@@ -38,6 +39,7 @@ const routes: Routes = [
   { path: 'my-profile/:id', component: ProfileAdministrationComponent},
   { path: 'downloaded-appointments/:id', component: DownloadedAppointmentsComponent},
   { path: 'new-appointments/:id', component: NewAppointmentsComponent},
+  { path: 'users-penal-points/:id', component: UsersPenalPointsComponent},
 ];
 
 @NgModule({

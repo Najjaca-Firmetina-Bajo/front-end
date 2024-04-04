@@ -127,4 +127,8 @@ export class AdministrationService {
 
     return this.http.put(environment.apiHost + 'registeredUsers/update-registered-user', registration, { headers });
   }
+
+  removeUsersPenalPoints(id: number): Observable<number> {
+    return this.http.put<number>(environment.apiHost + 'registeredUsers/remove-penal-points/' + id, null);
+  }
 }
