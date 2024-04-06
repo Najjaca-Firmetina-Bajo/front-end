@@ -14,7 +14,9 @@ export class UnregisteredCompaniesComponent implements OnInit {
   companies: any[] = [];
   logoUrl: string = 'https://png.pngtree.com/png-vector/20230415/ourmid/pngtree-company-line-icon-vector-png-image_6707332.png';
 
-  constructor(private companyService: CompaniesService,private router: Router,private authService: AuthService, private administrationService: AdministrationService) {}
+  constructor(private companyService: CompaniesService,private router: Router,private authService: AuthService, private administrationService: AdministrationService) {
+    this.userId = -1;
+  }
 
   search: string = '';
   filterRating: string = '';
@@ -23,9 +25,11 @@ export class UnregisteredCompaniesComponent implements OnInit {
   parameters: string = '';
   ascOrDesc: string = 'asc';
   type: string = 'name';
+  userId: number;
 
   ngOnInit(): void {
     this.authService.getAuthenticatedUserId().subscribe(userId => {
+      this.userId = userId;
       this.administrationService.removeUsersPenalPoints(userId);
     });
     this.loadCompanies();
@@ -80,5 +84,16 @@ export class UnregisteredCompaniesComponent implements OnInit {
     this.companyService.filterCompaniesByEquipmentNum(this.parameters).subscribe((data) => {
       this.companies = data;
     })
+  }
+
+  rateCompany(companyId: number): void {
+    this.companyService.checkIfUserCanRateCompany(this.userId,companyId).subscribe((data) => {
+      if(data){
+        this.router.navigate(['/rate-company', companyId]);
+      }
+      else {
+        alert('User does not have reserved appointment in this company!');
+      }
+    })    
   }
 }

@@ -11,6 +11,7 @@ import { QRCodeDto } from '../administration/model/qrcode.model';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { QRCode } from 'jsqr';
+import { CompanyRating } from './model/company-rating.model';
 
 @Injectable({
   providedIn: 'root',
@@ -146,5 +147,13 @@ export class CompaniesService {
 
   filterQRCodes(status: string, id: number): Observable<QRCodeDto[]> {
     return this.http.get<QRCodeDto[]>(environment.apiHost + 'qr-codes/filter-codes-by-user/' + status + '/' + id)
+  }
+
+  checkIfUserCanRateCompany(userId: number, companyId: number): Observable<boolean> {
+    return this.http.get<boolean>(environment.apiHost + 'companies/check-if-user-can-rate/' + userId + '/' + companyId)
+  }
+
+  rateCompany(rating: CompanyRating) : Observable<CompanyRating> {
+    return this.http.post<CompanyRating>(environment.apiHost + 'ratings', rating)
   }
 }

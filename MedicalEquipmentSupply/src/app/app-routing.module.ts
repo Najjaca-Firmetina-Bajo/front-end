@@ -18,6 +18,7 @@ import { ProfileAdministrationComponent } from './feature-modules/administration
 import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
 import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
 import { UsersPenalPointsComponent } from './feature-modules/companies/users-penal-points/users-penal-points.component';
+import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
 
 
 
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'downloaded-appointments/:id', component: DownloadedAppointmentsComponent},
   { path: 'new-appointments/:id', component: NewAppointmentsComponent},
   { path: 'users-penal-points/:id', component: UsersPenalPointsComponent},
+  { path: 'rate-company/:id', component: RateCompanyComponent},
 ];
 
 @NgModule({

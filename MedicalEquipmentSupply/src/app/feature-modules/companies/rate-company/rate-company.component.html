@@ -1,0 +1,29 @@
+<form (ngSubmit)="submitRating()" #ratingForm="ngForm" class="form-container">
+  <div>
+    <mat-form-field>
+      <mat-label>Rating</mat-label>
+      <mat-select [(ngModel)]="selectedRating" name="selectedRating" required>
+        <mat-option *ngFor="let rating of ratings" [value]="rating.value">{{ rating.label }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div>
+    <mat-form-field>
+      <mat-label>Reasons for Rating</mat-label>
+      <mat-select [(ngModel)]="selectedReasons" name="selectedReasons" multiple>
+        <mat-option *ngFor="let reason of ratingReasons" [value]="reason">{{ reason }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div>
+    <mat-form-field>
+      <textarea matInput placeholder="Additional Comments" [(ngModel)]="additionalComments" name="additionalComments"></textarea>
+    </mat-form-field>
+  </div>
+  
+  <div>
+    <button class="submit-button" mat-raised-button color="primary" type="submit">Submit</button>
+  </div>
+</form>

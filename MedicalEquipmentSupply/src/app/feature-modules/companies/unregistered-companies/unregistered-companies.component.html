@@ -31,9 +31,9 @@
       <button *ngIf="filter" class="button" color="primary" (click)="filterCompaniesByEquipmentNum()" mat-raised-button>Filter by equipment num</button>
       <button class="button" color="primary" (click)="resetSearching()" mat-raised-button>Reset</button>
     </div>
-    <div *ngFor="let company of companies" class="company-card" (click)="navigateToCompanyInfo(company.id)">
+    <div *ngFor="let company of companies" class="company-card">
       <mat-card>
-        <mat-card-header>
+        <mat-card-header (click)="navigateToCompanyInfo(company.id)">
           <div mat-card-avatar class="company-avatar">
             <img src="{{ logoUrl }}" class="imglogo" alt="{{ company.name }} Logo">
           </div>
@@ -42,7 +42,9 @@
         </mat-card-header>
         <mat-card-content>
           <p>Average Rating: {{ company.averageRating }}</p>
+          <!-- Dodajemo $event.stopPropagation() kako bismo zaustavili propagiranje klika -->
+          <button *ngIf="userId !== -1" mat-button color="primary" (click)="rateCompany(company.id); $event.stopPropagation()">Rate</button>
         </mat-card-content>
       </mat-card>
-    </div>
+    </div>    
   </div>
