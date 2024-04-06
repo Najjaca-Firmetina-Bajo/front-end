@@ -156,4 +156,12 @@ export class CompaniesService {
   rateCompany(rating: CompanyRating) : Observable<CompanyRating> {
     return this.http.post<CompanyRating>(environment.apiHost + 'ratings', rating)
   }
+
+  findUserRatingForCompany(companyId: number, userId: number): Observable<CompanyRating>{
+    return this.http.get<CompanyRating>(environment.apiHost + 'ratings/get-users-rating-for-comp/' + companyId + '/' + userId)
+  }
+
+  updateCompanyRate(rating: CompanyRating): Observable<CompanyRating>{
+    return this.http.put<CompanyRating>(environment.apiHost + 'ratings', rating)
+  }
 }

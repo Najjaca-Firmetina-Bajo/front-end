@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class RateCompanyComponent {
 
+  companyRating: any;
   userId: number = -1;
   companyId: number = -1
   selectedRating: number = -1;
@@ -32,10 +33,19 @@ export class RateCompanyComponent {
   ngOnInit(): void {
     this.authService.getAuthenticatedUserId().subscribe(userId => {
       this.userId = userId;
+      this.companyService.findUserRatingForCompany(this.companyId,this.userId).subscribe(data => {
+        this.companyRating = data;
+        if (this.companyRating) {
+          this.selectedRating = this.companyRating.rating;
+          this.selectedReasons = this.companyRating.ratingReasons;
+          this.additionalComments = this.companyRating.ratingDescription;
+        }
+      })
     });
   }
 
   submitRating(): void {
+
     const companyRate: CompanyRating = {
       rating: this.selectedRating,
       ratingReasons: this.selectedReasons,
@@ -44,10 +54,19 @@ export class RateCompanyComponent {
       userId: this.userId
     }
 
-    this.companyService.rateCompany(companyRate).subscribe({
-      next: () => {
-        this.router.navigate(['']);
-      },
-    });
+    if(!this.companyRating){
+      this.companyService.rateCompany(companyRate).subscribe({
+        next: () => {
+          this.router.navigate(['']);
+        },
+      });
+    }
+    else{
+      this.companyService.updateCompanyRate(companyRate).subscribe({
+        next: () => {
+          this.router.navigate(['']);
+        },
+      });
+    }
   }
 }
