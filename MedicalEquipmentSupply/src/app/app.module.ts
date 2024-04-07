@@ -44,8 +44,8 @@ import { SimulatorComponent } from './feature-modules/map/simulator/simulator.co
 import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
 import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
 import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
-import { UsersPenalPointsComponent } from './feature-modules/companies/users-penal-points/users-penal-points.component';
 import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
+import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
 
 @NgModule({
   declarations: [
@@ -69,8 +69,8 @@ import { RateCompanyComponent } from './feature-modules/companies/rate-company/r
     ProfileAdministrationComponent,
     DownloadedAppointmentsComponent,
     NewAppointmentsComponent,
-    UsersPenalPointsComponent,
     RateCompanyComponent,
+    UsersPenaltiesComponent,
   ],
   imports: [
     BrowserModule,

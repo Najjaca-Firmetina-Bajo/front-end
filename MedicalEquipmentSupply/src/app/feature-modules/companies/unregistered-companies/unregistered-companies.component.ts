@@ -30,7 +30,9 @@ export class UnregisteredCompaniesComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getAuthenticatedUserId().subscribe(userId => {
       this.userId = userId;
-      this.administrationService.removeUsersPenalPoints(userId);
+      this.administrationService.removeUsersPenalPoints(userId).subscribe(penal => {
+        
+      });
     });
     this.loadCompanies();
   }
