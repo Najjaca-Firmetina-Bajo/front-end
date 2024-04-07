@@ -5,6 +5,22 @@
         <input matInput placeholder="Search" [(ngModel)]="search">
       </mat-form-field>
       <button class="button" color="primary" (click)="searchCompanies()" mat-raised-button>Search</button>
+      <mat-form-field>
+        <mat-label>Sort Order</mat-label>
+        <mat-select [(ngModel)]="ascOrDesc">
+          <mat-option value="asc">Ascending</mat-option>
+          <mat-option value="desc">Descending</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Sort Type</mat-label>
+        <mat-select [(ngModel)]="type">
+          <mat-option value="name">Name</mat-option>
+          <mat-option value="rating">Rating</mat-option>
+          <mat-option value="address">Address</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="button" color="primary" (click)="sortCompanies()" mat-raised-button>Sort</button>
       <mat-form-field *ngIf="filter">
         <input matInput placeholder="Filter for rating" min="-1" [(ngModel)]="filterRating">
       </mat-form-field>
@@ -15,9 +31,9 @@
       <button *ngIf="filter" class="button" color="primary" (click)="filterCompaniesByEquipmentNum()" mat-raised-button>Filter by equipment num</button>
       <button class="button" color="primary" (click)="resetSearching()" mat-raised-button>Reset</button>
     </div>
-    <div *ngFor="let company of companies" class="company-card" (click)="navigateToCompanyInfo(company.id)">
+    <div *ngFor="let company of companies" class="company-card">
       <mat-card>
-        <mat-card-header>
+        <mat-card-header (click)="navigateToCompanyInfo(company.id)">
           <div mat-card-avatar class="company-avatar">
             <img src="{{ logoUrl }}" class="imglogo" alt="{{ company.name }} Logo">
           </div>
@@ -26,7 +42,9 @@
         </mat-card-header>
         <mat-card-content>
           <p>Average Rating: {{ company.averageRating }}</p>
+          <!-- Dodajemo $event.stopPropagation() kako bismo zaustavili propagiranje klika -->
+          <button *ngIf="userId !== -1" mat-button color="primary" (click)="rateCompany(company.id); $event.stopPropagation()">Rate</button>
         </mat-card-content>
       </mat-card>
-    </div>
+    </div>    
   </div>

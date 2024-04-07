@@ -15,6 +15,10 @@ import { ReservationReviewComponent } from './feature-modules/administration/res
 import { MapComponent } from './feature-modules/map/map.component';
 import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
 import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
+import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
+import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
+import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
+import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
 
 
 
@@ -34,6 +38,10 @@ const routes: Routes = [
   { path: 'reservation-review', component: ReservationReviewComponent },
   { path: 'map', component: SimulatorComponent },
   { path: 'my-profile/:id', component: ProfileAdministrationComponent},
+  { path: 'downloaded-appointments/:id', component: DownloadedAppointmentsComponent},
+  { path: 'new-appointments/:id', component: NewAppointmentsComponent},
+  { path: 'users-penal-points/:id', component: UsersPenaltiesComponent},
+  { path: 'rate-company/:id', component: RateCompanyComponent},
 ];
 
 @NgModule({

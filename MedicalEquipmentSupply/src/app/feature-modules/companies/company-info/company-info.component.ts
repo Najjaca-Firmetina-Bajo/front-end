@@ -22,6 +22,8 @@ export class CompanyInfoComponent implements OnInit {
   appointments: any;
   selectedAppointment: Appointment | null = null;
   userId: number;
+  selectedDate: Date = new Date();
+  companyNotWorking: boolean = false;
 
   constructor(private route: ActivatedRoute,private companyService: CompaniesService,private router: Router) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
@@ -59,13 +61,27 @@ export class CompanyInfoComponent implements OnInit {
     );
   }
 
-  private loadAppointments(): void {
+  loadAppointments(): void {
+    this.companyNotWorking = false;
     if(this.companyId){
       this.companyService.getWorkingCalendar(this.companyId).subscribe((data) => {
         this.companyService.getAllAppointmentsByCalendar(data.id).subscribe((data) => {
           this.appointments = data;
         });
       });
+    }
+  }
+
+   loadExtraordinaryAppointments(): void{
+    if(this.companyId){
+      this.companyService.getExtraordinaryAppointments(this.selectedDate,this.companyId).subscribe((data) =>{
+        this.appointments = data;
+        if(this.appointments.length === 0){
+          this.companyNotWorking = true;
+        }else{
+          this.companyNotWorking = false;
+        }
+      })
     }
   }
 

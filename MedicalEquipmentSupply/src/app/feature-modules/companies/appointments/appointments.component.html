@@ -1,14 +1,26 @@
 <div class="centered-container">
     <h2>Your future Appointments</h2>
-  </div>
-  
-  <div class="container">
+</div>
+<div class="container1">
+    <mat-form-field>
+        <mat-label>Sort Type</mat-label>
+        <mat-select [(ngModel)]="status">
+          <mat-option value="new">New</mat-option>
+          <mat-option value="processed">Processed</mat-option>
+          <mat-option value="canceled">Canceled</mat-option>
+          <mat-option value="declined">Declined</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button class="button" color="primary" (click)="filter()" mat-raised-button>Filter</button>
+    <button class="button" color="primary" (click)="reset()" mat-raised-button>Reset</button>
+</div>
+<div class="container">
     <mat-card *ngFor="let qrCode of qrCodes">
         <mat-card-content>
             <h3>QR Code ID: {{ qrCode.id }}</h3>
             <p>Status: {{ qrCode.status }}</p>
 
-            <button mat-button class="submit-button" *ngIf="qrCode.status !== 'CANCELED' && qrCode.status !== 'DECLINED'" (click)="cancelQRCode(qrCode.id)">CANCEL</button>
+            <button mat-button class="submit-button" *ngIf="qrCode.status !== 'CANCELED' && qrCode.status !== 'DECLINED' && qrCode.status !== 'PROCESSED'" (click)="cancelQRCode(qrCode.id)">CANCEL</button>
         </mat-card-content>
     </mat-card>
 </div>

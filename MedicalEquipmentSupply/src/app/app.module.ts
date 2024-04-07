@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 // Auth0 Angular JWT Module
 import { JwtModule } from '@auth0/angular-jwt';
@@ -41,6 +42,10 @@ import { ReservationReviewComponent } from './feature-modules/administration/res
 import { MapComponent } from './feature-modules/map/map.component';
 import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
 import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
+import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
+import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
+import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
+import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +67,10 @@ import { ProfileAdministrationComponent } from './feature-modules/administration
     MapComponent,
     SimulatorComponent,
     ProfileAdministrationComponent,
+    DownloadedAppointmentsComponent,
+    NewAppointmentsComponent,
+    RateCompanyComponent,
+    UsersPenaltiesComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +87,7 @@ import { ProfileAdministrationComponent } from './feature-modules/administration
     MatPaginatorModule,
     MatMenuModule,
     MatCardModule,
+    MatDatepickerModule,
     HttpClientModule,
     FormsModule,
     FullCalendarModule,
