@@ -17,30 +17,30 @@
       <mat-card-content>
         <p><b>Equipment:</b></p>
         <table mat-table [dataSource]="filteredEquipment">
-  
+
           <ng-container matColumnDef="select">
             <th mat-header-cell *matHeaderCellDef>Select</th>
             <td mat-cell *matCellDef="let equipment">
               <input type="checkbox" [checked]="getIsSelected(equipment)" (change)="toggleEquipmentSelection(equipment)">
             </td>
           </ng-container>
-  
+
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
             <td mat-cell *matCellDef="let equipment">{{ equipment.name }}</td>
           </ng-container>
-  
+
           <ng-container matColumnDef="type">
             <th mat-header-cell *matHeaderCellDef>Type</th>
             <td mat-cell *matCellDef="let equipment">{{ equipment.type }}</td>
           </ng-container>
-  
+
           <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef>Quantity</th>
             <td mat-cell *matCellDef="let equipment">{{ getEquipmentQuantity(equipment.id) }}</td>
           </ng-container>
-  
-  
+
+
           <!-- Table Rows -->
           <tr mat-header-row *matHeaderRowDef="['select', 'name', 'type', 'quantity']"></tr>
           <tr mat-row *matRowDef="let equipment; columns: ['select', 'name', 'type', 'quantity' ]"></tr>
@@ -49,7 +49,7 @@
     </mat-card>
 
     <br>
-    <mat-card class="selected-eq"> 
+    <mat-card class="selected-eq">
       <mat-card-content>
         <h3>Selected Equipment</h3>
         <ul style="list-style-type: none; padding: 0; margin: 0;">
@@ -67,7 +67,7 @@
   </div>
 
   <!-- Right side: Appointments and Selected Appointment -->
-  <div class="right-side">    
+  <div class="right-side">
     <mat-card>
       <mat-card-content>
         <ng-container *ngIf="hasSelectedEquipment(); else noEquipmentText">
@@ -78,7 +78,7 @@
               <button mat-raised-button color="primary" (click)="loadExtraordinaryAppointments()">Load Extraordinary Appointments</button>
               <button mat-raised-button color="primary" (click)="loadAppointments()">Load Predefined Appointments</button>
             </mat-card-content>
-          </mat-card> 
+          </mat-card>
           <table *ngIf="!companyNotWorking; else companyNotWorkingText" mat-table [dataSource]="appointments">
             <!-- Radio Column -->
             <ng-container matColumnDef="select">
@@ -92,12 +92,12 @@
               <th mat-header-cell *matHeaderCellDef>Date</th>
               <td mat-cell *matCellDef="let row">{{ row.pickUpDate | date: 'mediumDate' }}</td>
             </ng-container>
-  
+
             <ng-container matColumnDef="pickUpTime">
               <th mat-header-cell *matHeaderCellDef>Time</th>
               <td mat-cell *matCellDef="let row">{{ row.pickUpDate | date: 'shortTime' }}</td>
             </ng-container>
-  
+
             <!-- Table Rows -->
             <tr mat-header-row *matHeaderRowDef="['select', 'pickUpDate', 'pickUpTime']"></tr>
             <tr mat-row *matRowDef="let row; columns: ['select', 'pickUpDate', 'pickUpTime']"></tr>

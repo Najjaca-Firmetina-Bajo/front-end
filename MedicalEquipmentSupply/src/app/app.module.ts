@@ -46,6 +46,8 @@ import { DownloadedAppointmentsComponent } from './feature-modules/companies/dow
 import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
 import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
 import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
+import { EditCompanyDialogComponent } from './feature-modules/edit-company-dialog/edit-company-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -71,6 +73,7 @@ import { UsersPenaltiesComponent } from './feature-modules/administration/users-
     NewAppointmentsComponent,
     RateCompanyComponent,
     UsersPenaltiesComponent,
+    EditCompanyDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,7 +103,8 @@ import { UsersPenaltiesComponent } from './feature-modules/administration/users-
         allowedDomains: ['*'], // Allow tokens for all domains
         disallowedRoutes: [] // Specify routes that should not include the token
       }
-    })
+    }),
+    MatDialogModule
   ],
   providers: [
     AuthService,

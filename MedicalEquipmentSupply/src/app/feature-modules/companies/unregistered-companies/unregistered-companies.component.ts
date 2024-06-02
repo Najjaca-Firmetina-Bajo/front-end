@@ -3,7 +3,6 @@ import { CompaniesService } from '../companies.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { AdministrationService } from '../../administration/administration.service';
-import { concatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-unregistered-companies',
@@ -14,7 +13,10 @@ export class UnregisteredCompaniesComponent implements OnInit {
   companies: any[] = [];
   logoUrl: string = 'https://png.pngtree.com/png-vector/20230415/ourmid/pngtree-company-line-icon-vector-png-image_6707332.png';
 
-  constructor(private companyService: CompaniesService,private router: Router,private authService: AuthService, private administrationService: AdministrationService) {
+  constructor(private companyService: CompaniesService,
+              private router: Router,
+              private authService: AuthService,
+              private administrationService: AdministrationService) {
     this.userId = -1;
   }
 
@@ -31,7 +33,7 @@ export class UnregisteredCompaniesComponent implements OnInit {
     this.authService.getAuthenticatedUserId().subscribe(userId => {
       this.userId = userId;
       this.administrationService.removeUsersPenalPoints(userId).subscribe(penal => {
-        
+
       });
     });
     this.loadCompanies();
@@ -96,6 +98,8 @@ export class UnregisteredCompaniesComponent implements OnInit {
       else {
         alert('User does not have reserved appointment in this company!');
       }
-    })    
+    })
   }
+
+
 }

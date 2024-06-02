@@ -3,6 +3,8 @@ import { Equipment } from '../../administration/model/equipment.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompaniesService } from '../companies.service';
 import { Company } from '../../administration/model/comapny.model';
+import {EditCompanyDialogComponent} from "../../edit-company-dialog/edit-company-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-unregistered-eqipment',
@@ -14,7 +16,9 @@ export class UnregisteredEqipmentComponent {
   company: any;
   equipment: any;
 
-  constructor(private route: ActivatedRoute,private companyService: CompaniesService,private router: Router) {
+  constructor(private route: ActivatedRoute,private companyService: CompaniesService,
+              private router: Router,
+              private dialog: MatDialog) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
@@ -48,7 +52,18 @@ export class UnregisteredEqipmentComponent {
     );
   }
 
+  openEditDialog(company: any): void {
+    const dialogRef = this.dialog.open(EditCompanyDialogComponent, {
+      width: '400px',
+      data: { ...company }
+    });
 
-  
-
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Update the company details with the new values
+        Object.assign(company, result);
+        // Save the updated company details, e.g., make an API call
+      }
+    });
+  }
 }
