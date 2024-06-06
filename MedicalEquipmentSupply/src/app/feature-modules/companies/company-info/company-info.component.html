@@ -117,7 +117,7 @@
     <mat-card>
       <mat-card-content *ngIf="hasSelectedEquipment()" class="selectap">
         <h3 >Selected Appointment</h3>
-        <p *ngIf="selectedAppointment">Appointment ID: {{ selectedAppointment.pickUpDate }}</p>
+        <p *ngIf="selectedAppointment">Appointment ID: {{ selectedAppointment.id }}</p>
         <button class="submit-button" mat-button color="primary" (click)="reserveAppointment()">Reserve</button>
       </mat-card-content>
     </mat-card>
