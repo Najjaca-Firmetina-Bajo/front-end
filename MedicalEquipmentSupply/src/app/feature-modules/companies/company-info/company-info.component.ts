@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Equipment } from '../../administration/model/equipment.model';
-import { WorkingDay } from '../../administration/model/wrking-day.model';
-import { WorkingCalendar } from '../../administration/model/working-calendar.model';
-import { Appointment, AppointmentType } from '../../administration/model/appointment.model';
+import { Appointment } from '../../administration/model/appointment.model';
 import { CompaniesService } from '../companies.service';
 import { QRCodeDto } from '../../administration/model/qrcode.model';
 import { Company } from '../../administration/model/comapny.model';
+import {EditCompanyDialogComponent} from "../../edit-company-dialog/edit-company-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {CompanyInfo} from "../../administration/model/company-info.model";
 
 @Component({
   selector: 'app-company-info',
@@ -25,10 +26,13 @@ export class CompanyInfoComponent implements OnInit {
   selectedDate: Date = new Date();
   companyNotWorking: boolean = false;
 
-  constructor(private route: ActivatedRoute,private companyService: CompaniesService,private router: Router) {
+  constructor(private route: ActivatedRoute,private companyService: CompaniesService,
+              private router: Router,
+              private dialog: MatDialog) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
     this.userId = Number(-1);
     this.getAuthenticatedUserId();
+
   }
 
   ngOnInit(): void {
@@ -88,14 +92,14 @@ export class CompanyInfoComponent implements OnInit {
   reserveAppointment(): void {
     if (this.selectedAppointment && this.hasSelectedEquipment()) {
       this.getAuthenticatedUserId();
-  
+
       const reservedEquipment: { equipmentId: number; quantity: number }[] = [];
-  
+
       // Iterate over selected equipment map and construct reserved equipment array
       this.selectedEquipmentMap.forEach((quantity, equipmentId) => {
         reservedEquipment.push({ equipmentId, quantity });
       });
-  
+
       const qrCodeDto: QRCodeDto = {
         id: 0,
         code: 'string',
@@ -104,7 +108,7 @@ export class CompanyInfoComponent implements OnInit {
         appointmentId: this.selectedAppointment.id,
         reservedEquipment: reservedEquipment,
       };
-  
+
       this.companyService.reserveAppointment(qrCodeDto).subscribe(
         () => {
           this.router.navigate(['/home']);
@@ -129,7 +133,7 @@ export class CompanyInfoComponent implements OnInit {
 
   toggleEquipmentSelection(equipment: Equipment): void {
     const equipmentId = equipment.id;
-    
+
     if (this.selectedEquipmentMap.has(equipmentId)) {
       this.selectedEquipmentMap.delete(equipmentId);
     } else {
@@ -146,7 +150,7 @@ export class CompanyInfoComponent implements OnInit {
     if(selectedQuantity > 0)
     this.selectedEquipmentMap.set(equipmentId, selectedQuantity);
   }
-  
+
   getIsSelected(equipment: Equipment): boolean {
     return this.selectedEquipmentMap.has(equipment.id);
   }
@@ -154,15 +158,27 @@ export class CompanyInfoComponent implements OnInit {
   getEquipmentQuantity(equipmentId: number): number {
     const availableEquipment = this.company.availableEquipment;
     const equipment = availableEquipment.find((e: { equipmentId: number, quantity: number }) => e.equipmentId === equipmentId);
-  
+
     return equipment ? equipment.quantity : 0;
   }
 
-  
-
- 
-
   selectAppointment(appointment: Appointment): void {
     this.selectedAppointment = appointment;
+  }
+
+  openEditDialog(company: any): void {
+    this.companyService.getCompanyInfo(company.id, this.userId).subscribe((data: CompanyInfo) => {
+      const dialogRef = this.dialog.open(EditCompanyDialogComponent, {
+        width: '400px',
+        data: data
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          // Update the company details with the new values
+          // Make API call to update company details
+        }
+      });
+    });
   }
 }

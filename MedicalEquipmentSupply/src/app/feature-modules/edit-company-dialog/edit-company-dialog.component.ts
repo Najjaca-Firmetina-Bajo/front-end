@@ -1,36 +1,45 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {CompaniesService} from "../companies/companies.service";
+import {CompanyInfo} from "../administration/model/company-info.model";
 
 @Component({
   selector: 'app-edit-company-dialog',
   templateUrl: './edit-company-dialog.component.html',
+  styleUrls: ['./edit-company-dialog.component.css']
 })
 export class EditCompanyDialogComponent {
   editCompanyForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditCompanyDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: CompanyInfo,
+    private fb: FormBuilder,
+    private companyService: CompaniesService
   ) {
     this.editCompanyForm = this.fb.group({
-      name: [data.name, Validators.required],
-      address: [data.address, Validators.required],
+      name: [data.name],
+      address: [data.address],
       description: [data.description],
-      averageRating: [data.averageRating, [Validators.required, Validators.min(0), Validators.max(5)]],
-      availableSlots: [data.availableSlots],
-      administrators: [data.administrators],
+      averageRating: [data.averageRating],
+      availableSlots: [data.availableAppointments],
+      administrators: [data.admins],
+      pickUpDate: [null],
+      duration: [null],
+      type: [null],
+      username: [null],
+      email: [null],
+      phoneNumber: [null]
     });
   }
 
-  onSubmit() {
-    if (this.editCompanyForm.valid) {
-      this.dialogRef.close(this.editCompanyForm.value);
-    }
+  onCancel(): void {
+    this.dialogRef.close();
   }
 
-  onCancel(): void {
+  onSubmit(): void {
+    // You can implement your save logic here, for now, let's just close the dialog
     this.dialogRef.close();
   }
 }

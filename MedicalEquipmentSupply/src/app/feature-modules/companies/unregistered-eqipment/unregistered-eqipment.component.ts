@@ -16,9 +16,7 @@ export class UnregisteredEqipmentComponent {
   company: any;
   equipment: any;
 
-  constructor(private route: ActivatedRoute,private companyService: CompaniesService,
-              private router: Router,
-              private dialog: MatDialog) {
+  constructor(private route: ActivatedRoute,private companyService: CompaniesService) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
@@ -50,20 +48,5 @@ export class UnregisteredEqipmentComponent {
         console.error('Error fetching equipment data:', error);
       }
     );
-  }
-
-  openEditDialog(company: any): void {
-    const dialogRef = this.dialog.open(EditCompanyDialogComponent, {
-      width: '400px',
-      data: { ...company }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Update the company details with the new values
-        Object.assign(company, result);
-        // Save the updated company details, e.g., make an API call
-      }
-    });
   }
 }

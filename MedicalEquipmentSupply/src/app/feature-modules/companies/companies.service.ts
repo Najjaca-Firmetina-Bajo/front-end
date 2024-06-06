@@ -12,6 +12,7 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { QRCode } from 'jsqr';
 import { CompanyRating } from './model/company-rating.model';
+import {CompanyInfo} from "../administration/model/company-info.model";
 
 @Injectable({
   providedIn: 'root',
@@ -107,7 +108,7 @@ export class CompaniesService {
       catchError(error => {
         // Ovde možete obraditi grešku koja se dogodila
         console.error('Greška prilikom dobijanja izvanrednih termina:', error);
-        
+
         // Vraćanje praznog niza ili neke podrazumevane vrednosti kao rezultata
         return of([]);
       })
@@ -126,10 +127,10 @@ export class CompaniesService {
       timeZone: 'GMT'
     };
     const selectedDate = new Date(date);
-  
+
     // Formatiranje datuma koristeći Intl.DateTimeFormat
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(selectedDate);
-  
+
     return formattedDate;
   }
 
@@ -164,4 +165,9 @@ export class CompaniesService {
   updateCompanyRate(rating: CompanyRating): Observable<CompanyRating>{
     return this.http.put<CompanyRating>(environment.apiHost + 'ratings', rating)
   }
+
+  getCompanyInfo(companyId: number, adminId: number): Observable<CompanyInfo> {
+    return this.http.get<CompanyInfo>(environment.apiHost + 'companyAdministrators/get-company/' + companyId +'/' + adminId)
+  }
+
 }

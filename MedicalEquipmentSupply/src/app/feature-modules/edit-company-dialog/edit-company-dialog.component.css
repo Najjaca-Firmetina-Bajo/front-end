@@ -1,0 +1,50 @@
+/* Povećanje veličine mat-dialog-container */
+::ng-deep .mat-dialog-container {
+  width: 80vw; /* širina dijaloga */
+  max-width: 80vw; /* maksimalna širina dijaloga */
+  height: 80vh; /* visina dijaloga */
+  max-height: 80vh; /* maksimalna visina dijaloga */
+  overflow: auto; /* omogućava skrolovanje ako sadržaj pređe veličinu dijaloga */
+}
+
+/* Stilizovanje sadržaja dijaloga */
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Razmak između polja */
+}
+
+/* Stilizujemo mat-form-field da budu jednake širine */
+mat-form-field {
+  width: 100%;
+}
+
+/* Poravnanje tabela */
+table {
+  width: 100%;
+  margin-top: 16px;
+}
+
+/* Poravnanje header-a u tabeli */
+th.mat-header-cell {
+  font-weight: bold;
+}
+
+/* Poravnanje ćelija u tabeli */
+td.mat-cell {
+  padding: 8px 0;
+}
+
+/* Poravnanje mat-label */
+mat-label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* Stilizujemo dugmad u dijalogu */
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
