@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {CompaniesService} from "../companies/companies.service";
-import {CompanyInfo} from "../administration/model/company-info.model";
+import { CompaniesService } from "../companies/companies.service";
+import { CompanyInfo } from "../administration/model/company-info.model";
 
 @Component({
   selector: 'app-edit-company-dialog',
@@ -18,19 +18,15 @@ export class EditCompanyDialogComponent {
     private fb: FormBuilder,
     private companyService: CompaniesService
   ) {
+    const addressParts = data.address.split('-');
     this.editCompanyForm = this.fb.group({
       name: [data.name],
-      address: [data.address],
+      street: [addressParts[0]],
+      number: [addressParts[1]],
+      city: [addressParts[2]],
+      country: [addressParts[3]],
       description: [data.description],
       averageRating: [data.averageRating],
-      availableSlots: [data.availableAppointments],
-      administrators: [data.admins],
-      pickUpDate: [null],
-      duration: [null],
-      type: [null],
-      username: [null],
-      email: [null],
-      phoneNumber: [null]
     });
   }
 
@@ -39,7 +35,17 @@ export class EditCompanyDialogComponent {
   }
 
   onSubmit(): void {
-    // You can implement your save logic here, for now, let's just close the dialog
-    this.dialogRef.close();
+    const formValue = this.editCompanyForm.value;
+    const formattedAddress = `${formValue.street}-${formValue.number}-${formValue.city}-${formValue.country}`;
+    const updatedData = {
+      ...this.data,
+      name: formValue.name,
+      address: formattedAddress,
+      description: formValue.description,
+      averageRating: formValue.averageRating
+    };
+
+    // You can implement your save logic here, for now, let's just close the dialog with the updated data
+    this.dialogRef.close(updatedData);
   }
 }

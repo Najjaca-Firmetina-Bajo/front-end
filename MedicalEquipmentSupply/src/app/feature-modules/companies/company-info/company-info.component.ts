@@ -27,8 +27,7 @@ export class CompanyInfoComponent implements OnInit {
   companyNotWorking: boolean = false;
 
   constructor(private route: ActivatedRoute,private companyService: CompaniesService,
-              private router: Router,
-              private dialog: MatDialog) {
+              private router: Router) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
     this.userId = Number(-1);
     this.getAuthenticatedUserId();
@@ -164,21 +163,5 @@ export class CompanyInfoComponent implements OnInit {
 
   selectAppointment(appointment: Appointment): void {
     this.selectedAppointment = appointment;
-  }
-
-  openEditDialog(company: any): void {
-    this.companyService.getCompanyInfo(company.id, this.userId).subscribe((data: CompanyInfo) => {
-      const dialogRef = this.dialog.open(EditCompanyDialogComponent, {
-        width: '400px',
-        data: data
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          // Update the company details with the new values
-          // Make API call to update company details
-        }
-      });
-    });
   }
 }

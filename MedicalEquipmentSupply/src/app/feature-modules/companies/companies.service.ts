@@ -166,8 +166,8 @@ export class CompaniesService {
     return this.http.put<CompanyRating>(environment.apiHost + 'ratings', rating)
   }
 
-  getCompanyInfo(companyId: number, adminId: number): Observable<CompanyInfo> {
-    return this.http.get<CompanyInfo>(environment.apiHost + 'companyAdministrators/get-company/' + companyId +'/' + adminId)
+  getCompanyInfo(adminId: number): Observable<CompanyInfo> {
+    return this.http.get<CompanyInfo>(environment.apiHost + 'companyAdministrators/get-company/' + adminId)
   }
 
 }

@@ -1,0 +1,57 @@
+<mat-card *ngIf="companyInfo">
+  <mat-card-title>{{ companyInfo.name }}</mat-card-title>
+  <mat-card-content>
+    <button mat-icon-button class="edit-button" (click)="openEditDialog(companyInfo)">
+      <mat-icon>edit</mat-icon>
+    </button>
+
+    <p><strong>Address:</strong> {{ companyInfo.address }}</p>
+    <p><strong>Description:</strong> {{ companyInfo.description }}</p>
+    <p><strong>Average Rating:</strong> {{ companyInfo.averageRating }}</p>
+
+    <h3>Available Appointments</h3>
+    <table mat-table [dataSource]="companyInfo.availableAppointments" class="mat-elevation-z8">
+      <ng-container matColumnDef="pickUpDate">
+        <th mat-header-cell *matHeaderCellDef> Pick Up Date </th>
+        <td mat-cell *matCellDef="let appointment"> {{ appointment.pickUpDate | date: 'short' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef> Duration </th>
+        <td mat-cell *matCellDef="let appointment"> {{ appointment.duration }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let appointment"> {{ appointment.type }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['pickUpDate', 'duration', 'type']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['pickUpDate', 'duration', 'type'];"></tr>
+    </table>
+
+    <h3>Admins</h3>
+    <table mat-table [dataSource]="companyInfo.admins" class="mat-elevation-z8">
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.name }} {{admin.surname}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.email }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.phoneNumber }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['username', 'email', 'phoneNumber']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['username', 'email', 'phoneNumber'];"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>
+<div *ngIf="!companyInfo">
+  <p>Loading company info...</p>
+</div>

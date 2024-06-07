@@ -48,6 +48,7 @@ import { RateCompanyComponent } from './feature-modules/companies/rate-company/r
 import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
 import { EditCompanyDialogComponent } from './feature-modules/edit-company-dialog/edit-company-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { CompanyInfoAdminComponent } from './feature-modules/companies/company-info-admin/company-info-admin.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     RateCompanyComponent,
     UsersPenaltiesComponent,
     EditCompanyDialogComponent,
+    CompanyInfoAdminComponent,
   ],
   imports: [
     BrowserModule,
