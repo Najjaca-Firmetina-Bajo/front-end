@@ -2,6 +2,17 @@ mat-card {
   margin: 20px;
 }
 
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+.add-appointment {
+  margin-left: 8px;
+  background-color: #d32f2f;
+  color: white;
+}
+
 table {
   width: 100%;
 }

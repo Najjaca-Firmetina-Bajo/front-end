@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CompaniesService } from "../companies/companies.service";
 import { CompanyInfo } from "../administration/model/company-info.model";
+import {EditCompany} from "../administration/model/edit-company.model";
 
 @Component({
   selector: 'app-edit-company-dialog',
@@ -37,15 +38,24 @@ export class EditCompanyDialogComponent {
   onSubmit(): void {
     const formValue = this.editCompanyForm.value;
     const formattedAddress = `${formValue.street}-${formValue.number}-${formValue.city}-${formValue.country}`;
-    const updatedData = {
-      ...this.data,
+    const updatedData: EditCompany = {
+      id: this.data.id,
       name: formValue.name,
       address: formattedAddress,
       description: formValue.description,
       averageRating: formValue.averageRating
     };
 
-    // You can implement your save logic here, for now, let's just close the dialog with the updated data
-    this.dialogRef.close(updatedData);
+    this.companyService.updateCompanyInfo(updatedData).subscribe({
+      next: () => {
+        console.log('Company info updated successfully');
+        this.dialogRef.close(updatedData); // Close the dialog and pass the updated data
+        window.location.reload(); // Refresh the page
+      },
+      error: (error) => {
+        console.error('Error updating company info', error);
+        // Optionally, handle the error (e.g., show a notification to the user)
+      }
+    });
   }
 }

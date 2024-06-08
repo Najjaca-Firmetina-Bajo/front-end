@@ -13,6 +13,7 @@ import { of } from 'rxjs';
 import { QRCode } from 'jsqr';
 import { CompanyRating } from './model/company-rating.model';
 import {CompanyInfo} from "../administration/model/company-info.model";
+import {EditCompany} from "../administration/model/edit-company.model";
 
 @Injectable({
   providedIn: 'root',
@@ -167,7 +168,11 @@ export class CompaniesService {
   }
 
   getCompanyInfo(adminId: number): Observable<CompanyInfo> {
-    return this.http.get<CompanyInfo>(environment.apiHost + 'companyAdministrators/get-company/' + adminId)
+    return this.http.get<CompanyInfo>(environment.apiHost + 'companyAdministrators/get-company/' + adminId);
+  }
+
+  updateCompanyInfo(companyInfo: EditCompany): Observable<void> {
+    return this.http.put<void>(environment.apiHost + 'companyAdministrators/update-company-info', companyInfo);
   }
 
 }

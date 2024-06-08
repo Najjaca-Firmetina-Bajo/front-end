@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {CompanyInfo} from "../../administration/model/company-info.model";
-import {CompaniesService} from "../companies.service";
-import {EditCompanyDialogComponent} from "../../edit-company-dialog/edit-company-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
-
+import { CompanyInfo } from "../../administration/model/company-info.model";
+import { CompaniesService } from "../companies.service";
+import { EditCompanyDialogComponent } from "../../edit-company-dialog/edit-company-dialog.component";
+import { MatDialog } from "@angular/material/dialog";
+import { CreateAppointmentDialogComponent } from '../create-appointment-dialog/create-appointment-dialog.component';
 
 @Component({
   selector: 'app-company-info-admin',
@@ -13,12 +13,16 @@ import {MatDialog} from "@angular/material/dialog";
 export class CompanyInfoAdminComponent implements OnInit {
   companyInfo: CompanyInfo | null = null;
   userId: number | undefined;
-  constructor(private companyService: CompaniesService,
-              private dialog: MatDialog) {}
+
+  constructor(
+    private companyService: CompaniesService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getAuthenticatedUserIdAndFetchCompanyInfo();
   }
+
   getAuthenticatedUserIdAndFetchCompanyInfo(): void {
     this.companyService.getAuthenticatedUserId().subscribe(
       (userId: number) => {
@@ -40,7 +44,7 @@ export class CompanyInfoAdminComponent implements OnInit {
   }
 
   openEditDialog(company: any): void {
-    if(this.userId) {
+    if (this.userId) {
       this.companyService.getCompanyInfo(this.userId).subscribe((data: CompanyInfo) => {
         const dialogRef = this.dialog.open(EditCompanyDialogComponent, {
           width: '400px',
@@ -55,5 +59,18 @@ export class CompanyInfoAdminComponent implements OnInit {
         });
       });
     }
+  }
+
+  openCreateAppointmentDialog(): void {
+    const dialogRef = this.dialog.open(CreateAppointmentDialogComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle the result if needed
+        // For example, refresh the appointments list
+      }
+    });
   }
 }

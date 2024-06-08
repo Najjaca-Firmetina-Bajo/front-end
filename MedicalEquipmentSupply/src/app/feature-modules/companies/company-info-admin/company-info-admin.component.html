@@ -1,9 +1,13 @@
 <mat-card *ngIf="companyInfo">
   <mat-card-title>{{ companyInfo.name }}</mat-card-title>
   <mat-card-content>
-    <button mat-icon-button class="edit-button" (click)="openEditDialog(companyInfo)">
-      <mat-icon>edit</mat-icon>
-    </button>
+    <div class="button-container">
+      <button mat-icon-button class="edit-button" (click)="openEditDialog(companyInfo)">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button mat-button class="add-appointment" (click)="openCreateAppointmentDialog()">Add appointment</button>
+    </div>
 
     <p><strong>Address:</strong> {{ companyInfo.address }}</p>
     <p><strong>Description:</strong> {{ companyInfo.description }}</p>
@@ -18,7 +22,7 @@
 
       <ng-container matColumnDef="duration">
         <th mat-header-cell *matHeaderCellDef> Duration </th>
-        <td mat-cell *matCellDef="let appointment"> {{ appointment.duration }} </td>
+        <td mat-cell *matCellDef="let appointment"> {{ appointment.duration }}h </td>
       </ng-container>
 
       <ng-container matColumnDef="type">
