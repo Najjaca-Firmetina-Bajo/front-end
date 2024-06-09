@@ -1,5 +1,5 @@
-export interface EquipmentInfo {
-  id: number;
+export interface CreateEquipment {
+  companyId: number;
   name: string;
   type: string;
   description: string;

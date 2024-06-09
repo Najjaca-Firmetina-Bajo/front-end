@@ -4,6 +4,7 @@ import { CompaniesService } from "../companies.service";
 import { EditCompanyDialogComponent } from "../../edit-company-dialog/edit-company-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { CreateAppointmentDialogComponent } from '../create-appointment-dialog/create-appointment-dialog.component';
+import {CreateEquipmentDialogComponent} from "../create-equipment-dialog/create-equipment-dialog.component";
 
 @Component({
   selector: 'app-company-info-admin',
@@ -74,5 +75,22 @@ export class CompanyInfoAdminComponent implements OnInit {
         }
       });
     }
+  }
+
+  openCreateEquipmentDialog(): void {
+    if (!this.companyInfo) { return; }
+    const dialogRef = this.dialog.open(CreateEquipmentDialogComponent, {
+      width: '400px',
+      data: { companyId: this.companyInfo.id }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle the result, e.g., add the new equipment to the companyInfo.equipments list
+        if (this.companyInfo) {
+          this.companyInfo.equipments.push(result);
+        }
+      }
+    });
   }
 }

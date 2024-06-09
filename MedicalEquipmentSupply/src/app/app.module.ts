@@ -54,6 +54,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { CompanyInfoAdminComponent } from './feature-modules/companies/company-info-admin/company-info-admin.component';
 import { CreateAppointmentDialogComponent } from './feature-modules/companies/create-appointment-dialog/create-appointment-dialog.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { CreateEquipmentDialogComponent } from './feature-modules/companies/create-equipment-dialog/create-equipment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     EditCompanyDialogComponent,
     CompanyInfoAdminComponent,
     CreateAppointmentDialogComponent,
+    CreateEquipmentDialogComponent,
   ],
   imports: [
     BrowserModule,

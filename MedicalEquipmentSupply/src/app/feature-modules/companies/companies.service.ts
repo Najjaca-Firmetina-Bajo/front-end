@@ -16,6 +16,7 @@ import {CompanyInfo} from "../administration/model/company-info.model";
 import {EditCompany} from "../administration/model/edit-company.model";
 import {WorkingCalendarInfo} from "../administration/model/working-calendar-info.model";
 import {CreateAppointment} from "../administration/model/create-appointment.model";
+import {CreateEquipment} from "../administration/model/create-equipment.model";
 
 @Injectable({
   providedIn: 'root',
@@ -183,6 +184,10 @@ export class CompaniesService {
 
   createAppointment(appointment: CreateAppointment): Observable<void> {
     return this.http.post<void>(environment.apiHost + 'companyAdministrators/create-appointment', appointment);
+  }
+
+  createEquipment(equipment: CreateEquipment): Observable<void> {
+    return this.http.post<void>(environment.apiHost + 'equipment', equipment);
   }
 
 }
