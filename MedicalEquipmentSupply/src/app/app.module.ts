@@ -53,6 +53,7 @@ import { EditCompanyDialogComponent } from './feature-modules/edit-company-dialo
 import {MatDialogModule} from "@angular/material/dialog";
 import { CompanyInfoAdminComponent } from './feature-modules/companies/company-info-admin/company-info-admin.component';
 import { CreateAppointmentDialogComponent } from './feature-modules/companies/create-appointment-dialog/create-appointment-dialog.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { CreateAppointmentDialogComponent } from './feature-modules/companies/cr
         disallowedRoutes: [] // Specify routes that should not include the token
       }
     }),
-    MatDialogModule
+    MatDialogModule,
+    MatAutocompleteModule
   ],
   providers: [
     AuthService,

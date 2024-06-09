@@ -14,6 +14,8 @@ import { QRCode } from 'jsqr';
 import { CompanyRating } from './model/company-rating.model';
 import {CompanyInfo} from "../administration/model/company-info.model";
 import {EditCompany} from "../administration/model/edit-company.model";
+import {WorkingCalendarInfo} from "../administration/model/working-calendar-info.model";
+import {CreateAppointment} from "../administration/model/create-appointment.model";
 
 @Injectable({
   providedIn: 'root',
@@ -173,6 +175,14 @@ export class CompaniesService {
 
   updateCompanyInfo(companyInfo: EditCompany): Observable<void> {
     return this.http.put<void>(environment.apiHost + 'companyAdministrators/update-company-info', companyInfo);
+  }
+
+  getWorkingCalendarInfo(companyId: number): Observable<WorkingCalendarInfo> {
+    return this.http.get<WorkingCalendarInfo>(environment.apiHost + 'companyAdministrators/get-working-calendar/' + companyId);
+  }
+
+  createAppointment(appointment: CreateAppointment): Observable<void> {
+    return this.http.post<void>(environment.apiHost + 'companyAdministrators/create-appointment', appointment);
   }
 
 }

@@ -4,28 +4,28 @@
     <mat-form-field appearance="fill">
       <mat-label>Admin</mat-label>
       <mat-select formControlName="admin">
-        <mat-option value="admin1">Admin 1</mat-option>
-        <mat-option value="admin2">Admin 2</mat-option>
-        <mat-option value="admin3">Admin 3</mat-option>
+        <mat-option *ngFor="let admin of data.admins" [value]="admin">
+          {{ admin.name }} {{ admin.surname }}
+        </mat-option>
       </mat-select>
       <mat-error *ngIf="appointmentForm.get('admin')?.hasError('required')">
         Admin is required.
       </mat-error>
     </mat-form-field>
-
     <mat-form-field appearance="fill">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="date" required>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="appointmentForm.get('date')?.hasError('pastDate')">
-        The date cannot be in the past.
-      </mat-error>
+      <mat-label>Working Dates</mat-label>
+      <input matInput [matAutocomplete]="auto" formControlName="selectedDate">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayDate" (optionSelected)="onDateSelectionChange($event)">
+        <mat-option *ngFor="let workingDay of futureWorkingDays" [value]="workingDay.date" [attr.data-id]="workingDay.id">
+          {{ displayDate(workingDay.date) }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Time</mat-label>
-      <input matInput type="time" formControlName="time" required>
+      <input matInput type="time" formControlName="time" required
+             [min]="minTime" [max]="maxTime">
     </mat-form-field>
 
     <mat-form-field appearance="fill">

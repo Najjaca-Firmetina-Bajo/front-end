@@ -27,7 +27,6 @@ export class CompanyInfoAdminComponent implements OnInit {
     this.companyService.getAuthenticatedUserId().subscribe(
       (userId: number) => {
         this.userId = Number(userId);
-        const companyId = 1001;
         this.companyService.getCompanyInfo(this.userId).subscribe(
           (data: CompanyInfo) => {
             this.companyInfo = data;
@@ -62,15 +61,18 @@ export class CompanyInfoAdminComponent implements OnInit {
   }
 
   openCreateAppointmentDialog(): void {
-    const dialogRef = this.dialog.open(CreateAppointmentDialogComponent, {
-      width: '400px'
-    });
+    if (this.companyInfo) {
+      const dialogRef = this.dialog.open(CreateAppointmentDialogComponent, {
+        width: '400px',
+        data: { companyId: this.companyInfo.id, admins: this.companyInfo.admins }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Handle the result if needed
-        // For example, refresh the appointments list
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          // Handle the result if needed
+          // For example, refresh the appointments list
+        }
+      });
+    }
   }
 }
