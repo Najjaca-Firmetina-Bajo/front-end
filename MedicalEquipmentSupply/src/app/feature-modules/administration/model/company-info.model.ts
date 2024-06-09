@@ -1,5 +1,6 @@
 import {AppointmentInfo} from "./appointment-info.model";
 import {AdminInfo} from "./admin-info.model";
+import {EquipmentInfo} from "./equipment-info.model";
 
 export interface CompanyInfo {
   id: number;
@@ -9,4 +10,5 @@ export interface CompanyInfo {
   averageRating: number;
   availableAppointments: AppointmentInfo[];
   admins: AdminInfo[];
+  equipments: EquipmentInfo[];
 }
