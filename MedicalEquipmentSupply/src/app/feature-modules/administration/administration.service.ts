@@ -13,6 +13,7 @@ import { SystemAdministrator } from './model/system-administrator.model';
 import { QRCodeDto } from './model/qrcode.model';
 import { QRCodeEquipment } from './model/qr-eq.model';
 import {AdminInfo} from "./model/admin-info.model";
+import {ResetPassword} from "./model/reset-password.model";
 
 @Injectable({
   providedIn: 'root'
@@ -143,5 +144,9 @@ export class AdministrationService {
 
   updateAdminInfo(adminInfo: AdminInfo): Observable<void> {
     return this.http.put<void>(environment.apiHost + 'companyAdministrators/update-profile-info', adminInfo);
+  }
+
+  resetAdminPassword(newPassword: ResetPassword): Observable<string> {
+    return this.http.put<string>(environment.apiHost + 'users/reset-password', newPassword);
   }
 }

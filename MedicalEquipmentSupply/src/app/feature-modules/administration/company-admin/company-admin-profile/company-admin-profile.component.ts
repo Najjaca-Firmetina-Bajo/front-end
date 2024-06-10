@@ -15,6 +15,7 @@ import { QRCodeDto } from '../../model/qrcode.model';
 import {AdminInfo} from "../../model/admin-info.model";
 import {MatDialog} from "@angular/material/dialog";
 import {EditAdminDialogComponent} from "../../edit-admin-dialog/edit-admin-dialog.component";
+import {ResetPasswordDialogComponent} from "../../reset-password-dialog/reset-password-dialog.component";
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -268,6 +269,21 @@ export class CompanyAdminProfileComponent implements OnInit {
         // Ovdje možete dodati kod za ažuriranje podataka o administratoru
         console.log('Dialog result:', result);
         // Na primjer, možete pozvati metodu servisa za ažuriranje podataka na serveru
+      }
+    });
+  }
+
+  openResetPasswordDialog(): void {
+    const dialogRef = this.dialog.open(ResetPasswordDialogComponent, {
+      width: '400px',
+      data: this.admin?.id
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle the result
+        console.log('Password reset data:', result);
+        // You can call a service method to handle the password reset here
       }
     });
   }
