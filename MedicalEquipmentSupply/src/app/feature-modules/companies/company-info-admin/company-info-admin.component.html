@@ -57,6 +57,10 @@
     </table>
 
     <h3>Equipments</h3>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Search Equipment" [(ngModel)]="searchTerm">
+    </mat-form-field>
+    <button mat-raised-button (click)="searchEquipment()">Search</button>
     <table mat-table [dataSource]="companyInfo.equipments" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>

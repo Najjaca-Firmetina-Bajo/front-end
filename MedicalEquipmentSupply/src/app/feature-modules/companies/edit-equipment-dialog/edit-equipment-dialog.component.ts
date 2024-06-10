@@ -41,7 +41,7 @@ export class EditEquipmentDialogComponent implements OnInit {
         price: this.equipmentForm.value.price,
         quantity: this.equipmentForm.value.quantity
       };
-      
+
       this.companiesService.updateEquipment(updatedEquipmentData).subscribe(
         () => {
           console.log('Equipment updated successfully');

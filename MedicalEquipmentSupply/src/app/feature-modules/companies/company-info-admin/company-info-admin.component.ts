@@ -16,6 +16,7 @@ import {EditEquipmentDialogComponent} from "../edit-equipment-dialog/edit-equipm
 export class CompanyInfoAdminComponent implements OnInit {
   companyInfo: CompanyInfo | null = null;
   userId: number | undefined;
+  searchTerm: string = '';
 
   constructor(
     private companyService: CompaniesService,
@@ -124,6 +125,21 @@ export class CompanyInfoAdminComponent implements OnInit {
         }
       }
     });
+  }
+
+  searchEquipment(): void {
+    if (!this.searchTerm.trim()) { return; }
+    this.companyService.searchEquipmentByName(this.searchTerm).subscribe(
+      (equipmentList: EquipmentInfo[]) => {
+        // Update the equipment list with the search results
+        if (this.companyInfo) {
+          this.companyInfo.equipments = equipmentList;
+        }
+      },
+      (error) => {
+        console.error('Error searching equipment:', error);
+      }
+    );
   }
 
 }
