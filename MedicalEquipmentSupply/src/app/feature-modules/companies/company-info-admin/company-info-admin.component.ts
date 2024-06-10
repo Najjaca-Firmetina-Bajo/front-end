@@ -5,6 +5,8 @@ import { EditCompanyDialogComponent } from "../../edit-company-dialog/edit-compa
 import { MatDialog } from "@angular/material/dialog";
 import { CreateAppointmentDialogComponent } from '../create-appointment-dialog/create-appointment-dialog.component';
 import {CreateEquipmentDialogComponent} from "../create-equipment-dialog/create-equipment-dialog.component";
+import {EquipmentInfo} from "../../administration/model/equipment-info.model";
+import {EditEquipmentDialogComponent} from "../edit-equipment-dialog/edit-equipment-dialog.component";
 
 @Component({
   selector: 'app-company-info-admin',
@@ -86,11 +88,42 @@ export class CompanyInfoAdminComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Handle the result, e.g., add the new equipment to the companyInfo.equipments list
         if (this.companyInfo) {
           this.companyInfo.equipments.push(result);
         }
       }
     });
   }
+
+  deleteEquipment(id: number): void {
+    this.companyService.deleteEquipment(id).subscribe(
+      () => {
+        if (this.companyInfo) {
+          this.companyInfo.equipments = this.companyInfo.equipments.filter(equipment => equipment.id !== id);
+        }
+      },
+      (error) => {
+        console.error('Error deleting equipment:', error);
+      }
+    );
+  }
+
+  openEditEquipmentDialog(equipment: EquipmentInfo): void {
+    if(!this.companyInfo) {return;}
+    const dialogRef = this.dialog.open(EditEquipmentDialogComponent, {
+      width: '400px',
+      data: { companyId: this.companyInfo.id, equipment: equipment }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Update the equipment details in the companyInfo.equipments list
+        const index = this.companyInfo?.equipments.findIndex(e => e.id === result.id);
+        if (index !== undefined && index !== -1 && this.companyInfo) {
+          this.companyInfo.equipments[index] = result;
+        }
+      }
+    });
+  }
+
 }
