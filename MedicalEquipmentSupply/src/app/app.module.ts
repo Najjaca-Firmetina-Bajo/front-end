@@ -56,6 +56,8 @@ import { CreateAppointmentDialogComponent } from './feature-modules/companies/cr
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { CreateEquipmentDialogComponent } from './feature-modules/companies/create-equipment-dialog/create-equipment-dialog.component';
 import { EditEquipmentDialogComponent } from './feature-modules/companies/edit-equipment-dialog/edit-equipment-dialog.component';
+import { EditAdminDialogComponent } from './feature-modules/administration/edit-admin-dialog/edit-admin-dialog.component';
+import { ResetPasswordDialogComponent } from './feature-modules/administration/reset-password-dialog/reset-password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +88,8 @@ import { EditEquipmentDialogComponent } from './feature-modules/companies/edit-e
     CreateAppointmentDialogComponent,
     CreateEquipmentDialogComponent,
     EditEquipmentDialogComponent,
+    EditAdminDialogComponent,
+    ResetPasswordDialogComponent,
   ],
   imports: [
     BrowserModule,

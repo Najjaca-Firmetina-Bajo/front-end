@@ -12,6 +12,7 @@ import { RegistredUser } from './model/registred-user.model';
 import { SystemAdministrator } from './model/system-administrator.model';
 import { QRCodeDto } from './model/qrcode.model';
 import { QRCodeEquipment } from './model/qr-eq.model';
+import {AdminInfo} from "./model/admin-info.model";
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +52,7 @@ export class AdministrationService {
   searchEquipment(name: string): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(environment.apiHost + 'equipment/search/' + name)
   }
-  
+
   filterEquipment(params: string): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(environment.apiHost + 'equipment/filter/' + params);
   }
@@ -134,5 +135,13 @@ export class AdministrationService {
 
   getUsersPenalPoints(id: number): Observable<number> {
     return this.http.get<number>(environment.apiHost + 'registeredUsers/get-users-penal-points/' + id);
+  }
+
+  getAdminInfo(id: number): Observable<AdminInfo> {
+    return this.http.get<AdminInfo>(environment.apiHost + 'systemAdministrators/get-admin-info/' + id);
+  }
+
+  updateAdminInfo(adminInfo: AdminInfo): Observable<void> {
+    return this.http.put<void>(environment.apiHost + 'companyAdministrators/update-profile-info', adminInfo);
   }
 }

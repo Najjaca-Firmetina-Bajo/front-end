@@ -1,9 +1,25 @@
 <div class="container">
-    <div id="fullscreen-photo"></div>
-    <h1>{{ caName }}</h1>
-    <div>
-        <button class="back-button" (click)="backToPerviousPage()" mat-raised-button>Back</button>
-    </div>
+  <div>
+    <button class="back-button" (click)="backToPerviousPage()" mat-raised-button>Back</button>
+  </div>
+
+  <div id="fullscreen-photo"></div>
+  <h1>{{ caName }}</h1>
+
+  <div class="admin-info">
+    <div><strong>Email:</strong> {{ admin?.email }}</div>
+    <div><strong>Name:</strong> {{ admin?.name }}</div>
+    <div><strong>Surname:</strong> {{ admin?.surname }}</div>
+    <div><strong>City:</strong> {{ admin?.city }}</div>
+    <div><strong>Country:</strong> {{ admin?.country }}</div>
+    <div><strong>Phone Number:</strong> {{ admin?.phoneNumber }}</div>
+
+    <button mat-raised-button (click)="openEditDialog()">Edit</button>
+    <button  mat-raised-button>Reset Password</button>
+  </div>
+
+
+
     <div class="form-row">
         <div>
             <label for="calendarRange">Select display range:</label>
