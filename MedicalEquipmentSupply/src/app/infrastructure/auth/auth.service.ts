@@ -8,6 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { User } from './model/user.model';
+import {AdminCompanyLogging} from "../../feature-modules/administration/model/admin-company-login.model";
 
 
 @Injectable({
@@ -25,28 +26,28 @@ export class AuthService {
   register(registration: Registration): Observable<any> {
     const headers = new HttpHeaders({
     });
-  
+
     return this.http.post(environment.wwwRoot + 'auth/signup', registration, { headers });
   }
 
 
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
-    
+
     if (token) {
       const user = this.getUserFromLocalStorage();
-      
+
       if (user) {
         if (this.jwtHelper.isTokenExpired(token)) {
           this.logout();
           return false;
         }
-  
+
         // User is logged in
         return true;
       }
     }
-  
+
     // No token or user found
     return false;
   }
@@ -120,12 +121,24 @@ export class AuthService {
     return this.http.get<boolean>(environment.apiHost + 'users/is-system-administrator/' + username);
   }
 
+  isCompanyAdministrator(username: string): Observable<boolean> {
+    return this.http.get<boolean>(environment.apiHost + 'users/is-company-administrator/' + username);
+  }
+
+  isPasswordChanged(username: string): Observable<AdminCompanyLogging> {
+    return this.http.get<AdminCompanyLogging>(environment.apiHost + 'companyAdministrators/get-logging-info/' + username);
+  }
+
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(environment.apiHost + 'users/get-all');
   }
 
   changePassword(adminId: number, password: string): Observable<number> {
     return this.http.put<number>(environment.apiHost + 'systemAdministrators/update-password/' + adminId + '/' + password, null);
+  }
+
+  changePasswordCompanyAdmin(adminId: number, password: string): Observable<number> {
+    return this.http.put<number>(environment.apiHost + 'companyAdministrators/update-password/' + adminId + '/' + password, null);
   }
 
   getAuthenticatedUserDetails(): Observable<User> {
