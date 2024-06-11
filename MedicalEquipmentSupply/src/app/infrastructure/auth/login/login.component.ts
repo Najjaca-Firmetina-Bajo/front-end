@@ -138,7 +138,7 @@ export class LoginComponent {
   checkPasswordChangedForCompanyAdmin(): void {
     this.authService.isPasswordChanged(this.username).subscribe({
       next: (adminLogging: AdminCompanyLogging) => {
-        if (!adminLogging.isPasswordChanged) {
+        if (!adminLogging.passwordChanged) {
           this.router.navigate(['/change-password-form']);
         } else {
           this.router.navigate(['/home']);

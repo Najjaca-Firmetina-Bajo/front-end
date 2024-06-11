@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import { CompanyInfo } from "../../administration/model/company-info.model";
 import { CompaniesService } from "../companies.service";
 import { EditCompanyDialogComponent } from "../../edit-company-dialog/edit-company-dialog.component";
@@ -14,9 +14,12 @@ import {EditEquipmentDialogComponent} from "../edit-equipment-dialog/edit-equipm
   styleUrls: ['./company-info-admin.component.css']
 })
 export class CompanyInfoAdminComponent implements OnInit {
+  coord: any;
+  fixCoord: any;
   companyInfo: CompanyInfo | null = null;
   userId: number | undefined;
   searchTerm: string = '';
+  map: any;
 
   constructor(
     private companyService: CompaniesService,
@@ -34,6 +37,9 @@ export class CompanyInfoAdminComponent implements OnInit {
         this.companyService.getCompanyInfo(this.userId).subscribe(
           (data: CompanyInfo) => {
             this.companyInfo = data;
+            const [street, number, city, country,longitude, latitude] = this.companyInfo.address.split('-');
+            this.coord = [parseFloat(latitude), parseFloat(longitude)];
+            this.fixCoord = [this.coord, this.coord];
           },
           (error: any) => {
             console.error('Error fetching company info', error);

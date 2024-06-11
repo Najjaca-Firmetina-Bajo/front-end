@@ -37,6 +37,8 @@ export class MapComponent implements AfterViewInit, OnChanges {
     tiles.addTo(this.map);
 
     this.registerOnClick();
+    this.updateDynamicCoordinate();
+    this.addFixedMarker();
   }
 
   private registerOnClick(): void {
@@ -46,9 +48,9 @@ export class MapComponent implements AfterViewInit, OnChanges {
       const lng = coord.lng;
       const latString = lat.toString();
       const lngString = lng.toString();
-    
+
       const coordinateString = `interpolatedCoordinates.add(new Coordinate(${latString}, ${lngString})); `;
-      
+
       this.messages += coordinateString;
       console.log(this.messages);
     });
@@ -81,7 +83,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     let DefaultIcon = L.icon({
       iconUrl: 'https://icons.veryicon.com/png/o/object/material-design-icons-1/map-marker-circle.png',
-      
+
     iconSize:     [30, 30], // size of the icon
     iconAnchor:   [15, 15], // point of the icon which will correspond to marker's location
     });
@@ -99,5 +101,18 @@ export class MapComponent implements AfterViewInit, OnChanges {
     if (changes['coord'] && !changes['coord'].firstChange) {
       this.updateDynamicCoordinate();
     }
+  }
+
+  private addFixedMarker(): void {
+    const fixedMarker = L.marker(this.initialCenter, { icon: this.createCheckpointIcon() }).addTo(this.map);
+    this.markers.push(fixedMarker);
+  }
+
+  private createCheckpointIcon(): any {
+    return L.icon({
+      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
   }
 }
