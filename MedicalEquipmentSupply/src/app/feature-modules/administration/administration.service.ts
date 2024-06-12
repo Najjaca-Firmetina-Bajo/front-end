@@ -14,6 +14,7 @@ import { QRCodeDto } from './model/qrcode.model';
 import { QRCodeEquipment } from './model/qr-eq.model';
 import {AdminInfo} from "./model/admin-info.model";
 import {ResetPassword} from "./model/reset-password.model";
+import {RegisteredUserInfo} from "./model/registered-user-info.model";
 
 @Injectable({
   providedIn: 'root'
@@ -148,5 +149,9 @@ export class AdministrationService {
 
   resetAdminPassword(newPassword: ResetPassword): Observable<string> {
     return this.http.put<string>(environment.apiHost + 'users/reset-password', newPassword);
+  }
+
+  getAllUsersWithReservations(companyId: number): Observable<RegisteredUserInfo[]> {
+    return this.http.get<RegisteredUserInfo[]>(environment.apiHost + 'registeredUsers/get-all-with-reservation-by-company/' + companyId);
   }
 }

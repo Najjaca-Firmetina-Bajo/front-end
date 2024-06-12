@@ -3,19 +3,18 @@ import { WorkingCalendar } from '../../model/working-calendar.model';
 import { WorkingDay } from '../../model/wrking-day.model';
 import { Appointment } from '../../model/appointment.model';
 import { AdministrationService } from '../../administration.service';
-import { Equipment } from '../../model/equipment.model';
 import { RegistredUser } from '../../model/registred-user.model';
-import { CalendarOptions, EventInput } from '@fullcalendar/core'; // useful for typechecking
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import { CalendarOptions, EventInput } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CompanyAdministrator } from '../../model/company-administrator.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Router } from '@angular/router';
 import { QRCodeDto } from '../../model/qrcode.model';
-import {AdminInfo} from "../../model/admin-info.model";
 import {MatDialog} from "@angular/material/dialog";
+import { AdminInfo } from "../../model/admin-info.model";
+import { ResetPasswordDialogComponent } from "../../reset-password-dialog/reset-password-dialog.component";
 import {EditAdminDialogComponent} from "../../edit-admin-dialog/edit-admin-dialog.component";
-import {ResetPasswordDialogComponent} from "../../reset-password-dialog/reset-password-dialog.component";
 
 @Component({
   selector: 'app-company-admin-profile',
