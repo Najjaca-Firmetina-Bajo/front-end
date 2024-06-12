@@ -1,0 +1,23 @@
+<button class="reservation-button" (click)="toggleReservationTable()">Show all reservations</button>
+<div class="reservation-table-container" *ngIf="showReservationTable">
+  <table class="reservation-table">
+    <thead>
+    <tr>
+      <th>Equipment</th>
+      <th>Pickup Date</th>
+      <th>Status</th>
+      <th>Quantity</th>
+      <th>Recipient</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let reservation of reservations">
+      <td>{{ reservation.equipmentName }}</td>
+      <td>{{ reservation.pickUpDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+      <td>{{ reservation.status }}</td>
+      <td>{{ reservation.quantity }}</td>
+      <td>{{ reservation.recipientName }} {{ reservation.recipientSurname }} ({{ reservation.recipientUsername }})</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -19,6 +19,7 @@ import {CreateAppointment} from "../administration/model/create-appointment.mode
 import {CreateEquipment} from "../administration/model/create-equipment.model";
 import {EditEquipment} from "../administration/model/edit-equipment.model";
 import {EquipmentInfo} from "../administration/model/equipment-info.model";
+import {ReservationInfo} from "../administration/model/reservation-info.model";
 
 @Injectable({
   providedIn: 'root',
@@ -206,6 +207,10 @@ export class CompaniesService {
 
   deleteAppointment(id: number): Observable<any> {
     return this.http.delete<any>(environment.apiHost + 'appointments/' + id)
+  }
+
+  getAllReservationByAdminId(id: number): Observable<ReservationInfo[]> {
+    return this.http.get<ReservationInfo[]>(environment.apiHost + 'qreq/get-all-by-admin-id/' + id);
   }
 
 }

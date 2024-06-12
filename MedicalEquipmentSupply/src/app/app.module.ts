@@ -59,6 +59,7 @@ import { EditEquipmentDialogComponent } from './feature-modules/companies/edit-e
 import { EditAdminDialogComponent } from './feature-modules/administration/edit-admin-dialog/edit-admin-dialog.component';
 import { ResetPasswordDialogComponent } from './feature-modules/administration/reset-password-dialog/reset-password-dialog.component';
 import { UsersWithReservationComponent } from './feature-modules/administration/users-with-reservation/users-with-reservation.component';
+import { DeliverOrderReservationComponent } from './feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { UsersWithReservationComponent } from './feature-modules/administration/
     EditAdminDialogComponent,
     ResetPasswordDialogComponent,
     UsersWithReservationComponent,
+    DeliverOrderReservationComponent,
   ],
   imports: [
     BrowserModule,

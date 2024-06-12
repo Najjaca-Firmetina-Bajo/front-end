@@ -23,6 +23,9 @@ import {CompanyInfoAdminComponent} from "./feature-modules/companies/company-inf
 import {
   UsersWithReservationComponent
 } from "./feature-modules/administration/users-with-reservation/users-with-reservation.component";
+import {
+  DeliverOrderReservationComponent
+} from "./feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component";
 
 
 
@@ -48,6 +51,7 @@ const routes: Routes = [
   { path: 'rate-company/:id', component: RateCompanyComponent},
   { path: 'admin-company-info', component: CompanyInfoAdminComponent},
   { path: 'users-with-reservation', component: UsersWithReservationComponent},
+  { path: 'deliver-order', component: DeliverOrderReservationComponent},
 ];
 
 @NgModule({

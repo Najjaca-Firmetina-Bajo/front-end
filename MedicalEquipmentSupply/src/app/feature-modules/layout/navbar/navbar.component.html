@@ -15,6 +15,7 @@
             <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['map']">Simulator</button>
             <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['admin-company-info']">Company info</button>
             <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['users-with-reservation']">Users with reservation</button>
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['deliver-order']">Deliver order</button>
             <button class="button" *ngIf="user && user.role === 'SYSTEM_ADMINISTRATOR'" mat-raised-button [routerLink]="['system-admin-home-page']">Your SA profile</button>
             <button class="button" *ngIf="user && isUserLoggedIn()" mat-raised-button [routerLink]="['equipment-review']">Equipment search</button>
 
