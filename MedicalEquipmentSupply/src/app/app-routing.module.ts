@@ -19,6 +19,7 @@ import { DownloadedAppointmentsComponent } from './feature-modules/companies/dow
 import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
 import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
 import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
+import {CompanyInfoAdminComponent} from "./feature-modules/companies/company-info-admin/company-info-admin.component";
 
 
 
@@ -42,6 +43,7 @@ const routes: Routes = [
   { path: 'new-appointments/:id', component: NewAppointmentsComponent},
   { path: 'users-penal-points/:id', component: UsersPenaltiesComponent},
   { path: 'rate-company/:id', component: RateCompanyComponent},
+  { path: 'admin-company-info', component: CompanyInfoAdminComponent},
 ];
 
 @NgModule({

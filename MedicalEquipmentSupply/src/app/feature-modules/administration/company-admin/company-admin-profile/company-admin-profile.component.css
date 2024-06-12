@@ -5,12 +5,12 @@
     text-align: center;
     margin-top: 50px; /* Dodaj po potrebi za odgovarajući razmak od vrha stranice */
   }
-  
+
 .form-container {
   width: 300px; /* Prilagodi širinu formi po potrebi */
   margin-top: 20px; /* Dodaj po potrebi za odgovarajući razmak između formi */
 }
-  
+
 .fc {
   width: 1000px;
   height: 400px;
@@ -33,12 +33,11 @@
 }
 
 .back-button {
-  background-color: white !important; 
-  color: #E53935 !important; 
+  background-color: white !important;
+  color: #E53935 !important;
   width: 10%;
   border-radius: 15px;
   margin-right: 1400px;
-  margin-top: -175px;
 }
 
 #fullscreen-photo {
@@ -73,5 +72,23 @@ label {
 
 .form-row {
   display: flex;
-  align-items: center; 
+  align-items: center;
+}
+
+.admin-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 850px;
+  margin-top: 20px;
+}
+
+.admin-info div {
+  margin-bottom: 5px;
+}
+
+.admin-info button {
+  margin-top: 10px;
+  background-color: white !important;
+  color: #E53935 !important;
 }

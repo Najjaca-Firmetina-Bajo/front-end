@@ -1,0 +1,119 @@
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<mat-card *ngIf="companyInfo">
+  <mat-card-title>{{ companyInfo.name }}</mat-card-title>
+  <mat-card-content>
+    <div class="button-container">
+      <button mat-icon-button class="edit-button" (click)="openEditDialog(companyInfo)">
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button mat-button class="add-appointment" (click)="openCreateAppointmentDialog()">Add appointment</button>
+      <button mat-button class="add-appointment" (click)="openCreateEquipmentDialog()">Add equipment</button>
+    </div>
+
+    <p><strong>Address:</strong> {{ companyInfo.address }}</p>
+    <p><strong>Description:</strong> {{ companyInfo.description }}</p>
+    <p><strong>Average Rating:</strong> {{ companyInfo.averageRating }}</p>
+
+    <div class="map-container">
+      <app-map [initialCenter]="coord" [fixedCoordinates]="fixCoord"></app-map>
+    </div>
+
+    <h3>Available Appointments</h3>
+    <table mat-table [dataSource]="companyInfo.availableAppointments" class="mat-elevation-z8">
+      <ng-container matColumnDef="pickUpDate">
+        <th mat-header-cell *matHeaderCellDef> Pick Up Date </th>
+        <td mat-cell *matCellDef="let appointment"> {{ appointment.pickUpDate | date: 'short' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef> Duration </th>
+        <td mat-cell *matCellDef="let appointment"> {{ appointment.duration }}h </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let appointment"> {{ appointment.type }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let appointment">
+          <button mat-icon-button (click)="deleteAppointment(appointment.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['pickUpDate', 'duration', 'type', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['pickUpDate', 'duration', 'type', 'actions'];"></tr>
+    </table>
+
+    <h3>Admins</h3>
+    <table mat-table [dataSource]="companyInfo.admins" class="mat-elevation-z8">
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Username </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.name }} {{admin.surname}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.email }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+        <td mat-cell *matCellDef="let admin"> {{ admin.phoneNumber }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['username', 'email', 'phoneNumber']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['username', 'email', 'phoneNumber'];"></tr>
+    </table>
+
+    <h3>Equipments</h3>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Search Equipment" [(ngModel)]="searchTerm">
+    </mat-form-field>
+    <button mat-raised-button (click)="searchEquipment()">Search</button>
+    <table mat-table [dataSource]="companyInfo.equipments" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let equipment"> {{ equipment.name }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let equipment"> {{ equipment.type }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Price </th>
+        <td mat-cell *matCellDef="let equipment"> {{ equipment.price | currency }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> Quantity </th>
+        <td mat-cell *matCellDef="let equipment"> {{ equipment.quantity }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let equipment">
+          <button mat-icon-button (click)="openEditEquipmentDialog(equipment)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteEquipment(equipment.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['name', 'type', 'price', 'quantity', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['name', 'type', 'price', 'quantity', 'actions'];"></tr>
+    </table>
+  </mat-card-content>
+
+</mat-card>
+<div *ngIf="!companyInfo">
+  <p>Loading company info...</p>
+</div>

@@ -12,6 +12,13 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { QRCode } from 'jsqr';
 import { CompanyRating } from './model/company-rating.model';
+import {CompanyInfo} from "../administration/model/company-info.model";
+import {EditCompany} from "../administration/model/edit-company.model";
+import {WorkingCalendarInfo} from "../administration/model/working-calendar-info.model";
+import {CreateAppointment} from "../administration/model/create-appointment.model";
+import {CreateEquipment} from "../administration/model/create-equipment.model";
+import {EditEquipment} from "../administration/model/edit-equipment.model";
+import {EquipmentInfo} from "../administration/model/equipment-info.model";
 
 @Injectable({
   providedIn: 'root',
@@ -107,7 +114,7 @@ export class CompaniesService {
       catchError(error => {
         // Ovde možete obraditi grešku koja se dogodila
         console.error('Greška prilikom dobijanja izvanrednih termina:', error);
-        
+
         // Vraćanje praznog niza ili neke podrazumevane vrednosti kao rezultata
         return of([]);
       })
@@ -126,10 +133,10 @@ export class CompaniesService {
       timeZone: 'GMT'
     };
     const selectedDate = new Date(date);
-  
+
     // Formatiranje datuma koristeći Intl.DateTimeFormat
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(selectedDate);
-  
+
     return formattedDate;
   }
 
@@ -164,4 +171,41 @@ export class CompaniesService {
   updateCompanyRate(rating: CompanyRating): Observable<CompanyRating>{
     return this.http.put<CompanyRating>(environment.apiHost + 'ratings', rating)
   }
+
+  getCompanyInfo(adminId: number): Observable<CompanyInfo> {
+    return this.http.get<CompanyInfo>(environment.apiHost + 'companyAdministrators/get-company/' + adminId);
+  }
+
+  updateCompanyInfo(companyInfo: EditCompany): Observable<void> {
+    return this.http.put<void>(environment.apiHost + 'companyAdministrators/update-company-info', companyInfo);
+  }
+
+  getWorkingCalendarInfo(companyId: number): Observable<WorkingCalendarInfo> {
+    return this.http.get<WorkingCalendarInfo>(environment.apiHost + 'companyAdministrators/get-working-calendar/' + companyId);
+  }
+
+  createAppointment(appointment: CreateAppointment): Observable<void> {
+    return this.http.post<void>(environment.apiHost + 'companyAdministrators/create-appointment', appointment);
+  }
+
+  createEquipment(equipment: CreateEquipment): Observable<void> {
+    return this.http.post<void>(environment.apiHost + 'equipment', equipment);
+  }
+
+  deleteEquipment(id: number): Observable<any> {
+    return this.http.delete<any>(environment.apiHost + 'equipment/' + id);
+  }
+
+  updateEquipment(equipment: EditEquipment): Observable<void> {
+    return this.http.put<void>(environment.apiHost + 'equipment', equipment);
+  }
+
+  searchEquipmentByName(name: String): Observable<EquipmentInfo[]> {
+    return this.http.get<EquipmentInfo[]>(environment.apiHost + 'equipment/search-by-name/' + name);
+  }
+
+  deleteAppointment(id: number): Observable<any> {
+    return this.http.delete<any>(environment.apiHost + 'appointments/' + id)
+  }
+
 }

@@ -8,6 +8,9 @@ import { RegistrationComponent } from './infrastructure/auth/registration/regist
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SystemAdminHomePageComponent } from './feature-modules/administration/system-admin/system-admin-home-page.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -46,6 +49,15 @@ import { DownloadedAppointmentsComponent } from './feature-modules/companies/dow
 import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
 import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
 import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
+import { EditCompanyDialogComponent } from './feature-modules/edit-company-dialog/edit-company-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { CompanyInfoAdminComponent } from './feature-modules/companies/company-info-admin/company-info-admin.component';
+import { CreateAppointmentDialogComponent } from './feature-modules/companies/create-appointment-dialog/create-appointment-dialog.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { CreateEquipmentDialogComponent } from './feature-modules/companies/create-equipment-dialog/create-equipment-dialog.component';
+import { EditEquipmentDialogComponent } from './feature-modules/companies/edit-equipment-dialog/edit-equipment-dialog.component';
+import { EditAdminDialogComponent } from './feature-modules/administration/edit-admin-dialog/edit-admin-dialog.component';
+import { ResetPasswordDialogComponent } from './feature-modules/administration/reset-password-dialog/reset-password-dialog.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +83,13 @@ import { UsersPenaltiesComponent } from './feature-modules/administration/users-
     NewAppointmentsComponent,
     RateCompanyComponent,
     UsersPenaltiesComponent,
+    EditCompanyDialogComponent,
+    CompanyInfoAdminComponent,
+    CreateAppointmentDialogComponent,
+    CreateEquipmentDialogComponent,
+    EditEquipmentDialogComponent,
+    EditAdminDialogComponent,
+    ResetPasswordDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,10 +106,13 @@ import { UsersPenaltiesComponent } from './feature-modules/administration/users-
     MatPaginatorModule,
     MatMenuModule,
     MatCardModule,
-    MatDatepickerModule,
     HttpClientModule,
     FormsModule,
     FullCalendarModule,
+    NgxMaterialTimepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule, // Include this if you prefer moment.js for date handling
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
@@ -100,7 +122,9 @@ import { UsersPenaltiesComponent } from './feature-modules/administration/users-
         allowedDomains: ['*'], // Allow tokens for all domains
         disallowedRoutes: [] // Specify routes that should not include the token
       }
-    })
+    }),
+    MatDialogModule,
+    MatAutocompleteModule
   ],
   providers: [
     AuthService,
