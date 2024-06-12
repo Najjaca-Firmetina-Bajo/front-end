@@ -192,8 +192,8 @@ export class CompaniesService {
     return this.http.post<void>(environment.apiHost + 'equipment', equipment);
   }
 
-  deleteEquipment(id: number): Observable<void> {
-    return this.http.delete<void>(environment.apiHost + 'equipment/' + id);
+  deleteEquipment(id: number): Observable<any> {
+    return this.http.delete<any>(environment.apiHost + 'equipment/' + id);
   }
 
   updateEquipment(equipment: EditEquipment): Observable<void> {
@@ -202,6 +202,10 @@ export class CompaniesService {
 
   searchEquipmentByName(name: String): Observable<EquipmentInfo[]> {
     return this.http.get<EquipmentInfo[]>(environment.apiHost + 'equipment/search-by-name/' + name);
+  }
+
+  deleteAppointment(id: number): Observable<any> {
+    return this.http.delete<any>(environment.apiHost + 'appointments/' + id)
   }
 
 }

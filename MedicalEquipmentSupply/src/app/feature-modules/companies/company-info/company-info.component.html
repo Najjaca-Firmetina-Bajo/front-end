@@ -5,6 +5,9 @@
         <h2>{{ company.name }}</h2>
         <p>Address: {{ company.address }}</p>
         <p>Average Rating: {{ company.averageRating }}</p>
+        <div class="map-container">
+          <app-map [initialCenter]="coord" [fixedCoordinates]="fixCoord"></app-map>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>

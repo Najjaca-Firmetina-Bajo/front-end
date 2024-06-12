@@ -110,7 +110,32 @@ export class CompanyInfoAdminComponent implements OnInit {
         }
       },
       (error) => {
-        console.error('Error deleting equipment:', error);
+        console.error('Error deleting equipment', error);
+
+        if (error.error && error.error.message) {
+          alert(error.error.message);
+        } else {
+          alert('An error occurred while deleting equipment. Please try again.');
+        }
+      }
+    );
+  }
+
+  deleteAppointment(id: number): void {
+    this.companyService.deleteAppointment(id).subscribe(
+      () => {
+        if (this.companyInfo) {
+          window.location.reload();
+        }
+      },
+      (error) => {
+        console.error('Error deleting appointment', error);
+
+        if (error.error && error.error.message) {
+          alert(error.error.message);
+        } else {
+          alert('An error occurred while deleting appointment. Please try again.');
+        }
       }
     );
   }

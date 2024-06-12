@@ -80,3 +80,8 @@ button {
   top: 10px;
   right: 10px;
 }
+
+.map-container {
+  width: 600px;
+  height: 600px;
+}

@@ -94,7 +94,7 @@ export class CreateAppointmentDialogComponent implements OnInit {
 
       const appointment: CreateAppointment = {
         adminId: this.appointmentForm.get('admin')?.value.id,
-        pickUpDate: selectedDate.toISOString(),
+        pickUpDate: selectedWorkingDay.toISOString(),
         duration: this.appointmentForm.get('duration')?.value,
         workingDayId: this.getWorkingDayIdFromForm()
       };
@@ -103,6 +103,7 @@ export class CreateAppointmentDialogComponent implements OnInit {
         () => {
           // Successfully created appointment
           this.dialogRef.close(this.appointmentForm.value);
+          window.location.reload();
         },
         (error) => {
           console.error('Error creating appointment', error);

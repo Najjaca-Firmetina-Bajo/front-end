@@ -205,8 +205,46 @@ export class CompanyAdminProfileComponent implements OnInit {
    });
   }
 
+
   fillCalendar(): void {
     let flag = false;
+
+    this.workingDays.forEach(wd => {
+      this.allAppointments.forEach(app => {
+        let newEvent: EventInput = {
+          title: '',
+          start: new Date(),
+          end: new Date(),
+        };
+
+          this.registeredUsers.forEach(u => {
+            if(wd.id === app.workingDayId && app.id && app.companyAdministratorId === this.admin?.id) {
+              newEvent.title = app.duration + "h - " + this.admin?.name + " " + this.admin?.surname
+              newEvent.start = new Date(app.pickUpDate)
+              newEvent.end = new Date(app.pickUpDate)
+              newEvent.end.setHours(newEvent.end.getHours() + app.duration, newEvent.end.getMinutes())
+              newEvent.color = '#4CAF50';
+
+              flag = true;
+            }
+          })
+
+        if(flag) {
+          this.calendarEvents.push(newEvent);
+
+          this.calendarOptions = {
+            ...this.calendarOptions,
+            events: this.calendarEvents
+          }
+
+          if(this.fullCalendar) {
+            this.fullCalendar.getApi().addEvent(newEvent)
+          }
+
+          flag = false;
+        }
+      })
+    })
 
     this.workingDays.forEach(wd => {
       this.allAppointments.forEach(app => {

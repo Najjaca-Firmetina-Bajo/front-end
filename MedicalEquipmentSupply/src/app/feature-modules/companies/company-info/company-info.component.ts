@@ -25,6 +25,8 @@ export class CompanyInfoComponent implements OnInit {
   userId: number;
   selectedDate: Date = new Date();
   companyNotWorking: boolean = false;
+  coord: any;
+  fixCoord: any;
 
   constructor(private route: ActivatedRoute,private companyService: CompaniesService,
               private router: Router) {
@@ -42,6 +44,11 @@ export class CompanyInfoComponent implements OnInit {
     this.companyService.getCompanyById(this.companyId).subscribe(
       (data: Company) => {
         this.company = data;
+
+        const [street, number, city, country,longitude, latitude] = this.company.address.split('-');
+        this.coord = [parseFloat(latitude), parseFloat(longitude)];
+        this.fixCoord = [this.coord, this.coord];
+
         console.log(this.company);
 
         this.loadEquipmentByIds(this.company.availableEquipment.map((e: { equipmentId: number, quantity: number }) => e.equipmentId));
