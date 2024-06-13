@@ -58,6 +58,8 @@ import { CreateEquipmentDialogComponent } from './feature-modules/companies/crea
 import { EditEquipmentDialogComponent } from './feature-modules/companies/edit-equipment-dialog/edit-equipment-dialog.component';
 import { EditAdminDialogComponent } from './feature-modules/administration/edit-admin-dialog/edit-admin-dialog.component';
 import { ResetPasswordDialogComponent } from './feature-modules/administration/reset-password-dialog/reset-password-dialog.component';
+import { UsersWithReservationComponent } from './feature-modules/administration/users-with-reservation/users-with-reservation.component';
+import { DeliverOrderReservationComponent } from './feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +92,8 @@ import { ResetPasswordDialogComponent } from './feature-modules/administration/r
     EditEquipmentDialogComponent,
     EditAdminDialogComponent,
     ResetPasswordDialogComponent,
+    UsersWithReservationComponent,
+    DeliverOrderReservationComponent,
   ],
   imports: [
     BrowserModule,

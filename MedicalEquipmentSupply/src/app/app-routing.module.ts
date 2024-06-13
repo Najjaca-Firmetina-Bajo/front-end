@@ -20,6 +20,12 @@ import { NewAppointmentsComponent } from './feature-modules/companies/new-appoin
 import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
 import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
 import {CompanyInfoAdminComponent} from "./feature-modules/companies/company-info-admin/company-info-admin.component";
+import {
+  UsersWithReservationComponent
+} from "./feature-modules/administration/users-with-reservation/users-with-reservation.component";
+import {
+  DeliverOrderReservationComponent
+} from "./feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component";
 
 
 
@@ -44,6 +50,8 @@ const routes: Routes = [
   { path: 'users-penal-points/:id', component: UsersPenaltiesComponent},
   { path: 'rate-company/:id', component: RateCompanyComponent},
   { path: 'admin-company-info', component: CompanyInfoAdminComponent},
+  { path: 'users-with-reservation', component: UsersWithReservationComponent},
+  { path: 'deliver-order', component: DeliverOrderReservationComponent},
 ];
 
 @NgModule({
