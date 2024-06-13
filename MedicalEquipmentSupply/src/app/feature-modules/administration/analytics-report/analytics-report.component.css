@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 50px;
+  background: #ffffff;
+}
+
+#appointments-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#appointments-container > * {
+  padding: 40px;
+}
+
+#reservations-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#reservations-container > * {
+  padding: 40px;
+}
+
+#select-year {
+  height: 40px;
+  width: 100px;
+}
+
+#combo-box-container {
+  margin-right: 1000px;
+}
+
