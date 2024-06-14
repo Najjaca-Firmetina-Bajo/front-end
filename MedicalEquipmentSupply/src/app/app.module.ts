@@ -24,6 +24,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BaseChartDirective } from 'ng2-charts';
 
 // Auth0 Angular JWT Module
 import { JwtModule } from '@auth0/angular-jwt';
@@ -60,6 +61,7 @@ import { EditAdminDialogComponent } from './feature-modules/administration/edit-
 import { ResetPasswordDialogComponent } from './feature-modules/administration/reset-password-dialog/reset-password-dialog.component';
 import { UsersWithReservationComponent } from './feature-modules/administration/users-with-reservation/users-with-reservation.component';
 import { DeliverOrderReservationComponent } from './feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component';
+import { AnalyticsReportComponent } from './feature-modules/administration/analytics-report/analytics-report.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,7 @@ import { DeliverOrderReservationComponent } from './feature-modules/administrati
     ResetPasswordDialogComponent,
     UsersWithReservationComponent,
     DeliverOrderReservationComponent,
+    AnalyticsReportComponent,
   ],
   imports: [
     BrowserModule,
@@ -116,6 +119,7 @@ import { DeliverOrderReservationComponent } from './feature-modules/administrati
     NgxMaterialTimepickerModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    BaseChartDirective,
     MatMomentDateModule, // Include this if you prefer moment.js for date handling
     JwtModule.forRoot({
       config: {

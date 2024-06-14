@@ -154,4 +154,34 @@ export class AdministrationService {
   getAllUsersWithReservations(companyId: number): Observable<RegisteredUserInfo[]> {
     return this.http.get<RegisteredUserInfo[]>(environment.apiHost + 'registeredUsers/get-all-with-reservation-by-company/' + companyId);
   }
+
+  //Analytics requests
+
+  getAppointmentsPerYear(companyId: number): Observable<{ [key: number]: number }>{
+    return this.http.get<{ [key: number]: number }>(environment.apiHost + 'analytics/get-appointment-count-by-year/' + companyId);
+  }
+
+  getAppointmentsPerQuarter(companyId: number, year: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-appointment-count-by-quarter/' + companyId + '/' + year);
+  }
+
+  getAppointmentsPerMonth(companyId: number, year: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-appointment-count-by-month/' + companyId + '/' + year);
+  }
+
+  getReservationsPerYear(companyId: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-reservation-count-by-year/' + companyId);
+  }
+
+  getReservationsPerQuarter(companyId: number, year: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-reservation-count-by-quarter/' + companyId + '/' + year);
+  }
+
+  getReservationsPerMonth(companyId: number, year: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-reservation-count-by-month/' + companyId + '/' + year);
+  }
+
+  getProfitForPeriod(companyId: number, startDate: string, endDate: string): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-profit/' + companyId + '/' + startDate + '/' + endDate);
+  }
 }

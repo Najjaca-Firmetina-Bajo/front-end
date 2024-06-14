@@ -48,7 +48,6 @@ export class DeliverOrderReservationComponent implements OnInit {
     );
   }
 
-  // Funkcija za prikazivanje/sakrivanje tabele
   toggleReservationTable(): void {
     this.showReservationTable = !this.showReservationTable;
   }
