@@ -27,6 +27,7 @@ import {
   DeliverOrderReservationComponent
 } from "./feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component";
 import {AnalyticsReportComponent} from "./feature-modules/administration/analytics-report/analytics-report.component";
+import {ContractsComponent} from "./feature-modules/administration/contracts/contracts.component";
 
 
 
@@ -54,6 +55,7 @@ const routes: Routes = [
   { path: 'users-with-reservation', component: UsersWithReservationComponent},
   { path: 'deliver-order', component: DeliverOrderReservationComponent},
   { path: 'analytics-report', component: AnalyticsReportComponent},
+  { path: 'contracts', component: ContractsComponent},
 ];
 
 @NgModule({

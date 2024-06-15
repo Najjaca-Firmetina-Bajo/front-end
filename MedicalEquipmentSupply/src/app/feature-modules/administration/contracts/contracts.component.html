@@ -1,0 +1,35 @@
+<div class="contracts-container" *ngIf="contracts.length > 0; else noContracts">
+  <h2>Contracts</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Equipment Name</th>
+      <th>Quantity</th>
+      <th>Pickup Date</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let contract of contracts">
+      <td>{{ contract.recipientInfoDto.name }}</td>
+      <td>{{ contract.recipientInfoDto.surname }}</td>
+      <td>{{ contract.recipientInfoDto.email }}</td>
+      <td>{{ contract.equipmentInfoDto.name }}</td>
+      <td>{{ contract.quantity }}</td>
+      <td>{{ contract.pickupDate | date:'short' }}</td>
+      <td>{{ contract.status }}</td>
+      <button mat-icon-button aria-label="Info">
+        <mat-icon>info</mat-icon>
+      </button>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #noContracts>
+  <p>No contracts available.</p>
+</ng-template>

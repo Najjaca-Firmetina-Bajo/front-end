@@ -15,6 +15,7 @@ import { QRCodeEquipment } from './model/qr-eq.model';
 import {AdminInfo} from "./model/admin-info.model";
 import {ResetPassword} from "./model/reset-password.model";
 import {RegisteredUserInfo} from "./model/registered-user-info.model";
+import {ContractInfo} from "./model/contract-info.model";
 
 @Injectable({
   providedIn: 'root'
@@ -183,5 +184,9 @@ export class AdministrationService {
 
   getProfitForPeriod(companyId: number, startDate: string, endDate: string): Observable<any> {
     return this.http.get<any>(environment.apiHost + 'analytics/get-profit/' + companyId + '/' + startDate + '/' + endDate);
+  }
+
+  getAllContractsByCompanyId(companyId: number): Observable<ContractInfo[]> {
+    return this.http.get<ContractInfo[]>(environment.apiHost + 'contracts/get-all-by-company/' + companyId);
   }
 }

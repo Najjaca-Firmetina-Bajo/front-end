@@ -62,6 +62,8 @@ import { ResetPasswordDialogComponent } from './feature-modules/administration/r
 import { UsersWithReservationComponent } from './feature-modules/administration/users-with-reservation/users-with-reservation.component';
 import { DeliverOrderReservationComponent } from './feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component';
 import { AnalyticsReportComponent } from './feature-modules/administration/analytics-report/analytics-report.component';
+import { ContractsComponent } from './feature-modules/administration/contracts/contracts.component';
+import { ContractInfoComponent } from './feature-modules/administration/contract-info/contract-info.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +99,8 @@ import { AnalyticsReportComponent } from './feature-modules/administration/analy
     UsersWithReservationComponent,
     DeliverOrderReservationComponent,
     AnalyticsReportComponent,
+    ContractsComponent,
+    ContractInfoComponent,
   ],
   imports: [
     BrowserModule,
