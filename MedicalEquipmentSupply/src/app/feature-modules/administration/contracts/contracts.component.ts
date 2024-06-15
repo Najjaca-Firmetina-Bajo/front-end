@@ -3,18 +3,20 @@ import { CompanyInfo } from "../model/company-info.model";
 import { CompaniesService } from "../../companies/companies.service";
 import {ContractInfo} from "../model/contract-info.model";
 import {AdministrationService} from "../administration.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-contracts',
   templateUrl: './contracts.component.html',
   styleUrls: ['./contracts.component.css']
 })
-export class ContractsComponent implements OnInit{
+export class ContractsComponent implements OnInit {
   companyInfo: CompanyInfo | null = null;
   userId: number | undefined;
   contracts: ContractInfo[] = []
 
   constructor(
+    private router: Router,
     private companyService: CompaniesService,
     private administrationService: AdministrationService
   ) { }
@@ -50,5 +52,8 @@ export class ContractsComponent implements OnInit{
     );
   }
 
+  navigateToContractInfo(contractId: number): void {
+    this.router.navigate(['/contract-info', contractId]);
+  }
 
 }

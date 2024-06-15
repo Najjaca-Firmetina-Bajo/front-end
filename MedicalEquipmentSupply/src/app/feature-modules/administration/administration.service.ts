@@ -189,4 +189,8 @@ export class AdministrationService {
   getAllContractsByCompanyId(companyId: number): Observable<ContractInfo[]> {
     return this.http.get<ContractInfo[]>(environment.apiHost + 'contracts/get-all-by-company/' + companyId);
   }
+
+  getContractById(id: number): Observable<ContractInfo> {
+    return this.http.get<ContractInfo>(environment.apiHost + 'contracts/' + id);
+  }
 }

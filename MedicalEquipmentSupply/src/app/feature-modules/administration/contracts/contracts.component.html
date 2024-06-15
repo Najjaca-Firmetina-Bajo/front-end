@@ -22,7 +22,7 @@
       <td>{{ contract.quantity }}</td>
       <td>{{ contract.pickupDate | date:'short' }}</td>
       <td>{{ contract.status }}</td>
-      <button mat-icon-button aria-label="Info">
+      <button mat-icon-button aria-label="Info" (click)="navigateToContractInfo(contract.id)">
         <mat-icon>info</mat-icon>
       </button>
     </tr>

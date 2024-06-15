@@ -28,6 +28,7 @@ import {
 } from "./feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component";
 import {AnalyticsReportComponent} from "./feature-modules/administration/analytics-report/analytics-report.component";
 import {ContractsComponent} from "./feature-modules/administration/contracts/contracts.component";
+import {ContractInfoComponent} from "./feature-modules/administration/contract-info/contract-info.component";
 
 
 
@@ -56,6 +57,7 @@ const routes: Routes = [
   { path: 'deliver-order', component: DeliverOrderReservationComponent},
   { path: 'analytics-report', component: AnalyticsReportComponent},
   { path: 'contracts', component: ContractsComponent},
+  { path: 'contract-info/:id', component: ContractInfoComponent},
 ];
 
 @NgModule({
