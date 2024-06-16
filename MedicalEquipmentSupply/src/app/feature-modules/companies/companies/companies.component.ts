@@ -15,6 +15,7 @@ export class CompaniesComponent implements OnInit {
   companies: any[] = [];
   isCompanyAdmin: boolean = false
   companyAdmins: CompanyAdministrator[] = []
+  
 
   constructor(private companyService: CompaniesService,
               private authService: AuthService,
@@ -25,7 +26,7 @@ export class CompaniesComponent implements OnInit {
     this.loadCompanies();
   }
 
-  private loadCompanies(): void {
+  loadCompanies(): void {
     this.companyService.getCompanies().subscribe((data) => {
       this.companies = data;
       this.getAllCompanyAdministrators();
@@ -71,5 +72,4 @@ export class CompaniesComponent implements OnInit {
   showCompanyAdminProfile(): void {
     this.router.navigate(['/company-admin-profile']);
   }
-
 }

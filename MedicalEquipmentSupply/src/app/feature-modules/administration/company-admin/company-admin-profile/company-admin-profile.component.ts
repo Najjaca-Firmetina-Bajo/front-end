@@ -3,16 +3,18 @@ import { WorkingCalendar } from '../../model/working-calendar.model';
 import { WorkingDay } from '../../model/wrking-day.model';
 import { Appointment } from '../../model/appointment.model';
 import { AdministrationService } from '../../administration.service';
-import { Equipment } from '../../model/equipment.model';
 import { RegistredUser } from '../../model/registred-user.model';
-import { CalendarOptions, EventInput } from '@fullcalendar/core'; // useful for typechecking
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import { CalendarOptions, EventInput } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CompanyAdministrator } from '../../model/company-administrator.model';
 import { AuthService } from 'src/app/infrastructure/auth/auth.service';
 import { Router } from '@angular/router';
 import { QRCodeDto } from '../../model/qrcode.model';
-import { QRCodeEquipment } from '../../model/qr-eq.model';
+import {MatDialog} from "@angular/material/dialog";
+import { AdminInfo } from "../../model/admin-info.model";
+import { ResetPasswordDialogComponent } from "../../reset-password-dialog/reset-password-dialog.component";
+import {EditAdminDialogComponent} from "../../edit-admin-dialog/edit-admin-dialog.component";
 
 @Component({
   selector: 'app-company-admin-profile',
@@ -20,7 +22,7 @@ import { QRCodeEquipment } from '../../model/qr-eq.model';
   styleUrls: ['./company-admin-profile.component.css']
 })
 export class CompanyAdminProfileComponent implements OnInit {
-  
+
   calendarEvents: EventInput[] = [];
   calendarFlag: boolean = false
 
@@ -49,8 +51,10 @@ export class CompanyAdminProfileComponent implements OnInit {
   allAppointments: Appointment[] = []
   allQRCodes: QRCodeDto[] = []
   registeredUsers: RegistredUser[] = []
-  
+
   selectedRange: string = 'month'
+
+  admin: AdminInfo | null = null;
 
   loggedCA: CompanyAdministrator = {
     activated: false,
@@ -73,17 +77,18 @@ export class CompanyAdminProfileComponent implements OnInit {
   caName: String = ""
 
   companyAdmins: CompanyAdministrator[] = []
-  
+
   constructor(private administrationService: AdministrationService,
               private router: Router,
-              private authService: AuthService) {}
+              private authService: AuthService,
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getAllCompanyAdministrators()
   }
 
   backToPerviousPage(): void {
-    this.router.navigate(['/home']); 
+    this.router.navigate(['/home']);
   }
 
   getAllCompanyAdministrators(): void {
@@ -111,7 +116,7 @@ export class CompanyAdminProfileComponent implements OnInit {
         ...this.calendarOptions,
         initialView: 'dayGridWeek'
       }
-      
+
       if(this.fullCalendar) {
         this.fullCalendar.getApi().changeView('dayGridWeek');
       }
@@ -144,6 +149,7 @@ export class CompanyAdminProfileComponent implements OnInit {
         this.loggedCA = ca;
         this.caName = "CA profile of " + ca.name + " " + ca.surname
         this.getWorkingCalednar()
+        this.getAdminInfo(ca.id);
       }
     })
   }
@@ -198,6 +204,7 @@ export class CompanyAdminProfileComponent implements OnInit {
    });
   }
 
+
   fillCalendar(): void {
     let flag = false;
 
@@ -205,14 +212,51 @@ export class CompanyAdminProfileComponent implements OnInit {
       this.allAppointments.forEach(app => {
         let newEvent: EventInput = {
           title: '',
-          start: new Date(), 
-          end: new Date(),  
+          start: new Date(),
+          end: new Date(),
+        };
+
+          this.registeredUsers.forEach(u => {
+            if(wd.id === app.workingDayId && app.id && app.companyAdministratorId === this.admin?.id) {
+              newEvent.title = app.duration + "h - " + this.admin?.name + " " + this.admin?.surname
+              newEvent.start = new Date(app.pickUpDate)
+              newEvent.end = new Date(app.pickUpDate)
+              newEvent.end.setHours(newEvent.end.getHours() + app.duration, newEvent.end.getMinutes())
+              newEvent.color = '#4CAF50';
+
+              flag = true;
+            }
+          })
+
+        if(flag) {
+          this.calendarEvents.push(newEvent);
+
+          this.calendarOptions = {
+            ...this.calendarOptions,
+            events: this.calendarEvents
+          }
+
+          if(this.fullCalendar) {
+            this.fullCalendar.getApi().addEvent(newEvent)
+          }
+
+          flag = false;
+        }
+      })
+    })
+
+    this.workingDays.forEach(wd => {
+      this.allAppointments.forEach(app => {
+        let newEvent: EventInput = {
+          title: '',
+          start: new Date(),
+          end: new Date(),
         };
 
         this.allQRCodes.forEach(qr => {
           this.registeredUsers.forEach(u => {
             if(wd.id === app.workingDayId && app.id === qr.appointmentId && qr.registeredUserId === u.id) {
-              newEvent.title = app.duration + "h - " + u.name + " " + u.surname 
+              newEvent.title = app.duration + "h - " + u.name + " " + u.surname
               newEvent.start = new Date(app.pickUpDate)
               newEvent.end = new Date(app.pickUpDate)
               newEvent.end.setHours(newEvent.end.getHours() + app.duration, newEvent.end.getMinutes())
@@ -239,4 +283,46 @@ export class CompanyAdminProfileComponent implements OnInit {
       })
     })
   }
+
+  getAdminInfo(id: number): void {
+    this.administrationService.getAdminInfo(id).subscribe(
+      (data: AdminInfo) => {
+        this.admin = data;
+      },
+      (error: any) => {
+        console.error('Error fetching admin info', error);
+      }
+    );
+  }
+
+  openEditDialog(): void {
+    const dialogRef = this.dialog.open(EditAdminDialogComponent, {
+      width: '400px',
+      data: this.admin
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Ovdje možete dodati kod za ažuriranje podataka o administratoru
+        console.log('Dialog result:', result);
+        // Na primjer, možete pozvati metodu servisa za ažuriranje podataka na serveru
+      }
+    });
+  }
+
+  openResetPasswordDialog(): void {
+    const dialogRef = this.dialog.open(ResetPasswordDialogComponent, {
+      width: '400px',
+      data: this.admin?.id
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        // Handle the result
+        console.log('Password reset data:', result);
+        // You can call a service method to handle the password reset here
+      }
+    });
+  }
+
 }

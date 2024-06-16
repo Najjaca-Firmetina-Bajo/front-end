@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import {User} from "../model/user.model";
 
 @Component({
   selector: 'app-change-password-form',
@@ -42,7 +43,7 @@ export class ChangePasswordFormComponent implements OnInit{
     var b = formGroup.get('confirm');
     const password = a;
     const confirmPassword = b;
-  
+
     if (password && confirmPassword) {
       const match = password.value === confirmPassword.value;
       if (!match) {
@@ -53,12 +54,42 @@ export class ChangePasswordFormComponent implements OnInit{
     }
   }
 
+  /*
   changePassword(): void {
     this.authService.changePassword(this.loggedUserId, this.changePasswordForm.value.password).subscribe({
       next: (result: number) => {
         this.router.navigate(['/home']);
       },
       error: () => { }
+    });
+  }
+   */
+  changePassword(): void {
+    this.authService.getAuthenticatedUserDetails().subscribe({
+      next: (user: User) => {
+        if (user.role === 'SYSTEM_ADMINISTRATOR') {
+          this.authService.changePassword(this.loggedUserId, this.changePasswordForm.value.password).subscribe({
+            next: () => {
+              this.router.navigate(['/home']);
+            },
+            error: (error) => {
+              console.error('Password change failed:', error);
+            }
+          });
+        } else if (user.role === 'COMPANY_ADMINISTRATOR') {
+          this.authService.changePasswordCompanyAdmin(this.loggedUserId, this.changePasswordForm.value.password).subscribe({
+            next: () => {
+              this.router.navigate(['/home']);
+            },
+            error: (error) => {
+              console.error('Password change failed:', error);
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Failed to fetch user details:', error);
+      }
     });
   }
 }

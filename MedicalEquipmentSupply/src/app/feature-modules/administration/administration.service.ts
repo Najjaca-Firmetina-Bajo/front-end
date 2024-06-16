@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/env/enviroment';
 import { CompanyAdministrator } from './model/company-administrator.model';
@@ -12,6 +12,10 @@ import { RegistredUser } from './model/registred-user.model';
 import { SystemAdministrator } from './model/system-administrator.model';
 import { QRCodeDto } from './model/qrcode.model';
 import { QRCodeEquipment } from './model/qr-eq.model';
+import {AdminInfo} from "./model/admin-info.model";
+import {ResetPassword} from "./model/reset-password.model";
+import {RegisteredUserInfo} from "./model/registered-user-info.model";
+import {ContractInfo} from "./model/contract-info.model";
 
 @Injectable({
   providedIn: 'root'
@@ -51,7 +55,7 @@ export class AdministrationService {
   searchEquipment(name: string): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(environment.apiHost + 'equipment/search/' + name)
   }
-  
+
   filterEquipment(params: string): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(environment.apiHost + 'equipment/filter/' + params);
   }
@@ -115,5 +119,82 @@ export class AdministrationService {
 
   getAllQRCodeEquipments(): Observable<QRCodeEquipment[]> {
     return this.http.get<QRCodeEquipment[]>(environment.apiHost + 'qreq/get-all')
+  }
+
+  getRegisteredUser(userId: number): Observable<RegistredUser> {
+    return this.http.get<RegistredUser>(environment.apiHost + 'registeredUsers/get_registered_user/' + userId)
+  }
+
+  edit(registration: RegistredUser): Observable<any> {
+    const headers = new HttpHeaders({
+    });
+
+    return this.http.put(environment.apiHost + 'registeredUsers/update-registered-user', registration, { headers });
+  }
+
+  removeUsersPenalPoints(id: number): Observable<number> {
+    return this.http.put<number>(environment.apiHost + 'registeredUsers/remove-penal-points',id);
+  }
+
+  getUsersPenalPoints(id: number): Observable<number> {
+    return this.http.get<number>(environment.apiHost + 'registeredUsers/get-users-penal-points/' + id);
+  }
+
+  getAdminInfo(id: number): Observable<AdminInfo> {
+    return this.http.get<AdminInfo>(environment.apiHost + 'systemAdministrators/get-admin-info/' + id);
+  }
+
+  updateAdminInfo(adminInfo: AdminInfo): Observable<void> {
+    return this.http.put<void>(environment.apiHost + 'companyAdministrators/update-profile-info', adminInfo);
+  }
+
+  resetAdminPassword(newPassword: ResetPassword): Observable<string> {
+    return this.http.put<string>(environment.apiHost + 'users/reset-password', newPassword);
+  }
+
+  getAllUsersWithReservations(companyId: number): Observable<RegisteredUserInfo[]> {
+    return this.http.get<RegisteredUserInfo[]>(environment.apiHost + 'registeredUsers/get-all-with-reservation-by-company/' + companyId);
+  }
+
+  //Analytics requests
+
+  getAppointmentsPerYear(companyId: number): Observable<{ [key: number]: number }>{
+    return this.http.get<{ [key: number]: number }>(environment.apiHost + 'analytics/get-appointment-count-by-year/' + companyId);
+  }
+
+  getAppointmentsPerQuarter(companyId: number, year: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-appointment-count-by-quarter/' + companyId + '/' + year);
+  }
+
+  getAppointmentsPerMonth(companyId: number, year: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-appointment-count-by-month/' + companyId + '/' + year);
+  }
+
+  getReservationsPerYear(companyId: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-reservation-count-by-year/' + companyId);
+  }
+
+  getReservationsPerQuarter(companyId: number, year: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-reservation-count-by-quarter/' + companyId + '/' + year);
+  }
+
+  getReservationsPerMonth(companyId: number, year: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-reservation-count-by-month/' + companyId + '/' + year);
+  }
+
+  getProfitForPeriod(companyId: number, startDate: string, endDate: string): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'analytics/get-profit/' + companyId + '/' + startDate + '/' + endDate);
+  }
+
+  getAllContractsByCompanyId(companyId: number): Observable<ContractInfo[]> {
+    return this.http.get<ContractInfo[]>(environment.apiHost + 'contracts/get-all-by-company/' + companyId);
+  }
+
+  getContractById(id: number): Observable<ContractInfo> {
+    return this.http.get<ContractInfo>(environment.apiHost + 'contracts/' + id);
+  }
+
+  deliverContract(id: number): Observable<void> {
+    return this.http.put<void>(environment.apiHost + 'contracts/deliver/' + id, null);
   }
 }

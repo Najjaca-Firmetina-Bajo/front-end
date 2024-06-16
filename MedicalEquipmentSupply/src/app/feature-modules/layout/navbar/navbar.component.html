@@ -2,15 +2,25 @@
     <div class="flex-container">
         <p class="logo" >NFB Medical Supply</p>
         <div id="buttons">
-            <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['my-profile']">My profile</button>
+            <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['my-profile/',user.id]">My profile</button>
             <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['appointments']">My appointments</button>
+            <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['downloaded-appointments/',user.id]">Downloaded appointments</button>
+            <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['new-appointments/',user.id]">New appointments</button>
+            <button class="button" *ngIf="user && user.role === 'REGISTERED_USER'" mat-raised-button [routerLink]="['users-penal-points/',user.id]">Users penalties</button>
             <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['company-admin-profile']">Your CA profile</button>
-            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['reservation-review']">Issuing of equipment</button> 
-            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['company-admin-profile']">Your CA profile</button> 
-            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['map']">Simulator</button> 
-            <button class="button" *ngIf="user && user.role === 'SYSTEM_ADMINISTRATOR'" mat-raised-button [routerLink]="['system-admin-home-page']">Your SA profile</button> 
-            <button class="button" *ngIf="user && isUserLoggedIn()" mat-raised-button [routerLink]="['equipment-review']">Equipment search</button> 
-            
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['reservation-review']">Issuing of equipment</button>
+            <!--
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['company-admin-profile']">Your CA profile</button>
+            -->
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['map']">Simulator</button>
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['admin-company-info']">Company info</button>
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['users-with-reservation']">Users with reservation</button>
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['deliver-order']">Deliver order</button>
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['analytics-report']">Analytics</button>
+            <button class="button" *ngIf="user && user.role === 'COMPANY_ADMINISTRATOR'" mat-raised-button [routerLink]="['contracts']">Contracts</button>
+            <button class="button" *ngIf="user && user.role === 'SYSTEM_ADMINISTRATOR'" mat-raised-button [routerLink]="['system-admin-home-page']">Your SA profile</button>
+            <button class="button" *ngIf="user && isUserLoggedIn()" mat-raised-button [routerLink]="['equipment-review']">Equipment search</button>
+
             <button class="button"  mat-raised-button [routerLink]="['home']">Home</button>
             <button class="button" *ngIf="!isUserLoggedIn()"  mat-raised-button [routerLink]="['login']">Login</button>
             <button class="button" *ngIf="user && isUserLoggedIn()"  mat-raised-button (click)="onLogout()">Logout</button>

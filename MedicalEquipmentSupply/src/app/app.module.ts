@@ -8,6 +8,9 @@ import { RegistrationComponent } from './infrastructure/auth/registration/regist
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SystemAdminHomePageComponent } from './feature-modules/administration/system-admin/system-admin-home-page.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 // Angular Material Modules
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -20,6 +23,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BaseChartDirective } from 'ng2-charts';
 
 // Auth0 Angular JWT Module
 import { JwtModule } from '@auth0/angular-jwt';
@@ -40,6 +45,25 @@ import { AppointmentsComponent } from './feature-modules/companies/appointments/
 import { ReservationReviewComponent } from './feature-modules/administration/reservation-review/reservation-review/reservation-review.component';
 import { MapComponent } from './feature-modules/map/map.component';
 import { SimulatorComponent } from './feature-modules/map/simulator/simulator.component';
+import { ProfileAdministrationComponent } from './feature-modules/administration/profile-administration/profile-administration.component';
+import { DownloadedAppointmentsComponent } from './feature-modules/companies/downloaded-appointments/downloaded-appointments.component';
+import { NewAppointmentsComponent } from './feature-modules/companies/new-appointments/new-appointments.component';
+import { RateCompanyComponent } from './feature-modules/companies/rate-company/rate-company.component';
+import { UsersPenaltiesComponent } from './feature-modules/administration/users-penalties/users-penalties.component';
+import { EditCompanyDialogComponent } from './feature-modules/edit-company-dialog/edit-company-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { CompanyInfoAdminComponent } from './feature-modules/companies/company-info-admin/company-info-admin.component';
+import { CreateAppointmentDialogComponent } from './feature-modules/companies/create-appointment-dialog/create-appointment-dialog.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { CreateEquipmentDialogComponent } from './feature-modules/companies/create-equipment-dialog/create-equipment-dialog.component';
+import { EditEquipmentDialogComponent } from './feature-modules/companies/edit-equipment-dialog/edit-equipment-dialog.component';
+import { EditAdminDialogComponent } from './feature-modules/administration/edit-admin-dialog/edit-admin-dialog.component';
+import { ResetPasswordDialogComponent } from './feature-modules/administration/reset-password-dialog/reset-password-dialog.component';
+import { UsersWithReservationComponent } from './feature-modules/administration/users-with-reservation/users-with-reservation.component';
+import { DeliverOrderReservationComponent } from './feature-modules/administration/deliver-order-reservation/deliver-order-reservation.component';
+import { AnalyticsReportComponent } from './feature-modules/administration/analytics-report/analytics-report.component';
+import { ContractsComponent } from './feature-modules/administration/contracts/contracts.component';
+import { ContractInfoComponent } from './feature-modules/administration/contract-info/contract-info.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +84,23 @@ import { SimulatorComponent } from './feature-modules/map/simulator/simulator.co
     ReservationReviewComponent,
     MapComponent,
     SimulatorComponent,
+    ProfileAdministrationComponent,
+    DownloadedAppointmentsComponent,
+    NewAppointmentsComponent,
+    RateCompanyComponent,
+    UsersPenaltiesComponent,
+    EditCompanyDialogComponent,
+    CompanyInfoAdminComponent,
+    CreateAppointmentDialogComponent,
+    CreateEquipmentDialogComponent,
+    EditEquipmentDialogComponent,
+    EditAdminDialogComponent,
+    ResetPasswordDialogComponent,
+    UsersWithReservationComponent,
+    DeliverOrderReservationComponent,
+    AnalyticsReportComponent,
+    ContractsComponent,
+    ContractInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,6 +120,11 @@ import { SimulatorComponent } from './feature-modules/map/simulator/simulator.co
     HttpClientModule,
     FormsModule,
     FullCalendarModule,
+    NgxMaterialTimepickerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    BaseChartDirective,
+    MatMomentDateModule, // Include this if you prefer moment.js for date handling
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
@@ -88,7 +134,9 @@ import { SimulatorComponent } from './feature-modules/map/simulator/simulator.co
         allowedDomains: ['*'], // Allow tokens for all domains
         disallowedRoutes: [] // Specify routes that should not include the token
       }
-    })
+    }),
+    MatDialogModule,
+    MatAutocompleteModule
   ],
   providers: [
     AuthService,

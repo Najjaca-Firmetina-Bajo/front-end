@@ -1,0 +1,50 @@
+<div class="container">
+    <div id="fullscreen-photo"></div>
+    <h1>Downloaded appointments review</h1>
+    <div>
+        <mat-form-field>
+            <mat-label>Sort Order</mat-label>
+            <mat-select [(ngModel)]="ascOrDesc">
+              <mat-option value="asc">Ascending</mat-option>
+              <mat-option value="desc">Descending</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Sort Type</mat-label>
+            <mat-select [(ngModel)]="type">
+              <mat-option value="date">Date</mat-option>
+              <mat-option value="duration">Duration</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button class="button" color="primary" (click)="sortAppointments()" mat-raised-button>Sort</button>
+          <button class="button" color="primary" (click)="reset()" mat-raised-button>Reset</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pick up Date</th>
+                    <th>Duration</th>
+                    <th>Type</th>
+                    <th>Quantity</th>
+                    <th>Equipment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of appointments">
+                    <td>{{e.pickUpDate}}</td>
+                    <td>{{e.duration}}</td>
+                    <td>{{e.type}}</td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let c of e.reservedEquipment">{{c.quantity}}</li>
+                        </ul> 
+                    </td>
+                    <td>
+                        <ul>
+                            <li *ngFor="let c of e.reservedEquipmentReal">{{c.name}}</li>
+                        </ul> 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

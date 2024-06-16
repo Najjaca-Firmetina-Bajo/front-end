@@ -3,6 +3,8 @@ import { Equipment } from '../../administration/model/equipment.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompaniesService } from '../companies.service';
 import { Company } from '../../administration/model/comapny.model';
+import {EditCompanyDialogComponent} from "../../edit-company-dialog/edit-company-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-unregistered-eqipment',
@@ -14,7 +16,7 @@ export class UnregisteredEqipmentComponent {
   company: any;
   equipment: any;
 
-  constructor(private route: ActivatedRoute,private companyService: CompaniesService,private router: Router) {
+  constructor(private route: ActivatedRoute,private companyService: CompaniesService) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
@@ -47,8 +49,4 @@ export class UnregisteredEqipmentComponent {
       }
     );
   }
-
-
-  
-
 }

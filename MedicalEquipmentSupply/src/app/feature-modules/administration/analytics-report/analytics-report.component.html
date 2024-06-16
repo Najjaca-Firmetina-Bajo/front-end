@@ -1,0 +1,83 @@
+<h1>Analytics reports:</h1>
+
+<div class="container">
+  <h2>{{companyInfo?.name}}</h2>
+  <h3>Avg. rating: {{companyInfo?.averageRating}}</h3>
+
+  <div id="date-range-container">
+    <mat-form-field>
+      <input matInput [(ngModel)]="startDate" [matDatepicker]="startPicker" placeholder="Start Date">
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [(ngModel)]="endDate" [matDatepicker]="endPicker" placeholder="End Date">
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="getProfitForPeriod()">Count</button>
+
+    <div>
+      <h3>Profit for selected period: {{profitForPeriod}}$</h3>
+    </div>
+  </div>
+
+  <div id="combo-box-container">
+    <h3>Select year:</h3>
+    <div id="select-year">
+      <mat-select [(value)]="selectedYear" (selectionChange)="onYearSelectionChange($event)">
+        <mat-option *ngFor="let year of availableYears" [value]="year">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </div>
+  </div>
+
+  <div>
+    <h2>Appointments analytics:</h2>
+  </div>
+  <div id="appointments-container">
+
+    <div id="appointments-per-year">
+      <h5>Per year:</h5>
+      <canvas id="appointments-per-year-chart"></canvas>
+    </div>
+
+    <div id="appointments-per-quarter">
+      <h5>Per quarter:</h5>
+      <canvas id="appointments-per-quarter-chart"></canvas>
+    </div>
+
+    <div id="appointments-per-month">
+      <h5>Per month:</h5>
+      <canvas id="appointments-per-month-chart"></canvas>
+    </div>
+
+  </div>
+
+  <div>
+    <h2>Appointments analytics:</h2>
+  </div>
+  <div id="reservations-container">
+
+    <div id="reservations-per-year">
+      <h5>Per year:</h5>
+      <canvas id="reservations-per-year-chart"></canvas>
+    </div>
+
+    <div id="reservations-per-quarter">
+      <h5>Per quarter:</h5>
+      <canvas id="reservations-per-quarter-chart"></canvas>
+    </div>
+
+    <div id="reservations-per-month">
+      <h5>Per month:</h5>
+      <canvas id="reservations-per-month-chart"></canvas>
+    </div>
+
+  </div>
+
+
+  <div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="contract-details">
+  <h2>Contract Details</h2>
+
+  <div class="detail-row">
+    <div class="label">Quantity:</div>
+    <div class="value">{{ contractInfo?.quantity }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Pickup Date:</div>
+    <div class="value">{{ contractInfo?.pickupDate | date:'medium' }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Status:</div>
+    <div class="value">{{ contractInfo?.status }}</div>
+  </div>
+
+  <h3>Equipment: </h3>
+  <div class="detail-row">
+    <div class="label">Equipment Name:</div>
+    <div class="value">{{ contractInfo?.equipmentInfoDto?.name }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Equipment Type:</div>
+    <div class="value">{{ contractInfo?.equipmentInfoDto?.type }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Equipment Description:</div>
+    <div class="value">{{ contractInfo?.equipmentInfoDto?.description }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Equipment Price:</div>
+    <div class="value">{{ contractInfo?.equipmentInfoDto?.price | currency }}</div>
+  </div>
+
+  <h3>Recipient:</h3>
+  <div class="detail-row">
+    <div class="label">Recipient Name:</div>
+    <div class="value">{{ contractInfo?.recipientInfoDto?.name }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Recipient Surname:</div>
+    <div class="value">{{ contractInfo?.recipientInfoDto?.surname }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Recipient Email:</div>
+    <div class="value">{{ contractInfo?.recipientInfoDto?.email }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Recipient City:</div>
+    <div class="value">{{ contractInfo?.recipientInfoDto?.city }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Recipient Country:</div>
+    <div class="value">{{ contractInfo?.recipientInfoDto?.country }}</div>
+  </div>
+
+  <div class="detail-row">
+    <div class="label">Recipient Phone Number:</div>
+    <div class="value">{{ contractInfo?.recipientInfoDto?.phoneNumber }}</div>
+  </div>
+
+  <button class="deliver-button" *ngIf="contractInfo?.status === 'VALID'" (click)="deliverContract()">Deliver</button>
+</div>

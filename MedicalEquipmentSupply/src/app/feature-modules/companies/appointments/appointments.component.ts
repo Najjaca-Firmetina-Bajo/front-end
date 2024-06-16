@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 export class AppointmentsComponent {
   qrCodes: QRCodeDto[] = [];
   userId: any;
+  status: string = 'new';
 
   constructor(private companyService: CompaniesService) { }
 
@@ -49,5 +50,26 @@ export class AppointmentsComponent {
         console.error('Error canceling QR code:', error);
       }
     );
+  }
+
+  filter(): void {
+    this.companyService.filterQRCodes(this.status,this.userId).subscribe((data: QRCodeDto[]) => {
+      this.qrCodes = data;
+    })
+  }
+
+  reset() : void{
+    this.getAuthenticatedUserId().subscribe((userId: any) => {
+      this.userId = userId;
+
+      this.companyService.getAllQRCodesForUser(this.userId).subscribe(
+        (data: QRCodeDto[]) => {
+          this.qrCodes = data;
+        },
+        error => {
+          console.error('Error fetching QR codes:', error);
+        }
+      );
+    });
   }
 }
