@@ -15,7 +15,7 @@
 
 <div class="container">
   <!-- Left side: Company Info, Equipment, Selected Equipment -->
-  <div class="left-side">
+  <div class="left-side" *ngIf="user && user.role !== 'COMPANY_ADMINISTRATOR'">
     <mat-card>
       <mat-card-content>
         <p><b>Equipment:</b></p>
@@ -52,7 +52,7 @@
     </mat-card>
 
     <br>
-    <mat-card class="selected-eq">
+    <mat-card class="selected-eq" *ngIf="user && user.role !== 'COMPANY_ADMINISTRATOR'">
       <mat-card-content>
         <h3>Selected Equipment</h3>
         <ul style="list-style-type: none; padding: 0; margin: 0;">
@@ -70,7 +70,7 @@
   </div>
 
   <!-- Right side: Appointments and Selected Appointment -->
-  <div class="right-side">
+  <div class="right-side" *ngIf="user && user.role !== 'COMPANY_ADMINISTRATOR'">
     <mat-card>
       <mat-card-content>
         <ng-container *ngIf="hasSelectedEquipment(); else noEquipmentText">

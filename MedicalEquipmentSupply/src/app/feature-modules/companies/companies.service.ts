@@ -213,4 +213,11 @@ export class CompaniesService {
     return this.http.get<ReservationInfo[]>(environment.apiHost + 'qreq/get-all-by-admin-id/' + id);
   }
 
+  getAllNewReservationByAdminId(id: number): Observable<ReservationInfo[]> {
+    return this.http.get<ReservationInfo[]>(environment.apiHost + 'qreq/get-all-new-by-admin-id/' + id);
+  }
+
+  deliverReservation(appointmentId: number, qrEquipmentId: number): Observable<boolean> {
+    return this.http.put<boolean>(environment.apiHost + 'appointments/pick-up-reservation/' + appointmentId + '/' + qrEquipmentId, null);
+  }
 }

@@ -9,6 +9,8 @@ import { Company } from '../../administration/model/comapny.model';
 import {EditCompanyDialogComponent} from "../../edit-company-dialog/edit-company-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CompanyInfo} from "../../administration/model/company-info.model";
+import {AuthService} from "../../../infrastructure/auth/auth.service";
+import {User} from "../../../infrastructure/auth/model/user.model";
 
 @Component({
   selector: 'app-company-info',
@@ -23,13 +25,15 @@ export class CompanyInfoComponent implements OnInit {
   appointments: any;
   selectedAppointment: Appointment | null = null;
   userId: number;
+  user!: User;
   selectedDate: Date = new Date();
   companyNotWorking: boolean = false;
   coord: any;
   fixCoord: any;
 
   constructor(private route: ActivatedRoute,private companyService: CompaniesService,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
     this.companyId = Number(this.route.snapshot.paramMap.get('id'));
     this.userId = Number(-1);
     this.getAuthenticatedUserId();
@@ -129,7 +133,15 @@ export class CompanyInfoComponent implements OnInit {
   getAuthenticatedUserId(): void {
     this.companyService.getAuthenticatedUserId().subscribe(
       (userId: number) => {
-        this.userId = Number(userId)
+        this.userId = Number(userId);
+        this.authService.getAuthenticatedUserDetails().subscribe(
+          (data: User) => {
+            this.user = data
+          },
+          (error) => {
+            console.error('Error getting authenticated user ID:', error);
+          }
+        );
       },
       (error) => {
         console.error('Error getting authenticated user ID:', error);

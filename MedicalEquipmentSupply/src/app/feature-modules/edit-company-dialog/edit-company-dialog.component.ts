@@ -26,6 +26,8 @@ export class EditCompanyDialogComponent {
       number: [addressParts[1]],
       city: [addressParts[2]],
       country: [addressParts[3]],
+      longitude: [addressParts[4]],
+      latitude: [addressParts[5]],
       description: [data.description],
       averageRating: [data.averageRating],
     });
@@ -37,7 +39,7 @@ export class EditCompanyDialogComponent {
 
   onSubmit(): void {
     const formValue = this.editCompanyForm.value;
-    const formattedAddress = `${formValue.street}-${formValue.number}-${formValue.city}-${formValue.country}`;
+    const formattedAddress = `${formValue.street}-${formValue.number}-${formValue.city}-${formValue.country}-${formValue.longitude}-${formValue.latitude}`;
     const updatedData: EditCompany = {
       id: this.data.id,
       name: formValue.name,
