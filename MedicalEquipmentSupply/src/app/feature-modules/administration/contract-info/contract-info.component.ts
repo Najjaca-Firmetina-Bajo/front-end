@@ -40,6 +40,7 @@ export class ContractInfoComponent implements OnInit {
     if (this.contractInfo) {
       this.administrationService.deliverContract(this.contractInfo.id).subscribe(
         () => {
+          window.location.reload();
           console.log('Contract delivered successfully.');
         },
         (error) => {
