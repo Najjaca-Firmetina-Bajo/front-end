@@ -68,5 +68,5 @@
     <div class="value">{{ contractInfo?.recipientInfoDto?.phoneNumber }}</div>
   </div>
 
-  <button class="deliver-button" *ngIf="contractInfo?.status === 'VALID'">Deliver</button>
+  <button class="deliver-button" *ngIf="contractInfo?.status === 'VALID'" (click)="deliverContract()">Deliver</button>
 </div>

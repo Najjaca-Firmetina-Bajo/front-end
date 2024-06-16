@@ -193,4 +193,8 @@ export class AdministrationService {
   getContractById(id: number): Observable<ContractInfo> {
     return this.http.get<ContractInfo>(environment.apiHost + 'contracts/' + id);
   }
+
+  deliverContract(id: number): Observable<void> {
+    return this.http.put<void>(environment.apiHost + 'contracts/deliver/' + id, null);
+  }
 }
